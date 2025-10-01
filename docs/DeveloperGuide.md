@@ -345,6 +345,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
+**Use case: Auto-save changes**
+
+**MSS**
+1. Recruiter performs a change (e.g., add, delete, edit).
+2. Findr automatically persists the change to storage.
+3. Findr shows a brief “Saved” status.
+   Use case ends.
+
+**Extensions**
+* 2a. Temporary storage failure (e.g., file lock, I/O error).  
+  2a1. Findr queues a retry and shows a non-intrusive warning.  
+  2a2. If retry succeeds, Findr shows “Saved” and logs the event.  
+  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.  
+  Use case ends.
+
+* 2b. Storage is unavailable (e.g., permission denied).  
+  2b1. Findr prevents further destructive actions and displays recovery guidance.  
+  Use case ends.
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
