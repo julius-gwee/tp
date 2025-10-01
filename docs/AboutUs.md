@@ -39,15 +39,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Integration
 * Responsibilities: In charge of versioning of the code, maintaining the code repository, integrating various parts of the software to create a whole.
 
-### Jean Doe
+### Mohamad Isyraq
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/isyraqyusof.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/isyraqyusof)]
+[[portfolio](team/isyraqyusof.md)]
 
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Role: Deliverables and deadlines
+* Responsibilities: Ensure project deliverables are done on time and in the right format.
 
 ### James Doe
 
