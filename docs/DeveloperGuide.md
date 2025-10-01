@@ -293,32 +293,81 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `findr` and the **Actor** is the `Recruiter`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: View-all candidates**
 
 **MSS**
-
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
-
-    Use case ends.
+1. Recruiter requests to view all candidates.
+2. Findr displays the full candidate list with key fields (name, role, status, tags).
+   Use case ends.
 
 **Extensions**
-
-* 2a. The list is empty.
-
+* 1a. The candidate list is empty.  
   Use case ends.
 
-* 3a. The given index is invalid.
+---
 
-    * 3a1. AddressBook shows an error message.
+**Use case: Add a candidate**
 
-      Use case resumes at step 2.
+**MSS**
+1. Recruiter chooses to add a candidate.
+2. Findr requests the candidate details (e.g., name, role, contact, tags).
+3. Recruiter enters required details.
+4. Findr validates and creates the candidate.
+5. Findr shows the updated list including the new candidate.
+   Use case ends.
 
-*{More to be added}*
+**Extensions**
+* 3a. Required details are missing or invalid.  
+  3a1. Findr highlights invalid fields and requests corrections.  
+  3a2. Recruiter provides corrected data.  
+  Steps 3a1–3a2 repeat until data are valid. Use case resumes from step 4.
+
+* 4a. Duplicate candidate (e.g., same email) detected.  
+  4a1. Findr shows a duplicate warning and suggests viewing the existing record.  
+  4a2. Recruiter chooses to cancel or proceed with an override if allowed by policy.  
+  Use case resumes from step 5 (if created) or ends (if cancelled).
+
+---
+
+**Use case: Delete a candidate**
+
+**MSS**
+1. Recruiter requests to delete a specific candidate from the current list.
+2. Findr requests confirmation.
+3. Recruiter confirms deletion.
+4. Findr deletes the candidate and updates the list.
+   Use case ends.
+
+**Extensions**
+* 1a. The given index/identifier is invalid.  
+  1a1. Findr shows an error message.  
+  Use case resumes at step 1.
+
+* 2a. Recruiter cancels at confirmation.  
+  Use case ends.
+
+---
+
+**Use case: Auto-save changes**
+
+**MSS**
+1. Recruiter performs a change (e.g., add, delete, edit).
+2. Findr automatically persists the change to storage.
+3. Findr shows a brief “Saved” status.
+   Use case ends.
+
+**Extensions**
+* 2a. Temporary storage failure (e.g., file lock, I/O error).  
+  2a1. Findr queues a retry and shows a non-intrusive warning.  
+  2a2. If retry succeeds, Findr shows “Saved” and logs the event.  
+  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.  
+  Use case ends.
+
+* 2b. Storage is unavailable (e.g., permission denied).  
+  2b1. Findr prevents further destructive actions and displays recovery guidance.  
+  Use case ends.
 
 ### Non-Functional Requirements
 
