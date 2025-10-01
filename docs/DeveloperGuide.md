@@ -262,13 +262,16 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
+* tech firm recruiters
 * has a need to manage a significant number of contacts
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: findr aims to equip recruiters with a one-stop solution for tech talent. 
+Our platform centralizes candidate data, streamlines communication, and provides analytics to help you identify, 
+assess, and engage top-tier candidates. Go beyond the resume to find the perfect fit.
 
 
 ### User stories
