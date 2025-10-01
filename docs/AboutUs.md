@@ -48,12 +48,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Dev Ops + Threading
 
-### James Doe
+### Allan Robert
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/allanrobert0203.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/allanrobert0203)]
+[[portfolio](https://www.linkedin.com/in/allan-robert-93a95b301?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)]
 
-* Role: Developer
-* Responsibilities: UI
+* Role: Code quality
+* Responsibilities: Ensure code quality adheres to coding standards
