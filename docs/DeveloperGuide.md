@@ -326,6 +326,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
+**Use case: Delete a candidate**
+
+**MSS**
+1. Recruiter requests to delete a specific candidate from the current list.
+2. Findr requests confirmation.
+3. Recruiter confirms deletion.
+4. Findr deletes the candidate and updates the list.
+   Use case ends.
+
+**Extensions**
+* 1a. The given index/identifier is invalid.  
+  1a1. Findr shows an error message.  
+  Use case resumes at step 1.
+
+* 2a. Recruiter cancels at confirmation.  
+  Use case ends.
+
+---
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
