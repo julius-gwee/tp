@@ -11,7 +11,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Zhu Qixuan
 
-<img src="images/qiiiixuan.png.jpg" width="200px">
+<img src="images/qiiiixuan.png" width="200px">
 
 [[homepage](https://www.linkedin.com/in/qixuan-zhu-585926299/)]
 [[github](https://github.com/qiiiixuan)]
