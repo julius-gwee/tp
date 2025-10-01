@@ -9,15 +9,16 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Zhu Qixuan
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/qiiiixuan.png.jpg" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[homepage](https://www.linkedin.com/in/qixuan-zhu-585926299/)]
+[[github](https://github.com/qiiiixuan)]
+[[portfolio](team/qixuan.md)]
 
-* Role: Project Advisor
+* Role: Team Lead
+* Responsibilities: Allocate tasks
 
 ### Jane Doe
 
