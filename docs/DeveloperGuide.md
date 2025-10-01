@@ -303,6 +303,29 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
+**Use case: Add a candidate**
+
+**MSS**
+1. Recruiter chooses to add a candidate.
+2. Findr requests the candidate details (e.g., name, role, contact, tags).
+3. Recruiter enters required details.
+4. Findr validates and creates the candidate.
+5. Findr shows the updated list including the new candidate.
+   Use case ends.
+
+**Extensions**
+* 3a. Required details are missing or invalid.  
+  3a1. Findr highlights invalid fields and requests corrections.  
+  3a2. Recruiter provides corrected data.  
+  Steps 3a1–3a2 repeat until data are valid. Use case resumes from step 4.
+
+* 4a. Duplicate candidate (e.g., same email) detected.  
+  4a1. Findr shows a duplicate warning and suggests viewing the existing record.  
+  4a2. Recruiter chooses to cancel or proceed with an override if allowed by policy.  
+  Use case resumes from step 5 (if created) or ends (if cancelled).
+
+---
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
