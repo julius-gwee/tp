@@ -19,15 +19,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Project Advisor
 
-### Jane Doe
+### Julius Gwee
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/julius-gwee.png.jpg" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/julius-gwee)]
+[[portfolio](team/julius-gwee.md)]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Team Manager
+* Responsibilities: Scheduling and Tracking, UI
 
 ### Johnny Doe
 
