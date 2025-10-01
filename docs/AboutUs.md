@@ -22,7 +22,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Julius Gwee
 
-<img src="images/julius-gwee.png.jpg" width="200px">
+<img src="images/julius-gwee.png" width="200px">
 
 [[github](http://github.com/julius-gwee)]
 [[portfolio](team/julius-gwee.md)]
