@@ -25,3 +25,17 @@
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
+
+.command-input {
+    -fx-font-size: 13pt;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 8;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.command-input:focused {
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
