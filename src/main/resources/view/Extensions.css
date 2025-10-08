@@ -39,3 +39,8 @@
     -fx-background-insets: 0;
     -fx-border-width: 0;
 }
+
+.search-icon {
+    -fx-font-size: 16pt;
+    -fx-text-fill: #888888;
+}
