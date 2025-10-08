@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -24,6 +25,7 @@
       </stylesheets>
 
       <VBox>
+        <!-- Menu bar at the top -->
         <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
           <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
@@ -33,11 +35,22 @@
           </Menu>
         </MenuBar>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
+        <!-- Header with horizontal layout -->
+        <HBox fx:id="headerContainer" styleClass="header-container" VBox.vgrow="NEVER">
           <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
+            <Insets top="10" right="15" bottom="10" left="15" />
           </padding>
-        </StackPane>
+          
+          <!-- Findr title placeholder -->
+          <StackPane fx:id="titlePlaceholder" HBox.hgrow="NEVER">
+            <!-- Title will be added in next step -->
+          </StackPane>
+          
+          <!-- Command input placeholder -->
+          <StackPane fx:id="commandBoxPlaceholder" HBox.hgrow="ALWAYS" styleClass="command-input-container">
+            <!-- Command input will be updated in next step -->
+          </StackPane>
+        </HBox>
 
         <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
                    minHeight="100" prefHeight="100" maxHeight="100">
