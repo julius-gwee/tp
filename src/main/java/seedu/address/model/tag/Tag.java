@@ -17,7 +17,7 @@ public class Tag {
             "Tag categories should start with an alphanumeric character and may contain spaces";
     public static final String MESSAGE_DESCRIPTION_CONSTRAINTS =
             "Tag descriptions should be 200 characters or fewer";
-    
+
     public static final String VALIDATION_REGEX = "\\p{Alnum}+";
     public static final String COLOUR_VALIDATION_REGEX = "^#(?:[0-9a-fA-F]{6})$";
     public static final String CATEGORY_VALIDATION_REGEX = "[\\p{Alnum}](?:[ \\p{Alnum}])*";
