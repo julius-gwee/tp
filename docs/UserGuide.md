@@ -73,14 +73,14 @@ Shows a message explaining how to access the help page.
 Format: `help`
 
 
-### Adding a person: `add`
+### Adding a candidate: `add`
 
-Adds a person to the address book.
+Adds a candidate to the candidate list.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+A candidate can have any number of tags (including 0)
 </div>
 
 Examples:
@@ -128,14 +128,14 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Deleting a person : `delete`
+### Deleting a candidate : `delete`
 
-Deletes the specified person from the address book.
+Deletes the specified candidate from the candidate list.
 
 Format: `delete INDEX`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
+* Deletes the candidate at the specified `INDEX`.
+* The index refers to the index number shown in the displayed candidate list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
