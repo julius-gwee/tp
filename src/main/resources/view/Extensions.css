@@ -18,3 +18,40 @@
 .tooltip-text {
     -fx-text-fill: white;
 }
+
+.app-title {
+    -fx-font-size: 22pt;
+    -fx-font-family: "Roboto";
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.command-input {
+    -fx-font-size: 13pt;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 8;
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+}
+
+.command-input:focused {
+    -fx-border-color: #888888;
+    -fx-border-width: 1;
+}
+
+.search-icon {
+    -fx-font-size: 16pt;
+    -fx-text-fill: #888888;
+}
+
+.header-container {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.command-input-container {
+    -fx-background-color: transparent;
+}
