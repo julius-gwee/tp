@@ -46,9 +46,9 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Person validCandidate = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(validCandidate);
-        ModelStub modelStub = new ModelStubWithPerson(validCandidate);
+        Person validPerson = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(validPerson);
+        ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
@@ -119,7 +119,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addCandidate(Person person) {
+        public void addPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -129,17 +129,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyAddressBook getCandidateList() {
+        public ReadOnlyAddressBook getAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public boolean hasCandidate(Person person) {
+        public boolean hasPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deleteCandidate(Person target) {
+        public void deletePerson(Person target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -149,12 +149,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<Person> getFilteredCandidateList() {
+        public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredCandidateList(Predicate<Person> predicate) {
+        public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -171,7 +171,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasCandidate(Person person) {
+        public boolean hasPerson(Person person) {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
@@ -184,19 +184,19 @@ public class AddCommandTest {
         final ArrayList<Person> personsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasCandidate(Person person) {
+        public boolean hasPerson(Person person) {
             requireNonNull(person);
             return personsAdded.stream().anyMatch(person::isSamePerson);
         }
 
         @Override
-        public void addCandidate(Person person) {
+        public void addPerson(Person person) {
             requireNonNull(person);
             personsAdded.add(person);
         }
 
         @Override
-        public ReadOnlyAddressBook getCandidateList() {
+        public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
     }

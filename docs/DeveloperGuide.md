@@ -359,14 +359,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 2a. Temporary storage failure (e.g., file lock, I/O error).
-  2a1. Findr queues a retry and shows a non-intrusive warning.
-  2a2. If retry succeeds, Findr shows “Saved” and logs the event.
-  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.
+* 2a. Temporary storage failure (e.g., file lock, I/O error).  
+  2a1. Findr queues a retry and shows a non-intrusive warning.  
+  2a2. If retry succeeds, Findr shows “Saved” and logs the event.  
+  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.  
   Use case ends.
 
-* 2b. Storage is unavailable (e.g., permission denied).
-  2b1. Findr prevents further destructive actions and displays recovery guidance.
+* 2b. Storage is unavailable (e.g., permission denied).  
+  2b1. Findr prevents further destructive actions and displays recovery guidance.  
   Use case ends.
 
 ### Non-Functional Requirements
@@ -420,17 +420,17 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Deleting a candidate
+### Deleting a person
 
-1. Deleting a candidate while all persons are being shown
+1. Deleting a person while all persons are being shown
 
-   1. Prerequisites: List all candidates using the `list` command. Multiple candidates in the list.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
    1. Test case: `delete 1`<br>
-      Expected: First candidate is deleted from the list. Details of the deleted candidate shown in the status message. Timestamp in the status bar is updated.
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
    1. Test case: `delete 0`<br>
-      Expected: No candidate is deleted. Error details shown in the status message. Status bar remains the same.
+      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
