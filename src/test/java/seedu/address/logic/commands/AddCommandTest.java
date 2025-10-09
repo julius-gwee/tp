@@ -139,7 +139,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void deletePerson(Person target) {
+        public void deleteCandidate(Person target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -149,12 +149,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<Person> getFilteredPersonList() {
+        public ObservableList<Person> getFilteredCandidateList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
+        public void updateFilteredCandidateList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }
