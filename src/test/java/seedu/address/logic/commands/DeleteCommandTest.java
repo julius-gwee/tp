@@ -35,7 +35,7 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_CANDIDATE_SUCCESS,
                 Messages.format(candidateToDelete));
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getCandidateList(), new UserPrefs());
         expectedModel.deleteCandidate(candidateToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -59,7 +59,7 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_CANDIDATE_SUCCESS,
                 Messages.format(candidateToDelete));
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getCandidateList(), new UserPrefs());
         expectedModel.deleteCandidate(candidateToDelete);
         showNoPerson(expectedModel);
 
@@ -72,7 +72,7 @@ public class DeleteCommandTest {
 
         Index outOfBoundIndex = INDEX_SECOND_CANDIDATE;
         // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getCandidateList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getCandidateList().getCandidateList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 

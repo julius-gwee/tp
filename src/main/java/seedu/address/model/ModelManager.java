@@ -83,12 +83,12 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
+    public ReadOnlyAddressBook getCandidateList() {
         return addressBook;
     }
 
     @Override
-    public boolean hasPerson(Person person) {
+    public boolean hasCandidate(Person person) {
         requireNonNull(person);
         return addressBook.hasPerson(person);
     }
@@ -99,7 +99,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addPerson(Person person) {
+    public void addCandidate(Person person) {
         addressBook.addPerson(person);
         updateFilteredCandidateList(PREDICATE_SHOW_ALL_PERSONS);
     }

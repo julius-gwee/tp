@@ -49,13 +49,13 @@ public interface Model {
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);
 
-    /** Returns the AddressBook */
-    ReadOnlyAddressBook getAddressBook();
+    /** Returns the Candidate List */
+    ReadOnlyAddressBook getCandidateList();
 
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    boolean hasPerson(Person person);
+    boolean hasCandidate(Person person);
 
     /**
      * Deletes the given candidate.
@@ -67,7 +67,7 @@ public interface Model {
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */
-    void addPerson(Person person);
+    void addCandidate(Person person);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
