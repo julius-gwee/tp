@@ -41,14 +41,12 @@
           <padding>
             <Insets top="10" right="15" bottom="10" left="15" />
           </padding>
-          
           <!-- Findr title -->
           <Label text="findr" styleClass="app-title">
             <HBox.margin>
               <Insets right="20" />
             </HBox.margin>
           </Label>
-          
           <!-- Command input placeholder -->
           <StackPane fx:id="commandBoxPlaceholder" HBox.hgrow="ALWAYS" styleClass="command-input-container">
             <!-- Command input will be updated in next step -->
