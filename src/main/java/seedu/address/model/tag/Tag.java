@@ -50,9 +50,9 @@ public class Tag {
         requireNonNull(colour);
         requireNonNull(description);
         checkArgument(isValidTagName(tagName), MESSAGE_CONSTRAINTS);
-        checkArgument(isValidTagName(category), MESSAGE_CATEGORY_CONSTRAINTS);
-        checkArgument(isValidTagName(colour), MESSAGE_COLOUR_CONSTRAINTS);
-        checkArgument(isValidTagName(description), MESSAGE_DESCRIPTION_CONSTRAINTS);
+        checkArgument(isValidCategory(category), MESSAGE_CATEGORY_CONSTRAINTS);
+        checkArgument(isValidColour(colour), MESSAGE_COLOUR_CONSTRAINTS);
+        checkArgument(isValidDescription(description), MESSAGE_DESCRIPTION_CONSTRAINTS);
         this.tagName = tagName;
         this.category = category.trim();
         this.colour = normaliseColour(colour);
@@ -92,6 +92,17 @@ public class Tag {
 
     private static String normaliseColour(String colour) {
         return colour.toUpperCase();
+    }
+
+    /**
+     * Returns true if both tags have the same identity fields (name only).
+     */
+    public boolean isSameTag(Tag otherTag) {
+        if (otherTag == this) {
+            return true;
+        }
+
+        return otherTag != null && tagName.equals(otherTag.tagName);
     }
 
     @Override
