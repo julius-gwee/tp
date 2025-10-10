@@ -49,25 +49,25 @@ public interface Model {
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);
 
-    /** Returns the Candidate List */
-    ReadOnlyAddressBook getCandidateList();
+    /** Returns the AddressBook */
+    ReadOnlyAddressBook getAddressBook();
 
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    boolean hasCandidate(Person person);
+    boolean hasPerson(Person person);
 
     /**
-     * Deletes the given candidate.
-     * The candidate must exist in the candidate list.
+     * Deletes the given person.
+     * The person must exist in the address book.
      */
-    void deleteCandidate(Person target);
+    void deletePerson(Person target);
 
     /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */
-    void addCandidate(Person person);
+    void addPerson(Person person);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
@@ -77,11 +77,11 @@ public interface Model {
     void setPerson(Person target, Person editedPerson);
 
     /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredCandidateList();
+    ObservableList<Person> getFilteredPersonList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredCandidateList(Predicate<Person> predicate);
+    void updateFilteredPersonList(Predicate<Person> predicate);
 }

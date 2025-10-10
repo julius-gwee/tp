@@ -33,7 +33,7 @@ public class ModelManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.addressBook.getCandidateList());
+        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
     }
 
     public ModelManager() {
@@ -83,25 +83,25 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ReadOnlyAddressBook getCandidateList() {
+    public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
     }
 
     @Override
-    public boolean hasCandidate(Person person) {
+    public boolean hasPerson(Person person) {
         requireNonNull(person);
         return addressBook.hasPerson(person);
     }
 
     @Override
-    public void deleteCandidate(Person target) {
+    public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }
 
     @Override
-    public void addCandidate(Person person) {
+    public void addPerson(Person person) {
         addressBook.addPerson(person);
-        updateFilteredCandidateList(PREDICATE_SHOW_ALL_PERSONS);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
@@ -118,12 +118,12 @@ public class ModelManager implements Model {
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Person> getFilteredCandidateList() {
+    public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
     }
 
     @Override
-    public void updateFilteredCandidateList(Predicate<Person> predicate) {
+    public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
