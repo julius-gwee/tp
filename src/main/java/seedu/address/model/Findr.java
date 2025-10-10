@@ -15,7 +15,7 @@ import seedu.address.model.tag.UniqueTagList;
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .isSamePerson comparison)
  */
-public class AddressBook implements ReadOnlyAddressBook {
+public class Findr implements ReadOnlyFindr {
 
     private final UniquePersonList persons;
     private final UniqueTagList tags;
@@ -32,12 +32,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags = new UniqueTagList();
     }
 
-    public AddressBook() {}
+    public Findr() {}
 
     /**
      * Creates an AddressBook using the Persons in the {@code toBeCopied}
      */
-    public AddressBook(ReadOnlyAddressBook toBeCopied) {
+    public Findr(ReadOnlyFindr toBeCopied) {
         this();
         resetData(toBeCopied);
     }
@@ -55,10 +55,10 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
-    public void resetData(ReadOnlyAddressBook newData) {
+    public void resetData(ReadOnlyFindr newData) {
         requireNonNull(newData);
 
-        setPersons(newData.getPersonList());
+        setPersons(newData.getCandidateList());
         setTags(newData.getTagList());
     }
 
@@ -154,7 +154,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
-    public ObservableList<Person> getPersonList() {
+    public ObservableList<Person> getCandidateList() {
         return persons.asUnmodifiableObservableList();
     }
 
@@ -170,12 +170,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddressBook)) {
+        if (!(other instanceof Findr)) {
             return false;
         }
 
-        AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons) && tags.equals(otherAddressBook.tags);
+        Findr otherFindr = (Findr) other;
+        return persons.equals(otherFindr.persons);
     }
 
     @Override
