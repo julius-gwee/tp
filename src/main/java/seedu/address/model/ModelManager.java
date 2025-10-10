@@ -90,7 +90,7 @@ public class ModelManager implements Model {
     @Override
     public boolean hasCandidate(Person person) {
         requireNonNull(person);
-        return findr.hasPerson(person);
+        return findr.hasCandidate(person);
     }
 
     @Override

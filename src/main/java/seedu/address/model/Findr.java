@@ -67,7 +67,7 @@ public class Findr implements ReadOnlyFindr {
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    public boolean hasPerson(Person person) {
+    public boolean hasCandidate(Person person) {
         requireNonNull(person);
         return persons.contains(person);
     }
