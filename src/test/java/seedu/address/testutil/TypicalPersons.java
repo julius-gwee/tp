@@ -65,7 +65,7 @@ public class TypicalPersons {
     public static Findr getTypicalAddressBook() {
         Findr ab = new Findr();
         for (Person person : getTypicalPersons()) {
-            ab.addPerson(person);
+            ab.addCandidate(person);
         }
         return ab;
     }

@@ -100,7 +100,7 @@ public class ModelManager implements Model {
 
     @Override
     public void addCandidate(Person person) {
-        findr.addPerson(person);
+        findr.addCandidate(person);
         updateFilteredCandidateList(PREDICATE_SHOW_ALL_PERSONS);
     }
 

@@ -76,7 +76,7 @@ public class Findr implements ReadOnlyFindr {
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
-    public void addPerson(Person p) {
+    public void addCandidate(Person p) {
         persons.add(p);
     }
 

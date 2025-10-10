@@ -58,7 +58,7 @@ public class SampleDataUtil {
         Findr sampleAb = new Findr();
         sampleAb.setTags(SAMPLE_TAGS);
         for (Person samplePerson : getSamplePersons()) {
-            sampleAb.addPerson(samplePerson);
+            sampleAb.addCandidate(samplePerson);
         }
         return sampleAb;
     }

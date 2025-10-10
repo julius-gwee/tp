@@ -40,16 +40,16 @@ public class FindrTest {
     }
 
     @Test
-    public void addPerson_success() {
+    public void addCandidate_success() {
         Person alice = createPerson("Alice");
-        findr.addPerson(alice);
+        findr.addCandidate(alice);
         assertTrue(findr.getCandidateList().contains(alice));
     }
 
     @Test
     public void resetData_replacesData_success() {
         Findr newData = new Findr();
-        newData.addPerson(createPerson("Bob"));
+        newData.addCandidate(createPerson("Bob"));
         findr.resetData(newData);
         assertEquals(newData, findr);
     }
@@ -60,13 +60,13 @@ public class FindrTest {
         assertEquals(findr, anotherFindr);
         assertEquals(findr.hashCode(), anotherFindr.hashCode());
 
-        anotherFindr.addPerson(createPerson("Charlie"));
+        anotherFindr.addCandidate(createPerson("Charlie"));
         assertNotEquals(findr, anotherFindr);
     }
 
     @Test
     public void toString_containsFindrAndPersonList() {
-        findr.addPerson(createPerson("David"));
+        findr.addCandidate(createPerson("David"));
         String str = findr.toString();
         assertTrue(str.contains("Findr"));
         assertTrue(str.contains("David"));

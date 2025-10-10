@@ -78,7 +78,7 @@ class JsonSerializableFindr {
             if (findr.hasCandidate(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
-            findr.addPerson(person);
+            findr.addCandidate(person);
         }
         return findr;
     }

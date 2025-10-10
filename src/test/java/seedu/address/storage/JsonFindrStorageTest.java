@@ -72,14 +72,14 @@ public class JsonFindrStorageTest {
         assertEquals(original, new Findr(readBack));
 
         // Modify data, overwrite exiting file, and read back
-        original.addPerson(HOON);
+        original.addCandidate(HOON);
         original.removePerson(ALICE);
         jsonAddressBookStorage.saveCandidateList(original, filePath);
         readBack = jsonAddressBookStorage.readCandidateList(filePath).get();
         assertEquals(original, new Findr(readBack));
 
         // Save and read without specifying file path
-        original.addPerson(IDA);
+        original.addCandidate(IDA);
         jsonAddressBookStorage.saveCandidateList(original); // file path not specified
         readBack = jsonAddressBookStorage.readCandidateList().get(); // file path not specified
         assertEquals(original, new Findr(readBack));
