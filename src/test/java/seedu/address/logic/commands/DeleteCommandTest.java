@@ -29,14 +29,14 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Person candidateToDelete = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person personToDelete = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_CANDIDATE);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_CANDIDATE_SUCCESS,
-                Messages.format(candidateToDelete));
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+                Messages.format(personToDelete));
 
         ModelManager expectedModel = new ModelManager(model.getCandidateList(), new UserPrefs());
-        expectedModel.deleteCandidate(candidateToDelete);
+        expectedModel.deleteCandidate(personToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
@@ -53,14 +53,14 @@ public class DeleteCommandTest {
     public void execute_validIndexFilteredList_success() {
         showCandidateAtIndex(model, INDEX_FIRST_CANDIDATE);
 
-        Person candidateToDelete = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person personToDelete = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_CANDIDATE);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_CANDIDATE_SUCCESS,
-                Messages.format(candidateToDelete));
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+                Messages.format(personToDelete));
 
         Model expectedModel = new ModelManager(model.getCandidateList(), new UserPrefs());
-        expectedModel.deleteCandidate(candidateToDelete);
+        expectedModel.deleteCandidate(personToDelete);
         showNoPerson(expectedModel);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);

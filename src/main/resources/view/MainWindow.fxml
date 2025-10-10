@@ -3,13 +3,11 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Scene?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -26,7 +24,6 @@
       </stylesheets>
 
       <VBox>
-        <!-- Menu bar at the top -->
         <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
           <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
@@ -36,22 +33,11 @@
           </Menu>
         </MenuBar>
 
-        <!-- Header with horizontal layout -->
-        <HBox fx:id="headerContainer" styleClass="header-container" VBox.vgrow="NEVER">
+        <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
           <padding>
-            <Insets top="10" right="15" bottom="10" left="15" />
+            <Insets top="5" right="10" bottom="5" left="10" />
           </padding>
-          <!-- Findr title -->
-          <Label text="findr" styleClass="app-title">
-            <HBox.margin>
-              <Insets right="20" />
-            </HBox.margin>
-          </Label>
-          <!-- Command input placeholder -->
-          <StackPane fx:id="commandBoxPlaceholder" HBox.hgrow="ALWAYS" styleClass="command-input-container">
-            <!-- Command input will be updated in next step -->
-          </StackPane>
-        </HBox>
+        </StackPane>
 
         <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
                    minHeight="100" prefHeight="100" maxHeight="100">
