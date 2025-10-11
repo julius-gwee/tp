@@ -1,12 +1,12 @@
 package seedu.address.logic.commands;
 
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Comparator;
 
-import static java.util.Objects.requireNonNull;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.person.Person;
 
 /**
  * Sorts all candidates in the address book alphabetically.
