@@ -87,10 +87,10 @@ public interface Model {
     void updateFilteredCandidateList(Predicate<Person> predicate);
 
     /** Returns an unmodifiable view of the sorted person list */
-    ObservableList<Person> getSortedPersonList();
+    ObservableList<Person> getSortedCandidateList();
 
     /**
      * Updates the sort type of the sorted person list to sort by the given criteria.
      */
-    void updateSortedPersonList(Comparator<Person> comparator);
+    void updateSortedCandidateList(Comparator<Person> comparator);
 }

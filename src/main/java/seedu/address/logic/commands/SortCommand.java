@@ -26,7 +26,7 @@ public class SortCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.updateSortedPersonList(comparator);
+        model.updateSortedCandidateList(comparator);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

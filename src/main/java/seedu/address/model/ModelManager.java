@@ -156,12 +156,12 @@ public class ModelManager implements Model {
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Person> getSortedPersonList() {
+    public ObservableList<Person> getSortedCandidateList() {
         return sortedPersons;
     }
 
     @Override
-    public void updateSortedPersonList(Comparator<Person> comparator) {
+    public void updateSortedCandidateList(Comparator<Person> comparator) {
         requireNonNull(comparator);
         sortedPersons.setComparator(comparator);
     }
