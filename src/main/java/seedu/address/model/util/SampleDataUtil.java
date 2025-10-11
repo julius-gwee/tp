@@ -1,11 +1,14 @@
 package seedu.address.model.util;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.Findr;
+import seedu.address.model.ReadOnlyFindr;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -17,6 +20,17 @@ import seedu.address.model.tag.Tag;
  * Contains utility methods for populating {@code AddressBook} with sample data.
  */
 public class SampleDataUtil {
+    private static final List<Tag> SAMPLE_TAGS = List.of(
+            new Tag("friends", "Social", "#0B5FFF", "Close friends and confidants."),
+            new Tag("colleagues", "Work", "#8E44AD", "Professional contacts and teammates."),
+            new Tag("neighbours", "Community", "#16A085", "Neighbours living nearby."),
+            new Tag("family", "Family", "#C0392B", "Immediate family members."),
+            new Tag("classmates", "School", "#F39C12", "Schoolmates and course mates.")
+    );
+
+    private static final Map<String, Tag> SAMPLE_TAG_LOOKUP = SAMPLE_TAGS.stream()
+            .collect(Collectors.toUnmodifiableMap(tag -> tag.tagName, Function.identity()));
+
     public static Person[] getSamplePersons() {
         return new Person[] {
             new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
@@ -40,10 +54,11 @@ public class SampleDataUtil {
         };
     }
 
-    public static ReadOnlyAddressBook getSampleAddressBook() {
-        AddressBook sampleAb = new AddressBook();
+    public static ReadOnlyFindr getSampleAddressBook() {
+        Findr sampleAb = new Findr();
+        sampleAb.setTags(SAMPLE_TAGS);
         for (Person samplePerson : getSamplePersons()) {
-            sampleAb.addPerson(samplePerson);
+            sampleAb.addCandidate(samplePerson);
         }
         return sampleAb;
     }
@@ -53,7 +68,7 @@ public class SampleDataUtil {
      */
     public static Set<Tag> getTagSet(String... strings) {
         return Arrays.stream(strings)
-                .map(Tag::new)
+                .map(name -> SAMPLE_TAG_LOOKUP.getOrDefault(name, new Tag(name)))
                 .collect(Collectors.toSet());
     }
 

@@ -8,14 +8,17 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
 
 /**
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .isSamePerson comparison)
  */
-public class AddressBook implements ReadOnlyAddressBook {
+public class Findr implements ReadOnlyFindr {
 
     private final UniquePersonList persons;
+    private final UniqueTagList tags;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -26,14 +29,15 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        tags = new UniqueTagList();
     }
 
-    public AddressBook() {}
+    public Findr() {}
 
     /**
      * Creates an AddressBook using the Persons in the {@code toBeCopied}
      */
-    public AddressBook(ReadOnlyAddressBook toBeCopied) {
+    public Findr(ReadOnlyFindr toBeCopied) {
         this();
         resetData(toBeCopied);
     }
@@ -51,10 +55,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
-    public void resetData(ReadOnlyAddressBook newData) {
+    public void resetData(ReadOnlyFindr newData) {
         requireNonNull(newData);
 
-        setPersons(newData.getPersonList());
+        setPersons(newData.getCandidateList());
+        setTags(newData.getTagList());
     }
 
     //// person-level operations
@@ -62,7 +67,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    public boolean hasPerson(Person person) {
+    public boolean hasCandidate(Person person) {
         requireNonNull(person);
         return persons.contains(person);
     }
@@ -71,7 +76,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
-    public void addPerson(Person p) {
+    public void addCandidate(Person p) {
         persons.add(p);
     }
 
@@ -94,18 +99,68 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    //// tag-level operations
+
+    /**
+     * Replaces the contents of the tag list with {@code tags}.
+     * {@code tags} must not contain duplicate tags.
+     */
+    public void setTags(List<Tag> tags) {
+        this.tags.setTags(tags);
+    }
+
+    /**
+     * Returns true if a tag with the same identity as {@code tag} exists in the address book.
+     */
+    public boolean hasTag(Tag tag) {
+        requireNonNull(tag);
+        return tags.contains(tag);
+    }
+
+    /**
+     * Adds a tag to the address book.
+     * The tag must not already exist in the address book.
+     */
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+
+    /**
+     * Replaces the given tag {@code target} in the list with {@code editedTag}.
+     * {@code target} must exist in the address book.
+     * The tag identity of {@code editedTag} must not be the same as another existing tag in the address book.
+     */
+    public void setTag(Tag target, Tag editedTag) {
+        requireNonNull(editedTag);
+        tags.setTag(target, editedTag);
+    }
+
+    /**
+     * Removes {@code tag} from this {@code AddressBook}.
+     * {@code tag} must exist in the address book.
+     */
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+    }
+
     //// util methods
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("persons", persons)
+                .add("tags", tags)
                 .toString();
     }
 
     @Override
-    public ObservableList<Person> getPersonList() {
+    public ObservableList<Person> getCandidateList() {
         return persons.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Tag> getTagList() {
+        return tags.asUnmodifiableObservableList();
     }
 
     @Override
@@ -115,16 +170,16 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddressBook)) {
+        if (!(other instanceof Findr)) {
             return false;
         }
 
-        AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons);
+        Findr otherFindr = (Findr) other;
+        return persons.equals(otherFindr.persons);
     }
 
     @Override
     public int hashCode() {
-        return persons.hashCode();
+        return 31 * persons.hashCode() + tags.hashCode();
     }
 }
