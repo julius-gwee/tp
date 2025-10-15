@@ -6,7 +6,7 @@
 * Findr aims to equip recruiters with a one-stop solution for tech talent. Go beyond the resume to find the perfect fit.
 
 
-  What findr can do: 
+  What findr can do:
   * centralizes candidate data
   * streamlines communication
   * provides analytics to help you identify, assess, and engage top-tier candidates

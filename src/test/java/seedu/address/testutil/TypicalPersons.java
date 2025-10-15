@@ -60,14 +60,14 @@ public class TypicalPersons {
     private TypicalPersons() {} // prevents instantiation
 
     /**
-     * Returns an {@code AddressBook} with all the typical persons.
+     * Returns an {@code Findr} with all the typical persons.
      */
-    public static Findr getTypicalAddressBook() {
-        Findr ab = new Findr();
+    public static Findr getTypicalFindr() {
+        Findr findr = new Findr();
         for (Person person : getTypicalPersons()) {
-            ab.addCandidate(person);
+            findr.addCandidate(person);
         }
-        return ab;
+        return findr;
     }
 
     public static List<Person> getTypicalPersons() {

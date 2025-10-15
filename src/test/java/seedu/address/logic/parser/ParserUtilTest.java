@@ -161,14 +161,22 @@ public class ParserUtilTest {
     @Test
     public void parseTag_validValueWithoutWhitespace_returnsTag() throws Exception {
         Tag expectedTag = new Tag(VALID_TAG_1);
-        assertEquals(expectedTag, ParserUtil.parseTag(VALID_TAG_1));
+        Tag parsedTag = ParserUtil.parseTag(VALID_TAG_1);
+        assertEquals(expectedTag, parsedTag);
+        assertEquals(Tag.DEFAULT_CATEGORY, parsedTag.category);
+        assertEquals(Tag.DEFAULT_COLOUR, parsedTag.colour);
+        assertEquals(Tag.DEFAULT_DESCRIPTION, parsedTag.description);
     }
 
     @Test
     public void parseTag_validValueWithWhitespace_returnsTrimmedTag() throws Exception {
         String tagWithWhitespace = WHITESPACE + VALID_TAG_1 + WHITESPACE;
         Tag expectedTag = new Tag(VALID_TAG_1);
-        assertEquals(expectedTag, ParserUtil.parseTag(tagWithWhitespace));
+        Tag parsedTag = ParserUtil.parseTag(VALID_TAG_1);
+        assertEquals(expectedTag, parsedTag);
+        assertEquals(Tag.DEFAULT_CATEGORY, parsedTag.category);
+        assertEquals(Tag.DEFAULT_COLOUR, parsedTag.colour);
+        assertEquals(Tag.DEFAULT_DESCRIPTION, parsedTag.description);
     }
 
     @Test
@@ -192,5 +200,10 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+        actualTagSet.forEach(tag -> {
+            assertEquals(Tag.DEFAULT_CATEGORY, tag.category);
+            assertEquals(Tag.DEFAULT_COLOUR, tag.colour);
+            assertEquals(Tag.DEFAULT_DESCRIPTION, tag.description);
+        });
     }
 }

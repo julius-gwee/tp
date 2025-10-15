@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.FindrBuilder;
 
 public class ModelManagerTest {
 
@@ -95,7 +95,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        Findr findr = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        Findr findr = new FindrBuilder().withPerson(ALICE).withPerson(BENSON).build();
         Findr differentFindr = new Findr();
         UserPrefs userPrefs = new UserPrefs();
 
