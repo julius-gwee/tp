@@ -1,14 +1,32 @@
 {
-  "persons": [ {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "email": "alice@example.com",
-    "address": "123, Jurong West Ave 6, #08-111",
-    "tags": [ "friends" ]
-  }, {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "email": "pauline@example.com",
-    "address": "4th street"
-  } ]
+  "tags": [
+    {
+      "tagName": "friends",
+      "category": "Social",
+      "colour": "#0B5FFF",
+      "description": "Close friends and confidants."
+    }
+  ],
+  "persons": [
+    {
+      "name": "Alice Pauline",
+      "phone": "94351253",
+      "email": "alice@example.com",
+      "address": "123, Jurong West Ave 6, #08-111",
+      "tags": [
+        {
+          "tagName": "friends",
+          "category": "Social",
+          "colour": "#0B5FFF",
+          "description": "Close friends and confidants."
+        }
+      ]
+    },
+    {
+      "name": "Alice Pauline",
+      "phone": "94351253",
+      "email": "pauline@example.com",
+      "address": "4th street"
+    }
+  ]
 }
