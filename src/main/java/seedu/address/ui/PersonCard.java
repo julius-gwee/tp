@@ -53,4 +53,22 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
+
+    /**
+     * Constructor for testing purposes that doesn't require FXML loading.
+     */
+    protected PersonCard(Person person, int displayedIndex, boolean isTest) {
+        super(new Region(), true);
+        this.person = person;
+        cardPane = new HBox();
+        name = new Label();
+        id = new Label();
+        phone = new Label();
+        email = new Label();
+        tags = new FlowPane();
+        id.setText(displayedIndex + ". ");
+        name.setText(person.getName().fullName);
+        phone.setText(person.getPhone().value);
+        email.setText(person.getEmail().value);
+    }
 }

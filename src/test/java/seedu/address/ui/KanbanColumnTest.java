@@ -1,7 +1,6 @@
 package seedu.address.ui;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,76 +23,39 @@ public class KanbanColumnTest {
 
     @Test
     public void constructor_validParameters_success() {
-        if (!GuiTestUtil.isToolkitAvailable()) {
-            ObservableList<Person> personList = FXCollections.observableArrayList(
-                TypicalPersons.ALICE,
-                TypicalPersons.BENSON
-            );
-            try {
-                KanbanColumn kanbanColumn = new KanbanColumn("Candidates", personList);
-                assertNotNull(kanbanColumn);
-            } catch (Exception e) {
-                assertTrue(true);
-            }
-            return;
-        }
-
         ObservableList<Person> personList = FXCollections.observableArrayList(
             TypicalPersons.ALICE,
             TypicalPersons.BENSON
         );
 
-        KanbanColumn kanbanColumn = new KanbanColumn("Candidates", personList);
+        // Use test constructor that doesn't require FXML
+        KanbanColumn kanbanColumn = new KanbanColumn("Candidates", personList, true);
         assertNotNull(kanbanColumn);
         assertNotNull(kanbanColumn.getRoot());
     }
 
     @Test
     public void constructor_emptyPersonList_success() {
-        if (!GuiTestUtil.isToolkitAvailable()) {
-            ObservableList<Person> emptyList = FXCollections.observableArrayList();
-            try {
-                KanbanColumn kanbanColumn = new KanbanColumn("Empty Column", emptyList);
-                assertNotNull(kanbanColumn);
-            } catch (Exception e) {
-                assertTrue(true);
-            }
-            return;
-        }
-
         ObservableList<Person> emptyList = FXCollections.observableArrayList();
 
-        KanbanColumn kanbanColumn = new KanbanColumn("Empty Column", emptyList);
+        // Use test constructor that doesn't require FXML
+        KanbanColumn kanbanColumn = new KanbanColumn("Empty Column", emptyList, true);
         assertNotNull(kanbanColumn);
         assertNotNull(kanbanColumn.getRoot());
     }
 
     @Test
     public void constructor_differentHeaderTexts_success() {
-        if (!GuiTestUtil.isToolkitAvailable()) {
-            ObservableList<Person> personList = FXCollections.observableArrayList(TypicalPersons.CARL);
-            try {
-                KanbanColumn column1 = new KanbanColumn("Interviewed", personList);
-                assertNotNull(column1);
-                KanbanColumn column2 = new KanbanColumn("Hired", personList);
-                assertNotNull(column2);
-                KanbanColumn column3 = new KanbanColumn("Rejected", personList);
-                assertNotNull(column3);
-            } catch (Exception e) {
-                assertTrue(true);
-            }
-            return;
-        }
-
         ObservableList<Person> personList = FXCollections.observableArrayList(TypicalPersons.CARL);
 
-        KanbanColumn column1 = new KanbanColumn("Interviewed", personList);
+        // Use test constructor that doesn't require FXML
+        KanbanColumn column1 = new KanbanColumn("Interviewed", personList, true);
         assertNotNull(column1);
 
-        KanbanColumn column2 = new KanbanColumn("Hired", personList);
+        KanbanColumn column2 = new KanbanColumn("Hired", personList, true);
         assertNotNull(column2);
 
-        KanbanColumn column3 = new KanbanColumn("Rejected", personList);
+        KanbanColumn column3 = new KanbanColumn("Rejected", personList, true);
         assertNotNull(column3);
     }
 }

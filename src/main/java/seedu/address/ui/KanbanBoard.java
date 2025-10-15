@@ -15,6 +15,7 @@ import seedu.address.model.person.Person;
 public class KanbanBoard extends UiPart<Region> {
     private static final String FXML = "KanbanBoard.fxml";
     private final Logger logger = LogsCenter.getLogger(KanbanBoard.class);
+    private boolean isTestMode = false;
 
     @FXML
     private HBox columnContainer;
@@ -29,13 +30,25 @@ public class KanbanBoard extends UiPart<Region> {
     }
 
     /**
+     * Constructor for testing purposes that doesn't require FXML loading.
+     */
+    protected KanbanBoard(ObservableList<Person> personList, boolean isTest) {
+        super(new Region(), true);
+        this.isTestMode = isTest;
+        columnContainer = new HBox();
+        initializeColumns(personList);
+    }
+
+    /**
      * Initializes the kanban columns.
      * Currently creates a single "Candidates" column for MVP.
      * This method can be extended to create multiple columns with filtered lists.
      */
     private void initializeColumns(ObservableList<Person> personList) {
         // For MVP: Single column showing all candidates
-        KanbanColumn candidatesColumn = new KanbanColumn("Candidates", personList);
+        KanbanColumn candidatesColumn = isTestMode
+                ? new KanbanColumn("Candidates", personList, true)
+                : new KanbanColumn("Candidates", personList);
         columnContainer.getChildren().add(candidatesColumn.getRoot());
 
         // Future: Add more columns here for different statuses
