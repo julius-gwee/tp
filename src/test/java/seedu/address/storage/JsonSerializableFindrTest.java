@@ -25,7 +25,7 @@ public class JsonSerializableFindrTest {
         JsonSerializableFindr dataFromFile = JsonUtil.readJsonFile(TYPICAL_PERSONS_FILE,
                 JsonSerializableFindr.class).get();
         Findr findrFromFile = dataFromFile.toModelType();
-        Findr typicalPersonsFindr = TypicalPersons.getTypicalAddressBook();
+        Findr typicalPersonsFindr = TypicalPersons.getTypicalFindr();
         assertEquals(findrFromFile, typicalPersonsFindr);
     }
 

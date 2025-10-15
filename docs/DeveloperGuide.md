@@ -269,8 +269,8 @@ _{Explain here how the data archiving feature will be implemented}_
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: findr aims to equip recruiters with a one-stop solution for tech talent. 
-Our platform centralizes candidate data, streamlines communication, and provides analytics to help you identify, 
+**Value proposition**: findr aims to equip recruiters with a one-stop solution for tech talent.
+Our platform centralizes candidate data, streamlines communication, and provides analytics to help you identify,
 assess, and engage top-tier candidates. Go beyond the resume to find the perfect fit.
 
 
@@ -303,7 +303,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 1a. The candidate list is empty.  
+* 1a. The candidate list is empty.
   Use case ends.
 
 ---
@@ -319,14 +319,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 3a. Required details are missing or invalid.  
-  3a1. Findr highlights invalid fields and requests corrections.  
-  3a2. Recruiter provides corrected data.  
+* 3a. Required details are missing or invalid.
+  3a1. Findr highlights invalid fields and requests corrections.
+  3a2. Recruiter provides corrected data.
   Steps 3a1–3a2 repeat until data are valid. Use case resumes from step 4.
 
-* 4a. Duplicate candidate (e.g., same email) detected.  
-  4a1. Findr shows a duplicate warning and suggests viewing the existing record.  
-  4a2. Recruiter chooses to cancel or proceed with an override if allowed by policy.  
+* 4a. Duplicate candidate (e.g., same email) detected.
+  4a1. Findr shows a duplicate warning and suggests viewing the existing record.
+  4a2. Recruiter chooses to cancel or proceed with an override if allowed by policy.
   Use case resumes from step 5 (if created) or ends (if cancelled).
 
 ---
@@ -341,11 +341,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 1a. The given index/identifier is invalid.  
-  1a1. Findr shows an error message.  
+* 1a. The given index/identifier is invalid.
+  1a1. Findr shows an error message.
   Use case resumes at step 1.
 
-* 2a. Recruiter cancels at confirmation.  
+* 2a. Recruiter cancels at confirmation.
   Use case ends.
 
 ---
@@ -359,14 +359,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 2a. Temporary storage failure (e.g., file lock, I/O error).  
-  2a1. Findr queues a retry and shows a non-intrusive warning.  
-  2a2. If retry succeeds, Findr shows “Saved” and logs the event.  
-  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.  
+* 2a. Temporary storage failure (e.g., file lock, I/O error).
+  2a1. Findr queues a retry and shows a non-intrusive warning.
+  2a2. If retry succeeds, Findr shows “Saved” and logs the event.
+  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.
   Use case ends.
 
-* 2b. Storage is unavailable (e.g., permission denied).  
-  2b1. Findr prevents further destructive actions and displays recovery guidance.  
+* 2b. Storage is unavailable (e.g., permission denied).
+  2b1. Findr prevents further destructive actions and displays recovery guidance.
   Use case ends.
 
 ### Non-Functional Requirements
