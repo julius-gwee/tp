@@ -9,13 +9,13 @@
   <padding>
     <Insets top="10" right="10" bottom="10" left="10" />
   </padding>
-  
+
   <Label fx:id="columnHeader" text="Column Header" styleClass="kanban-column-header">
     <VBox.margin>
       <Insets bottom="10" />
     </VBox.margin>
   </Label>
-  
+
   <ListView fx:id="personListView" VBox.vgrow="ALWAYS" styleClass="kanban-list" />
 </VBox>
 
