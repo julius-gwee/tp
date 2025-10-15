@@ -63,6 +63,5 @@ public class SampleDataUtilTest {
         assertEquals(Tag.DEFAULT_CATEGORY, customTag.category);
         assertEquals(Tag.DEFAULT_COLOUR, customTag.colour);
         assertEquals(Tag.DEFAULT_DESCRIPTION, customTag.description);
-        });
     }
 }
