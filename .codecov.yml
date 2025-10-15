@@ -7,7 +7,7 @@ coverage:
       default:
         target: auto
         threshold: 2%
-    
+
     patch:
       default:
         target: auto
@@ -22,4 +22,3 @@ comment:
   layout: "reach,diff,flags,tree"
   behavior: default
   require_changes: false
-
