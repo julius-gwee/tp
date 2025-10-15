@@ -25,7 +25,7 @@ public class KanbanColumnTest {
             TypicalPersons.ALICE,
             TypicalPersons.BENSON
         );
-        
+
         // Verify constructor doesn't throw NPE (IllegalStateException from JavaFX is
         // acceptable)
         assertDoesNotThrow(() -> {
@@ -41,7 +41,7 @@ public class KanbanColumnTest {
     @Test
     public void constructor_emptyPersonList_noNullPointerException() {
         ObservableList<Person> emptyList = FXCollections.observableArrayList();
-        
+
         assertDoesNotThrow(() -> {
             try {
                 new KanbanColumn("Empty Column", emptyList);

@@ -37,7 +37,7 @@ public class KanbanBoard extends UiPart<Region> {
         // For MVP: Single column showing all candidates
         KanbanColumn candidatesColumn = new KanbanColumn("Candidates", personList);
         columnContainer.getChildren().add(candidatesColumn.getRoot());
-        
+
         // Future: Add more columns here for different statuses
         // Example:
         // KanbanColumn interviewedColumn = new KanbanColumn("Interviewed", filteredList);
