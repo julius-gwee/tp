@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.SortCommand.SORT_BY_ALPHABET;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.getTypicalFindr;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ public class SortCommandTest {
 
     @Test
     public void execute_sortByAlphabet_showsSortedByAlphabet() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalFindr(), new UserPrefs());
         expectedModel = new ModelManager(model.getCandidateList(), new UserPrefs());
         assertCommandSuccess(new SortCommand(SORT_BY_ALPHABET), model, SortCommand.MESSAGE_SUCCESS, expectedModel);
     }
