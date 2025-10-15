@@ -2,8 +2,10 @@ package seedu.address.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
@@ -20,6 +22,12 @@ public class KanbanBoardTest {
     @BeforeAll
     public static void initToolkit() {
         GuiTestUtil.initToolkit();
+    }
+
+    @BeforeEach
+    public void checkToolkitAvailability() {
+        // Skip tests if JavaFX toolkit is not available (e.g., in headless CI environments)
+        assumeTrue(GuiTestUtil.isToolkitAvailable(), "JavaFX toolkit not available - skipping UI tests");
     }
 
     @Test

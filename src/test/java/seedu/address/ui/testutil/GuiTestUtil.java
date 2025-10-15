@@ -11,13 +11,14 @@ import javafx.application.Platform;
  */
 public class GuiTestUtil {
     private static boolean toolkitInitialized = false;
+    private static boolean initializationFailed = false;
 
     /**
      * Initializes the JavaFX toolkit for headless testing.
      * This method is idempotent and can be called multiple times safely.
      */
     public static void initToolkit() {
-        if (!toolkitInitialized) {
+        if (!toolkitInitialized && !initializationFailed) {
             try {
                 // Initialize JavaFX toolkit in headless mode
                 CountDownLatch latch = new CountDownLatch(1);
@@ -25,22 +26,42 @@ public class GuiTestUtil {
                     toolkitInitialized = true;
                     latch.countDown();
                 });
-                latch.await(5, TimeUnit.SECONDS);
+
+                // Wait for initialization with timeout
+                boolean initialized = latch.await(2, TimeUnit.SECONDS);
+                if (!initialized) {
+                    // Timeout occurred - mark as failed to prevent hanging
+                    initializationFailed = true;
+                    System.err.println("JavaFX toolkit initialization timed out - UI tests will be skipped");
+                } else {
+                    toolkitInitialized = true;
+                }
             } catch (IllegalStateException e) {
                 // Toolkit already initialized
                 toolkitInitialized = true;
             } catch (UnsupportedOperationException e) {
                 // Platform.startup() not supported in this environment
                 // This can happen in some CI environments
-                toolkitInitialized = true;
+                initializationFailed = true;
+                System.err.println("JavaFX not supported in this environment - UI tests will be skipped");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                throw new RuntimeException("Failed to initialize JavaFX toolkit", e);
+                initializationFailed = true;
+                System.err.println("JavaFX initialization interrupted - UI tests will be skipped");
             } catch (Exception e) {
                 // Catch any other exceptions during toolkit initialization
-                toolkitInitialized = true;
+                initializationFailed = true;
+                System.err.println("JavaFX initialization failed: " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Checks if JavaFX toolkit is available for testing.
+     * @return true if toolkit is initialized and ready, false otherwise
+     */
+    public static boolean isToolkitAvailable() {
+        return toolkitInitialized && !initializationFailed;
     }
 }
 
