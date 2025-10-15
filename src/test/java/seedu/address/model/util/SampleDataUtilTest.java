@@ -42,5 +42,10 @@ public class SampleDataUtilTest {
         assertNotNull(tags);
         assertEquals(2, tags.size());
         assertTrue(tags.stream().anyMatch(tag -> tag.tagName.equals("friends")));
+        tags.forEach(tag -> {
+            assertEquals(Tag.DEFAULT_CATEGORY, tag.category);
+            assertEquals(Tag.DEFAULT_COLOUR, tag.colour);
+            assertEquals(Tag.DEFAULT_DESCRIPTION, tag.description);
+        });
     }
 }
