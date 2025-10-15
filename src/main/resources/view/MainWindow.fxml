@@ -44,7 +44,7 @@
           <!-- Findr title -->
           <Label text="findr" styleClass="app-title">
             <HBox.margin>
-              <Insets right="20" />
+              <Insets right="18" />
             </HBox.margin>
           </Label>
           <!-- Command input placeholder -->
