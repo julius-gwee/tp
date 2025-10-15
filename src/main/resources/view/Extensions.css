@@ -1,20 +1,82 @@
-
 .error {
-    -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
+  -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
 }
 
 .list-cell:empty {
-    /* Empty cells will not have alternating colours */
-    -fx-background: #383838;
+  /* Empty cells will not have alternating colours */
+  -fx-background: #383838;
 }
 
 .tag-selector {
-    -fx-border-width: 1;
-    -fx-border-color: white;
-    -fx-border-radius: 3;
-    -fx-background-radius: 3;
+  -fx-border-width: 1;
+  -fx-border-color: white;
+  -fx-border-radius: 3;
+  -fx-background-radius: 3;
 }
 
 .tooltip-text {
-    -fx-text-fill: white;
+  -fx-text-fill: white;
+}
+
+.app-title {
+  -fx-font-size: 22pt;
+  -fx-font-family: "Roboto";
+  -fx-text-fill: black;
+  -fx-font-weight: bold;
+}
+
+.command-input {
+  -fx-font-size: 13pt;
+  -fx-background-radius: 5;
+  -fx-border-radius: 5;
+  -fx-padding: 8;
+  -fx-background-color: white;
+  -fx-border-color: #cccccc;
+  -fx-border-width: 1;
+  -fx-background-insets: 0;
+  -fx-border-insets: 0;
+}
+
+.command-input:focused {
+  -fx-border-width: 1;
+  -fx-background-insets: 0;
+  -fx-border-insets: 0;
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color: transparent;
+}
+
+.command-input .text-input {
+  -fx-background-color: white;
+  -fx-background-insets: 0;
+  -fx-background-radius: 5;
+}
+
+.command-input:focused .text-input {
+  -fx-background-color: white;
+  -fx-background-insets: 0;
+  -fx-highlight-fill: #0096c9;
+  -fx-highlight-text-fill: white;
+}
+
+#commandTextField {
+  -fx-border-color: #cccccc;
+}
+
+#commandTextField:focused {
+  -fx-border-color: #888888;
+}
+
+.search-icon {
+  -fx-font-size: 16pt;
+  -fx-text-fill: #888888;
+}
+
+.header-container {
+  -fx-background-color: #f5f5f5;
+  -fx-border-color: #e0e0e0;
+  -fx-border-width: 0 0 1 0;
+}
+
+.command-input-container {
+  -fx-background-color: transparent;
 }
