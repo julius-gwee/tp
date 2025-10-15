@@ -1,5 +1,16 @@
 {
   "_comment": "AddressBook save file which contains the same Person values as in TypicalPersons#getTypicalFindr()",
+  "tags" : [ {
+    "tagName" : "friends",
+    "category" : "Social",
+    "colour" : "#0B5FFF",
+    "description" : "Close friends and confidants."
+  }, {
+    "tagName" : "owesMoney",
+    "category" : "General",
+    "colour" : "#7A7A7A",
+    "description" : ""
+  } ],
   "persons" : [ {
     "name" : "Alice Pauline",
     "phone" : "94351253",

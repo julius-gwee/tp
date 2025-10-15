@@ -41,11 +41,28 @@ public class SampleDataUtilTest {
         Set<Tag> tags = SampleDataUtil.getTagSet("friends", "colleagues");
         assertNotNull(tags);
         assertEquals(2, tags.size());
-        assertTrue(tags.stream().anyMatch(tag -> tag.tagName.equals("friends")));
-        tags.forEach(tag -> {
-            assertEquals(Tag.DEFAULT_CATEGORY, tag.category);
-            assertEquals(Tag.DEFAULT_COLOUR, tag.colour);
-            assertEquals(Tag.DEFAULT_DESCRIPTION, tag.description);
+
+        Tag friendsTag = tags.stream()
+                .filter(tag -> tag.tagName.equals("friends"))
+                .findFirst()
+                .orElseThrow();
+        assertEquals("Social", friendsTag.category);
+        assertEquals("#0B5FFF", friendsTag.colour);
+        assertEquals("Close friends and confidants.", friendsTag.description);
+
+        Tag colleaguesTag = tags.stream()
+                .filter(tag -> tag.tagName.equals("colleagues"))
+                .findFirst()
+                .orElseThrow();
+        assertEquals("Work", colleaguesTag.category);
+        assertEquals("#8E44AD", colleaguesTag.colour);
+        assertEquals("Professional contacts and teammates.", colleaguesTag.description);
+
+        // Tags outside the curated sample list should still fall back to defaults.
+        Tag customTag = SampleDataUtil.getTagSet("gymbuddy").iterator().next();
+        assertEquals(Tag.DEFAULT_CATEGORY, customTag.category);
+        assertEquals(Tag.DEFAULT_COLOUR, customTag.colour);
+        assertEquals(Tag.DEFAULT_DESCRIPTION, customTag.description);
         });
     }
 }

@@ -1,4 +1,10 @@
 {
+  "tags": [ {
+    "tagName": "friends",
+    "category": "Social",
+    "colour": "#0B5FFF",
+    "description": "Close friends and confidants."
+  } ],
   "persons": [ {
     "name": "Alice Pauline",
     "phone": "94351253",
