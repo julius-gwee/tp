@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" styleClass="kanban-board">
+  <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" styleClass="kanban-scroll-pane">
+    <HBox fx:id="columnContainer" spacing="15" styleClass="kanban-columns-container" />
+  </ScrollPane>
+</VBox>
+
