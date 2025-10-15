@@ -1,65 +1,66 @@
 package seedu.address.ui;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalPersons;
+import seedu.address.ui.testutil.GuiTestUtil;
 
 /**
  * Contains tests for KanbanBoard.
  */
 public class KanbanBoardTest {
 
-    /**
-     * Test that KanbanBoard can be instantiated with valid parameters.
-     * The test passes as long as no
-     * NullPointerException is thrown.
-     */
+    @BeforeAll
+    public static void initToolkit() {
+        GuiTestUtil.initToolkit();
+    }
+
     @Test
-    public void constructor_validPersonList_noNullPointerException() {
+    public void constructor_validPersonList_success() {
         ObservableList<Person> personList = FXCollections.observableArrayList(
                 TypicalPersons.ALICE,
                 TypicalPersons.BENSON,
                 TypicalPersons.CARL);
 
-        assertDoesNotThrow(() -> {
-            try {
-                new KanbanBoard(personList);
-            } catch (IllegalStateException | ExceptionInInitializerError | NoClassDefFoundError e) {
-                // JavaFX toolkit not initialized - expected in headless tests
-                // Test passes if we don't get NPE
-            }
-        });
+        KanbanBoard kanbanBoard = new KanbanBoard(personList);
+        assertNotNull(kanbanBoard);
+        assertNotNull(kanbanBoard.getRoot());
     }
 
     @Test
-    public void constructor_emptyPersonList_noNullPointerException() {
+    public void constructor_emptyPersonList_success() {
         ObservableList<Person> emptyList = FXCollections.observableArrayList();
 
-        assertDoesNotThrow(() -> {
-            try {
-                new KanbanBoard(emptyList);
-            } catch (IllegalStateException | ExceptionInInitializerError | NoClassDefFoundError e) {
-                // JavaFX toolkit not initialized - expected in headless tests
-            }
-        });
+        KanbanBoard kanbanBoard = new KanbanBoard(emptyList);
+        assertNotNull(kanbanBoard);
+        assertNotNull(kanbanBoard.getRoot());
     }
 
     @Test
-    public void constructor_largePersonList_noNullPointerException() {
+    public void constructor_largePersonList_success() {
         ObservableList<Person> largeList = FXCollections.observableArrayList(
                 TypicalPersons.getTypicalPersons());
 
-        assertDoesNotThrow(() -> {
-            try {
-                new KanbanBoard(largeList);
-            } catch (IllegalStateException | ExceptionInInitializerError | NoClassDefFoundError e) {
-                // JavaFX toolkit not initialized - expected in headless tests
-            }
-        });
+        KanbanBoard kanbanBoard = new KanbanBoard(largeList);
+        assertNotNull(kanbanBoard);
+        assertNotNull(kanbanBoard.getRoot());
+        assertEquals(largeList.size(), TypicalPersons.getTypicalPersons().size());
+    }
+
+    @Test
+    public void constructor_singlePerson_success() {
+        ObservableList<Person> singlePersonList = FXCollections.observableArrayList(
+                TypicalPersons.DANIEL);
+
+        KanbanBoard kanbanBoard = new KanbanBoard(singlePersonList);
+        assertNotNull(kanbanBoard);
+        assertNotNull(kanbanBoard.getRoot());
     }
 }

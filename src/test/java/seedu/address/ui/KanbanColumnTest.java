@@ -1,54 +1,59 @@
 package seedu.address.ui;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalPersons;
+import seedu.address.ui.testutil.GuiTestUtil;
 
 /**
  * Contains tests for KanbanColumn.
  */
 public class KanbanColumnTest {
 
-    /**
-     * Test that KanbanColumn can be instantiated with valid parameters.
-     * The test passes as long as no
-     * NullPointerException is thrown.
-     */
+    @BeforeAll
+    public static void initToolkit() {
+        GuiTestUtil.initToolkit();
+    }
+
     @Test
-    public void constructor_validParameters_noNullPointerException() {
+    public void constructor_validParameters_success() {
         ObservableList<Person> personList = FXCollections.observableArrayList(
             TypicalPersons.ALICE,
             TypicalPersons.BENSON
         );
 
-        // Verify constructor doesn't throw NPE (IllegalStateException from JavaFX is
-        // acceptable)
-        assertDoesNotThrow(() -> {
-            try {
-                new KanbanColumn("Candidates", personList);
-            } catch (IllegalStateException | ExceptionInInitializerError | NoClassDefFoundError e) {
-                // JavaFX toolkit not initialized - expected in headless tests
-                // Test passes if we don't get NPE
-            }
-        });
+        KanbanColumn kanbanColumn = new KanbanColumn("Candidates", personList);
+        assertNotNull(kanbanColumn);
+        assertNotNull(kanbanColumn.getRoot());
     }
 
     @Test
-    public void constructor_emptyPersonList_noNullPointerException() {
+    public void constructor_emptyPersonList_success() {
         ObservableList<Person> emptyList = FXCollections.observableArrayList();
 
-        assertDoesNotThrow(() -> {
-            try {
-                new KanbanColumn("Empty Column", emptyList);
-            } catch (IllegalStateException | ExceptionInInitializerError | NoClassDefFoundError e) {
-                // JavaFX toolkit not initialized - expected in headless tests
-            }
-        });
+        KanbanColumn kanbanColumn = new KanbanColumn("Empty Column", emptyList);
+        assertNotNull(kanbanColumn);
+        assertNotNull(kanbanColumn.getRoot());
+    }
+
+    @Test
+    public void constructor_differentHeaderTexts_success() {
+        ObservableList<Person> personList = FXCollections.observableArrayList(TypicalPersons.CARL);
+
+        KanbanColumn column1 = new KanbanColumn("Interviewed", personList);
+        assertNotNull(column1);
+
+        KanbanColumn column2 = new KanbanColumn("Hired", personList);
+        assertNotNull(column2);
+
+        KanbanColumn column3 = new KanbanColumn("Rejected", personList);
+        assertNotNull(column3);
     }
 }
 
