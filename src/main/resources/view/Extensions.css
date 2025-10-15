@@ -80,3 +80,69 @@
 .command-input-container {
   -fx-background-color: transparent;
 }
+
+/* Kanban Board Styles */
+.kanban-board {
+  -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.kanban-scroll-pane {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+.kanban-scroll-pane .viewport {
+  -fx-background-color: transparent;
+}
+
+.kanban-columns-container {
+  -fx-background-color: transparent;
+  -fx-padding: 15;
+}
+
+.kanban-column {
+  -fx-background-color: derive(#1d1d1d, 10%);
+  -fx-background-radius: 8;
+  -fx-border-radius: 8;
+  -fx-border-color: derive(#1d1d1d, 5%);
+  -fx-border-width: 1;
+  -fx-min-width: 320;
+  -fx-pref-width: 320;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 2);
+}
+
+.kanban-column-header {
+  -fx-font-size: 16pt;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-padding: 5;
+}
+
+.kanban-list {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-color: transparent;
+}
+
+.kanban-list .list-cell {
+  -fx-background-color: transparent;
+  -fx-padding: 5;
+}
+
+.kanban-list .list-cell:filled {
+  -fx-background-color: transparent;
+}
+
+.kanban-list .list-cell:filled:selected {
+  -fx-background-color: derive(#424d5f, 20%);
+}
+
+.kanban-list .list-cell .card-pane {
+  -fx-background-color: #2d2d2d;
+  -fx-background-radius: 6;
+  -fx-border-radius: 6;
+  -fx-border-color: #3e3e3e;
+  -fx-border-width: 1;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 1);
+}
