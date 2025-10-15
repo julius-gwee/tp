@@ -17,6 +17,9 @@ public class SortCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Sorted all candidates";
 
+    public static final Comparator<Person> SORT_BY_ALPHABET = Comparator.comparing(o -> o.getName().toString());
+    public static final Comparator<Person> SORT_BY_ADDRESS = Comparator.comparing(o -> o.getAddress().toString());
+
     private final Comparator<Person> comparator;
 
     public SortCommand(Comparator<Person> comparator) {
