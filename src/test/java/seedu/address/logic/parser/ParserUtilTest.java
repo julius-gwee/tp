@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_SORT_CRITERIA;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CANDIDATE;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -205,5 +207,15 @@ public class ParserUtilTest {
             assertEquals(Tag.DEFAULT_COLOUR, tag.colour);
             assertEquals(Tag.DEFAULT_DESCRIPTION, tag.description);
         });
+    }
+
+    @Test
+    public void parseSortCriteria_invalidInput_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_SORT_CRITERIA, () -> ParserUtil.parseSortCriteria("a"));
+    }
+
+    @Test
+    public void parseSortCriteria_validInput_success() throws Exception {
+        assertEquals(SortCommand.SORT_BY_ALPHABET, ParserUtil.parseSortCriteria("alphabetical"));
     }
 }
