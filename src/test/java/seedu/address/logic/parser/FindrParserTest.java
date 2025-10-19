@@ -31,7 +31,7 @@ import seedu.address.testutil.PersonUtil;
 
 public class FindrParserTest {
 
-    private final AddressBookParser parser = new AddressBookParser();
+    private final FindrParser parser = new FindrParser();
 
     @Test
     public void parseCommand_add() throws Exception {
