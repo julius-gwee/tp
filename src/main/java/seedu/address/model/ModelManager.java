@@ -14,6 +14,7 @@ import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -113,6 +114,41 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         findr.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public ObservableList<Tag> getTagList() {
+        return findr.getTagList();
+    }
+
+    @Override
+    public boolean hasTag(Tag tag) {
+        requireNonNull(tag);
+        return findr.hasTag(tag);
+    }
+
+    @Override
+    public Tag getTag(Tag tag) {
+        requireNonNull(tag);
+        return findr.getTag(tag);
+    }
+
+    @Override
+    public void addTag(Tag tag) {
+        requireNonNull(tag);
+        findr.addTag(tag);
+    }
+
+    @Override
+    public void setTag(Tag target, Tag editedTag) {
+        requireAllNonNull(target, editedTag);
+        findr.setTag(target, editedTag);
+    }
+
+    @Override
+    public void deleteTag(Tag tag) {
+        requireNonNull(tag);
+        findr.removeTag(tag);
     }
 
     //=========== Filtered Person List Accessors =============================================================

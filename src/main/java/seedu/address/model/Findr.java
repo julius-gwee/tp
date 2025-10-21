@@ -2,7 +2,11 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
@@ -49,7 +53,10 @@ public class Findr implements ReadOnlyFindr {
      * {@code persons} must not contain duplicate persons.
      */
     public void setPersons(List<Person> persons) {
-        this.persons.setPersons(persons);
+        List<Person> resolvedPersons = persons.stream()
+                .map(this::resolveTagsForPerson)
+                .collect(Collectors.toList());
+        this.persons.setPersons(resolvedPersons);
     }
 
     /**
@@ -58,8 +65,8 @@ public class Findr implements ReadOnlyFindr {
     public void resetData(ReadOnlyFindr newData) {
         requireNonNull(newData);
 
-        setPersons(newData.getCandidateList());
         setTags(newData.getTagList());
+        setPersons(newData.getCandidateList());
     }
 
     //// person-level operations
@@ -77,7 +84,7 @@ public class Findr implements ReadOnlyFindr {
      * The person must not already exist in the address book.
      */
     public void addCandidate(Person p) {
-        persons.add(p);
+        persons.add(resolveTagsForPerson(p));
     }
 
     /**
@@ -110,6 +117,14 @@ public class Findr implements ReadOnlyFindr {
     }
 
     /**
+     * Returns the tag from the catalogue that matches {@code tag} by identity.
+     */
+    public Tag getTag(Tag tag) {
+        requireNonNull(tag);
+        return tags.get(tag);
+    }
+
+    /**
      * Returns true if a tag with the same identity as {@code tag} exists in the address book.
      */
     public boolean hasTag(Tag tag) {
@@ -133,6 +148,7 @@ public class Findr implements ReadOnlyFindr {
     public void setTag(Tag target, Tag editedTag) {
         requireNonNull(editedTag);
         tags.setTag(target, editedTag);
+        replaceTagAcrossPersons(target, editedTag);
     }
 
     /**
@@ -141,6 +157,46 @@ public class Findr implements ReadOnlyFindr {
      */
     public void removeTag(Tag tag) {
         tags.remove(tag);
+        replaceTagAcrossPersons(tag, null);
+    }
+
+    private void replaceTagAcrossPersons(Tag target, Tag replacement) {
+        List<Person> updatedPersons = new ArrayList<>();
+        boolean anyChanges = false;
+        for (Person person : persons.asUnmodifiableObservableList()) {
+            Set<Tag> updatedTags = new HashSet<>();
+            boolean tagModified = false;
+            for (Tag existingTag : person.getTags()) {
+                if (existingTag.isSameTag(target)) {
+                    tagModified = true;
+                    if (replacement != null) {
+                        updatedTags.add(replacement);
+                    }
+                } else {
+                    updatedTags.add(existingTag);
+                }
+            }
+
+            if (tagModified) {
+                anyChanges = true;
+                updatedPersons.add(new Person(person.getName(), person.getPhone(), person.getEmail(),
+                        person.getAddress(), updatedTags));
+            } else {
+                updatedPersons.add(person);
+            }
+        }
+
+        if (anyChanges) {
+            persons.setPersons(updatedPersons);
+        }
+    }
+
+    private Person resolveTagsForPerson(Person person) {
+        Set<Tag> resolvedTags = new HashSet<>();
+        for (Tag tag : person.getTags()) {
+            resolvedTags.add(tags.get(tag));
+        }
+        return new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), resolvedTags);
     }
 
     //// util methods
