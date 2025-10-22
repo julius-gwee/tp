@@ -41,7 +41,8 @@ public class TagEditCommandParser implements Parser<TagEditCommand> {
             descriptor.setColour(ParserUtil.parseTagColour(argMultimap.getValue(PREFIX_TAG_COLOUR).get()));
         }
         if (argMultimap.getValue(PREFIX_TAG_DESCRIPTION).isPresent()) {
-            descriptor.setDescription(ParserUtil.parseTagDescription(argMultimap.getValue(PREFIX_TAG_DESCRIPTION).get()));
+            descriptor.setDescription(ParserUtil.parseTagDescription(argMultimap.getValue(PREFIX_TAG_DESCRIPTION)
+                    .get()));
         }
 
         if (!descriptor.isAnyFieldEdited()) {

@@ -36,6 +36,12 @@ public class TagEditCommand extends Command {
     private final String targetTagName;
     private final EditTagDescriptor editTagDescriptor;
 
+    /**
+     * Creates a {@code TagEditCommand} targeting the specified tag name with the provided edits.
+     *
+     * @param targetTagName the existing tag name to edit.
+     * @param editTagDescriptor the descriptor containing the new tag values.
+     */
     public TagEditCommand(String targetTagName, EditTagDescriptor editTagDescriptor) {
         this.targetTagName = requireNonNull(targetTagName);
         this.editTagDescriptor = new EditTagDescriptor(requireNonNull(editTagDescriptor));
@@ -116,6 +122,11 @@ public class TagEditCommand extends Command {
 
         public EditTagDescriptor() {}
 
+        /**
+         * Copy constructor.
+         *
+         * @param toCopy the descriptor to copy values from.
+         */
         public EditTagDescriptor(EditTagDescriptor toCopy) {
             setName(toCopy.name);
             setCategory(toCopy.category);
