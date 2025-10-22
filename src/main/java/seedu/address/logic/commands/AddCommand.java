@@ -11,7 +11,13 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import static seedu.address.logic.commands.TagCommandUtil.rebuildPersonWithTags;
+import static seedu.address.logic.commands.TagCommandUtil.resolveTags;
+
+import java.util.Set;
+
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * Adds a candidate to the candidate list.
@@ -52,12 +58,19 @@ public class AddCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasCandidate(toAdd)) {
+        Person resolvedCandidate = resolveTagsForCandidate(model, toAdd);
+
+        if (model.hasCandidate(resolvedCandidate)) {
             throw new CommandException(MESSAGE_DUPLICATE_CANDIDATE);
         }
 
-        model.addCandidate(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        model.addCandidate(resolvedCandidate);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(resolvedCandidate)));
+    }
+
+    private Person resolveTagsForCandidate(Model model, Person candidate) throws CommandException {
+        Set<Tag> resolvedTags = resolveTags(model, candidate.getTags());
+        return rebuildPersonWithTags(candidate, resolvedTags);
     }
 
     @Override
