@@ -21,6 +21,7 @@ import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagAddCommand;
 import seedu.address.logic.commands.TagDeleteCommand;
 import seedu.address.logic.commands.TagEditCommand;
+import seedu.address.logic.commands.TagListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -93,6 +94,9 @@ public class FindrParser {
         case TagDeleteCommand.COMMAND_WORD:
             return new TagDeleteCommandParser().parse(arguments);
 
+        case TagListCommand.COMMAND_WORD:
+            return new TagListCommand();
+            
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
