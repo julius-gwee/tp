@@ -52,16 +52,6 @@ public abstract class UiPart<T> {
     }
 
     /**
-     * Package-private constructor for testing that sets the root directly without loading FXML.
-     * @param root The root node to use
-     * @param isTest dummy parameter to distinguish from other constructors
-     */
-    UiPart(T root, boolean isTest) {
-        fxmlLoader.setRoot(root);
-        fxmlLoader.setController(this);
-    }
-
-    /**
      * Returns the root object of the scene graph of this UiPart.
      */
     public T getRoot() {

@@ -98,6 +98,7 @@
 .kanban-columns-container {
   -fx-background-color: transparent;
   -fx-padding: 15;
+  -fx-alignment: center;
 }
 
 .kanban-column {
@@ -106,8 +107,9 @@
   -fx-border-radius: 8;
   -fx-border-color: derive(#1d1d1d, 5%);
   -fx-border-width: 1;
-  -fx-min-width: 320;
-  -fx-pref-width: 320;
+  -fx-min-width: 250;
+  -fx-pref-width: 300;
+  -fx-max-width: infinity;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 2);
 }
 
