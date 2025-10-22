@@ -56,7 +56,7 @@ public class CommandBox extends UiPart<Region> {
      * Handles the Enter button pressed event.
      */
     @FXML
-    private void handleCommandEntered() {
+    public void handleCommandEntered() {
         String commandText = commandTextField.getText();
         if (commandText.equals("")) {
             return;
@@ -98,7 +98,7 @@ public class CommandBox extends UiPart<Region> {
     /**
      * Handles key press events for arrow key navigation through search history.
      */
-    private void handleKeyPressed(KeyEvent event) {
+    public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.UP) {
             navigateHistoryUp();
             event.consume(); // Prevent default behavior
@@ -155,7 +155,7 @@ public class CommandBox extends UiPart<Region> {
     /**
      * Saves a command to the search history.
      */
-    private void saveToHistory(String command) {
+    public void saveToHistory(String command) {
         // Don't save empty commands
         if (command.trim().isEmpty()) {
             return;
@@ -185,7 +185,7 @@ public class CommandBox extends UiPart<Region> {
     /**
      * Resets the history navigation position to the "new command" state.
      */
-    private void resetHistoryNavigation() {
+    public void resetHistoryNavigation() {
         historyIndex = -1;
         currentInput = "";
     }
