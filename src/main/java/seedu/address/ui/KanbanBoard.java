@@ -36,6 +36,7 @@ public class KanbanBoard extends UiPart<Region> {
      * Creates four columns: Candidates, Contacted, Interviewed, and Hired.
      * Each column displays persons filtered by their recruitment stage.
      * The filtered lists automatically update when persons are moved between stages.
+     * Each person card displays a column-relative index (1, 2, 3...).
      */
     private void initializeColumns(ObservableList<Person> personList) {
         // Create filtered lists for each recruitment stage
@@ -48,7 +49,7 @@ public class KanbanBoard extends UiPart<Region> {
         FilteredList<Person> hiredList = new FilteredList<>(personList,
                 person -> person.getStage() == Stage.HIRED);
 
-        // Create the four kanban columns
+        // Create the four kanban columns with column-relative indices
         KanbanColumn candidatesColumn = new KanbanColumn("Candidates", candidatesList);
         KanbanColumn contactedColumn = new KanbanColumn("Contacted", contactedList);
         KanbanColumn interviewedColumn = new KanbanColumn("Interviewed", interviewedList);
