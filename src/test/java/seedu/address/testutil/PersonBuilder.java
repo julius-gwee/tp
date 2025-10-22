@@ -8,6 +8,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Rating;
 import seedu.address.model.person.Stage;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -27,6 +28,7 @@ public class PersonBuilder {
     private Email email;
     private Address address;
     private Set<Tag> tags;
+    private Rating rating;
     private Stage stage;
 
     /**
@@ -38,6 +40,7 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
+        rating = new Rating(Rating.RatingType.UNRATED.toString());
         stage = Stage.CANDIDATES;
     }
 
@@ -50,6 +53,7 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
+        rating = personToCopy.getRating();
         stage = personToCopy.getStage();
     }
 
@@ -94,6 +98,14 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Rating} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRating(Rating rating) {
+        this.rating = rating;
+        return this;
+    }
+
+    /**
      * Sets the {@code Stage} of the {@code Person} that we are building.
      */
     public PersonBuilder withStage(Stage stage) {
@@ -102,7 +114,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags, stage);
+        return new Person(name, phone, email, address, tags, rating, stage);
     }
 
 }
