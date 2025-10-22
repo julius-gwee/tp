@@ -117,6 +117,62 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String tagName} into a trimmed tag name.
+     *
+     * @throws ParseException if the given {@code tagName} is invalid.
+     */
+    public static String parseTagName(String tagName) throws ParseException {
+        requireNonNull(tagName);
+        String trimmedTagName = tagName.trim();
+        if (!Tag.isValidTagName(trimmedTagName)) {
+            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+        }
+        return trimmedTagName;
+    }
+
+    /**
+     * Parses a {@code String category} into a trimmed tag category.
+     *
+     * @throws ParseException if the given {@code category} is invalid.
+     */
+    public static String parseTagCategory(String category) throws ParseException {
+        requireNonNull(category);
+        String trimmedCategory = category.trim();
+        if (!Tag.isValidCategory(trimmedCategory)) {
+            throw new ParseException(Tag.MESSAGE_CATEGORY_CONSTRAINTS);
+        }
+        return trimmedCategory;
+    }
+
+    /**
+     * Parses a {@code String colour} into a trimmed tag colour.
+     *
+     * @throws ParseException if the given {@code colour} is invalid.
+     */
+    public static String parseTagColour(String colour) throws ParseException {
+        requireNonNull(colour);
+        String trimmedColour = colour.trim();
+        if (!Tag.isValidColour(trimmedColour)) {
+            throw new ParseException(Tag.MESSAGE_COLOUR_CONSTRAINTS);
+        }
+        return trimmedColour;
+    }
+
+    /**
+     * Parses a {@code String description} into a trimmed tag description.
+     *
+     * @throws ParseException if the given {@code description} is invalid.
+     */
+    public static String parseTagDescription(String description) throws ParseException {
+        requireNonNull(description);
+        String trimmedDescription = description.trim();
+        if (!Tag.isValidDescription(trimmedDescription)) {
+            throw new ParseException(Tag.MESSAGE_DESCRIPTION_CONSTRAINTS);
+        }
+        return trimmedDescription;
+    }
+
+    /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {

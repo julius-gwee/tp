@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.FindrBuilder;
 
 public class ModelManagerTest {
@@ -91,6 +92,56 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredCandidateList().remove(0));
+    }
+
+    @Test
+    public void getTagList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getTagList().remove(0));
+    }
+
+    @Test
+    public void hasTag_nullTag_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasTag(null));
+    }
+
+    @Test
+    public void hasTag_tagNotInModel_returnsFalse() {
+        assertFalse(modelManager.hasTag(new Tag("backend")));
+    }
+
+    @Test
+    public void hasTag_tagInModel_returnsTrue() {
+        Tag tag = new Tag("backend");
+        modelManager.addTag(tag);
+        assertTrue(modelManager.hasTag(tag));
+    }
+
+    @Test
+    public void getTag_existingTag_returnsStoredInstance() {
+        Tag tag = new Tag("backend", "Engineering", "#1F75FE", "Backend specialist");
+        modelManager.addTag(tag);
+        assertEquals(tag, modelManager.getTag(new Tag("backend")));
+    }
+
+    @Test
+    public void setTag_updatesCatalogue() {
+        Tag original = new Tag("backend", "Engineering", "#1F75FE", "Backend specialist");
+        Tag edited = new Tag("backend", "Infrastructure", "#00FF00", "Maintains infrastructure");
+        modelManager.addTag(original);
+
+        modelManager.setTag(original, edited);
+
+        assertTrue(modelManager.hasTag(edited));
+        assertFalse(modelManager.getTagList().stream().anyMatch(original::equals));
+    }
+
+    @Test
+    public void deleteTag_removesFromCatalogue() {
+        Tag tag = new Tag("backend");
+        modelManager.addTag(tag);
+
+        modelManager.deleteTag(tag);
+        assertFalse(modelManager.hasTag(tag));
     }
 
     @Test

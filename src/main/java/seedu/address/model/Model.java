@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * The API of the Model component.
@@ -93,4 +94,22 @@ public interface Model {
      * Updates the sort type of the sorted person list to sort by the given criteria.
      */
     void updateSortedCandidateList(Comparator<Person> comparator);
+
+    /** Returns an unmodifiable view of the tag definition list. */
+    ObservableList<Tag> getTagList();
+
+    /** Returns true if the tag exists in the global tag catalogue. */
+    boolean hasTag(Tag tag);
+
+    /** Returns the matching tag from the global catalogue. */
+    Tag getTag(Tag tag);
+
+    /** Adds the given tag to the global catalogue. */
+    void addTag(Tag tag);
+
+    /** Replaces {@code target} with {@code editedTag} in the global catalogue. */
+    void setTag(Tag target, Tag editedTag);
+
+    /** Deletes {@code tag} from the global catalogue. */
+    void deleteTag(Tag tag);
 }
