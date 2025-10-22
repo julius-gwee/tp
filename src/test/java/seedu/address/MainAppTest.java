@@ -13,6 +13,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyFindr;
 import seedu.address.model.UserPrefs;
 import seedu.address.storage.JsonFindrStorage;
+import seedu.address.storage.JsonSearchHistoryStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
@@ -25,7 +26,9 @@ public class MainAppTest {
     public void initModelManager_validStorage_success() {
         JsonFindrStorage findrStorage = new JsonFindrStorage(TEST_DATA_FOLDER.resolve("findr.json"));
         JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json"));
-        Storage storage = new StorageManager(findrStorage, prefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(
+                TEST_DATA_FOLDER.resolve("searchHistory.json"));
+        Storage storage = new StorageManager(findrStorage, prefsStorage, searchHistoryStorage);
         UserPrefs userPrefs = new UserPrefs();
 
         MainApp mainApp = new MainApp();
@@ -39,7 +42,8 @@ public class MainAppTest {
     public void initModelManager_missingFile_createsEmptyAddressBook() {
         JsonFindrStorage findrStorage = new JsonFindrStorage(Paths.get("nonexistent.json"));
         JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(Paths.get("prefs.json"));
-        Storage storage = new StorageManager(findrStorage, prefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(Paths.get("searchHistory.json"));
+        Storage storage = new StorageManager(findrStorage, prefsStorage, searchHistoryStorage);
         UserPrefs userPrefs = new UserPrefs();
 
         MainApp mainApp = new MainApp();

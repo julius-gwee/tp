@@ -26,7 +26,8 @@ public class StorageManagerTest {
     public void setUp() {
         JsonFindrStorage addressBookStorage = new JsonFindrStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(getTempFilePath("searchHistory"));
+        storageManager = new StorageManager(addressBookStorage, userPrefsStorage, searchHistoryStorage);
     }
 
     private Path getTempFilePath(String fileName) {

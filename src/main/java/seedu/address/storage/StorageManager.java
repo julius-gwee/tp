@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -19,13 +20,17 @@ public class StorageManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private FindrStorage findrStorage;
     private UserPrefsStorage userPrefsStorage;
+    private SearchHistoryStorage searchHistoryStorage;
 
     /**
-     * Creates a {@code StorageManager} with the given {@code FindrStorage} and {@code UserPrefStorage}.
+     * Creates a {@code StorageManager} with the given {@code FindrStorage}, {@code UserPrefStorage},
+     * and {@code SearchHistoryStorage}.
      */
-    public StorageManager(FindrStorage findrStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(FindrStorage findrStorage, UserPrefsStorage userPrefsStorage,
+                          SearchHistoryStorage searchHistoryStorage) {
         this.findrStorage = findrStorage;
         this.userPrefsStorage = userPrefsStorage;
+        this.searchHistoryStorage = searchHistoryStorage;
     }
 
     // ================ UserPrefs methods ==============================
@@ -73,6 +78,25 @@ public class StorageManager implements Storage {
     public void saveCandidateList(ReadOnlyFindr candidateList, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         findrStorage.saveCandidateList(candidateList, filePath);
+    }
+
+    // ================ SearchHistory methods ==============================
+
+    @Override
+    public Path getSearchHistoryFilePath() {
+        return searchHistoryStorage.getSearchHistoryFilePath();
+    }
+
+    @Override
+    public Optional<List<String>> readSearchHistory() throws DataLoadingException {
+        logger.fine("Attempting to read search history from file: " + getSearchHistoryFilePath());
+        return searchHistoryStorage.readSearchHistory();
+    }
+
+    @Override
+    public void saveSearchHistory(List<String> searchHistory) throws IOException {
+        logger.fine("Attempting to write to search history file: " + getSearchHistoryFilePath());
+        searchHistoryStorage.saveSearchHistory(searchHistory);
     }
 
 }

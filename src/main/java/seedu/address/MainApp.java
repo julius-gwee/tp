@@ -24,7 +24,9 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.FindrStorage;
 import seedu.address.storage.JsonFindrStorage;
+import seedu.address.storage.JsonSearchHistoryStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.SearchHistoryStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
@@ -58,7 +60,8 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         FindrStorage findrStorage = new JsonFindrStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(findrStorage, userPrefsStorage);
+        SearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(userPrefs.getSearchHistoryFilePath());
+        storage = new StorageManager(findrStorage, userPrefsStorage, searchHistoryStorage);
 
         model = initModelManager(storage, userPrefs);
 

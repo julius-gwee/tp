@@ -29,6 +29,7 @@ import seedu.address.model.ReadOnlyFindr;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.storage.JsonFindrStorage;
+import seedu.address.storage.JsonSearchHistoryStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilder;
@@ -48,7 +49,9 @@ public class LogicManagerTest {
         JsonFindrStorage addressBookStorage =
                 new JsonFindrStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(
+                temporaryFolder.resolve("searchHistory.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, searchHistoryStorage);
         logic = new LogicManager(model, storage);
     }
 
@@ -160,7 +163,9 @@ public class LogicManagerTest {
 
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ExceptionUserPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(
+                temporaryFolder.resolve("ExceptionSearchHistory.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, searchHistoryStorage);
 
         logic = new LogicManager(model, storage);
 
