@@ -33,7 +33,8 @@ public class MoveCommand extends Command {
 
     public static final String MESSAGE_MOVE_PERSON_SUCCESS = "Moved candidate from %1$s to %2$s: %3$s";
     public static final String MESSAGE_SAME_STAGE = "The candidate is already in this list";
-    public static final String MESSAGE_WRONG_CURRENT_STAGE = "The candidate is not in the specified current stage. Current stage: %1$s";
+    public static final String MESSAGE_WRONG_CURRENT_STAGE =
+            "The candidate is not in the specified current stage. Current stage: %1$s";
 
     private final Index targetIndex;
     private final Stage fromStage;
