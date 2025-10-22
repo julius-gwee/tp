@@ -11,19 +11,24 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.function.Predicate;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.TagCommandUtil;
 import seedu.address.model.Findr;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyFindr;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -43,6 +48,29 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validCandidate)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validCandidate), modelStub.personsAdded);
+    }
+
+    @Test
+    public void execute_personWithExistingTag_addSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person taggedCandidate = new PersonBuilder().withTags("friends").build();
+        modelStub.addAvailableTags(taggedCandidate.getTags());
+
+        CommandResult commandResult = new AddCommand(taggedCandidate).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(taggedCandidate)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(taggedCandidate), modelStub.personsAdded);
+    }
+
+    @Test
+    public void execute_missingTag_throwsCommandException() {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person candidateWithNewTag = new PersonBuilder().withTags("newtag").build();
+        AddCommand addCommand = new AddCommand(candidateWithNewTag);
+
+        assertThrows(CommandException.class, TagCommandUtil.MESSAGE_TAG_NOT_FOUND,
+                () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -90,6 +118,12 @@ public class AddCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
+        private final Set<Tag> availableTags = new HashSet<>();
+
+        protected void addAvailableTags(Set<Tag> tags) {
+            availableTags.addAll(tags);
+        }
+
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
@@ -169,6 +203,40 @@ public class AddCommandTest {
         public void updateSortedCandidateList(Comparator<Person> comparator) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public ObservableList<Tag> getTagList() {
+            return FXCollections.observableArrayList(availableTags);
+        }
+
+        @Override
+        public boolean hasTag(Tag tag) {
+            return availableTags.stream().anyMatch(tag::isSameTag);
+        }
+
+        @Override
+        public Tag getTag(Tag tag) {
+            return availableTags.stream()
+                    .filter(tag::isSameTag)
+                    .findFirst()
+                    .orElseThrow(AssertionError::new);
+        }
+
+        @Override
+        public void addTag(Tag tag) {
+            availableTags.add(tag);
+        }
+
+        @Override
+        public void setTag(Tag target, Tag editedTag) {
+            availableTags.removeIf(target::isSameTag);
+            availableTags.add(editedTag);
+        }
+
+        @Override
+        public void deleteTag(Tag tag) {
+            availableTags.removeIf(tag::isSameTag);
+        }
     }
 
     /**
@@ -180,6 +248,7 @@ public class AddCommandTest {
         ModelStubWithPerson(Person person) {
             requireNonNull(person);
             this.person = person;
+            addAvailableTags(person.getTags());
         }
 
         @Override

@@ -194,6 +194,9 @@ public class Findr implements ReadOnlyFindr {
     private Person resolveTagsForPerson(Person person) {
         Set<Tag> resolvedTags = new HashSet<>();
         for (Tag tag : person.getTags()) {
+            if (!tags.contains(tag)) {
+                tags.add(tag);
+            }
             resolvedTags.add(tags.get(tag));
         }
         return new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), resolvedTags);
