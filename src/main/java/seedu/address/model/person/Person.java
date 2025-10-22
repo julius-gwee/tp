@@ -23,6 +23,7 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private final Rating rating;
     private final Set<Tag> tags = new HashSet<>();
     private final Stage stage;
 
