@@ -3,10 +3,11 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" styleClass="kanban-board">
-  <ScrollPane fitToHeight="true" VBox.vgrow="ALWAYS" styleClass="kanban-scroll-pane">
-    <HBox fx:id="columnContainer" spacing="15" styleClass="kanban-columns-container" />
+  <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="kanban-scroll-pane">
+    <HBox fx:id="columnContainer" spacing="15" styleClass="kanban-columns-container" fillHeight="true" />
   </ScrollPane>
 </VBox>
 

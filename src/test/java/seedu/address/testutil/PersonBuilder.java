@@ -10,6 +10,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Stage;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -29,6 +30,7 @@ public class PersonBuilder {
     private Address address;
     private DateAdded date;
     private Set<Tag> tags;
+    private Stage stage;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -40,6 +42,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         date = new DateAdded(new Date());
         tags = new HashSet<>();
+        stage = Stage.CANDIDATES;
     }
 
     /**
@@ -52,6 +55,7 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         date = personToCopy.getDateAdded();
         tags = new HashSet<>(personToCopy.getTags());
+        stage = personToCopy.getStage();
     }
 
     /**
@@ -94,8 +98,16 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Stage} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withStage(Stage stage) {
+        this.stage = stage;
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, address, date, tags);
+        return new Person(name, phone, email, address, tags, date, stage);
     }
 
 }

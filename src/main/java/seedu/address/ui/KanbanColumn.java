@@ -17,7 +17,6 @@ import seedu.address.model.person.Person;
 public class KanbanColumn extends UiPart<Region> {
     private static final String FXML = "KanbanColumn.fxml";
     private final Logger logger = LogsCenter.getLogger(KanbanColumn.class);
-    private boolean isTestMode = false;
 
     @FXML
     private Label columnHeader;
@@ -27,25 +26,15 @@ public class KanbanColumn extends UiPart<Region> {
 
     /**
      * Creates a {@code KanbanColumn} with the given header and {@code ObservableList}.
+     *
+     * @param headerText The header text for the column.
+     * @param personList The filtered list of persons to display in this column.
      */
     public KanbanColumn(String headerText, ObservableList<Person> personList) {
         super(FXML);
         columnHeader.setText(headerText);
         personListView.setItems(personList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
-    }
-
-    /**
-     * Constructor for testing purposes that doesn't require FXML loading.
-     */
-    protected KanbanColumn(String headerText, ObservableList<Person> personList, boolean isTest) {
-        super(new Region(), true);
-        this.isTestMode = isTest;
-        columnHeader = new Label();
-        personListView = new ListView<>();
-        columnHeader.setText(headerText);
-        personListView.setItems(personList);
-        // In test mode, don't set cell factory to avoid FXML loading
     }
 
     /**
@@ -60,10 +49,8 @@ public class KanbanColumn extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                PersonCard card = isTestMode
-                        ? new PersonCard(person, getIndex() + 1, true)
-                        : new PersonCard(person, getIndex() + 1);
-                setGraphic(card.getRoot());
+                // Use column-relative index (1, 2, 3... within each column)
+                setGraphic(new PersonCard(person, getIndex() + 1).getRoot());
             }
         }
     }

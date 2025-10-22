@@ -37,6 +37,18 @@ public class UniqueTagList implements Iterable<Tag> {
     }
 
     /**
+     * Returns the tag in the list that has the same identity as {@code toFind}.
+     * The tag must exist in the list.
+     */
+    public Tag get(Tag toFind) {
+        requireNonNull(toFind);
+        return internalList.stream()
+                .filter(toFind::isSameTag)
+                .findFirst()
+                .orElseThrow(TagNotFoundException::new);
+    }
+
+    /**
      * Adds a tag to the list.
      * The tag must not already exist in the list.
      */

@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.TagCommandUtil.rebuildPersonWithTags;
+import static seedu.address.logic.commands.TagCommandUtil.resolveTags;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -79,14 +81,20 @@ public class EditCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+        Person resolvedEditedPerson = resolveTagsForPerson(model, editedPerson);
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasCandidate(editedPerson)) {
+        if (!personToEdit.isSamePerson(resolvedEditedPerson) && model.hasCandidate(resolvedEditedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        model.setPerson(personToEdit, editedPerson);
+        model.setPerson(personToEdit, resolvedEditedPerson);
         model.updateFilteredCandidateList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(resolvedEditedPerson)));
+    }
+
+    private Person resolveTagsForPerson(Model model, Person person) throws CommandException {
+        Set<Tag> resolvedTags = resolveTags(model, person.getTags());
+        return rebuildPersonWithTags(person, resolvedTags);
     }
 
     /**

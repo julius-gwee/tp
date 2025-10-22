@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -72,5 +73,31 @@ public class FindrTest {
         String str = findr.toString();
         assertTrue(str.contains("Findr"));
         assertTrue(str.contains("David"));
+    }
+
+    @Test
+    public void setTag_updatesPersonsWithTag() {
+        Person alice = createPerson("Alice");
+        findr.addCandidate(alice);
+        Tag originalTag = alice.getTags().iterator().next();
+        Tag updatedTag = new Tag(originalTag.tagName, "Infrastructure", "#00FF00", "Maintains infrastructure");
+
+        findr.setTag(originalTag, updatedTag);
+
+        Person updatedAlice = findr.getCandidateList().get(0);
+        assertTrue(updatedAlice.getTags().contains(updatedTag));
+        assertFalse(updatedAlice.getTags().contains(originalTag));
+    }
+
+    @Test
+    public void removeTag_removesFromPersons() {
+        Person alice = createPerson("Alice");
+        findr.addCandidate(alice);
+        Tag tag = alice.getTags().iterator().next();
+
+        findr.removeTag(tag);
+
+        Person updatedAlice = findr.getCandidateList().get(0);
+        assertTrue(updatedAlice.getTags().isEmpty());
     }
 }
