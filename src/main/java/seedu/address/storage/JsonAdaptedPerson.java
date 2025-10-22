@@ -68,7 +68,7 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        date = source.getDateAdded().date;
+        date = source.getDateAdded().date();
         rating = source.getRating().toString();
         stage = source.getStage().name();
     }
@@ -123,9 +123,6 @@ class JsonAdaptedPerson {
         if (date == null) {
             modelDate = new DateAdded(new Date());
         } else {
-            if (!DateAdded.isValidDate(date)) {
-                throw new IllegalValueException(DateAdded.MESSAGE_CONSTRAINTS);
-            }
             modelDate = new DateAdded(date);
         }
 

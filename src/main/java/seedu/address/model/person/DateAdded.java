@@ -1,36 +1,25 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.util.Date;
 
 /**
  * Represents the date a Candidate is added to Findr.
- * Guarantees: immutable; is valid as declared in {@link #isValidDate(Date)}
+ * Guarantees: immutable;
  */
-public class DateAdded {
+public record DateAdded(Date date) {
 
 
     public static final String MESSAGE_CONSTRAINTS = "Date added should be a valid date";
-    public final Date date;
 
     /**
      * Constructs a {@code Date}.
      *
      * @param date A valid date.
      */
-    public DateAdded(Date date) {
+    public DateAdded {
         requireNonNull(date);
-        checkArgument(isValidDate(date), MESSAGE_CONSTRAINTS);
-        this.date = date;
-    }
-
-    /**
-     * Returns true if a given date is a valid date.
-     */
-    public static boolean isValidDate(Date test) {
-        return test.getClass() == Date.class;
     }
 
     @Override
@@ -55,11 +44,6 @@ public class DateAdded {
 
         DateAdded otherDateAdded = (DateAdded) other;
         return date.equals(otherDateAdded.date);
-    }
-
-    @Override
-    public int hashCode() {
-        return date.hashCode();
     }
 
 }
