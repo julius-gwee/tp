@@ -17,7 +17,6 @@ import seedu.address.model.person.Person;
 public class KanbanColumn extends UiPart<Region> {
     private static final String FXML = "KanbanColumn.fxml";
     private final Logger logger = LogsCenter.getLogger(KanbanColumn.class);
-    private boolean isTestMode = false;
 
     @FXML
     private Label columnHeader;
@@ -36,19 +35,6 @@ public class KanbanColumn extends UiPart<Region> {
     }
 
     /**
-     * Constructor for testing purposes that doesn't require FXML loading.
-     */
-    protected KanbanColumn(String headerText, ObservableList<Person> personList, boolean isTest) {
-        super(new Region(), true);
-        this.isTestMode = isTest;
-        columnHeader = new Label();
-        personListView = new ListView<>();
-        columnHeader.setText(headerText);
-        personListView.setItems(personList);
-        // In test mode, don't set cell factory to avoid FXML loading
-    }
-
-    /**
      * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code PersonCard}.
      */
     class PersonListViewCell extends ListCell<Person> {
@@ -60,10 +46,7 @@ public class KanbanColumn extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                PersonCard card = isTestMode
-                        ? new PersonCard(person, getIndex() + 1, true)
-                        : new PersonCard(person, getIndex() + 1);
-                setGraphic(card.getRoot());
+                setGraphic(new PersonCard(person, getIndex() + 1).getRoot());
             }
         }
     }
