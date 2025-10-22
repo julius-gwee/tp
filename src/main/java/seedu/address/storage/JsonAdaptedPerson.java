@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,8 +31,8 @@ class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final String address;
-    private final Date date;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final Date date;
     private final String stage;
 
     /**
@@ -40,15 +41,16 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("date") Date date, @JsonProperty("stage") String stage) {
+            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("date") Date date,
+            @JsonProperty("stage") String stage) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.date = date;
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.date = date;
         this.stage = stage;
     }
 
@@ -60,10 +62,10 @@ class JsonAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        date = source.getDateAdded().date;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        date = source.getDateAdded().date;
         stage = source.getStage().name();
     }
 
@@ -110,15 +112,18 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
-        if (date == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, DateAdded.class.getSimpleName()));
-        }
-        if (!DateAdded.isValidDate(date)) {
-            throw new IllegalValueException(DateAdded.MESSAGE_CONSTRAINTS);
-        }
-        final DateAdded modelDate = new DateAdded(date);
-
         final Set<Tag> modelTags = new HashSet<>(personTags);
+
+        // Handle date added field with backward compatibility (default to current date if missing)
+        final DateAdded modelDate;
+        if (date == null) {
+            modelDate = new DateAdded(new Date());
+        } else {
+            if (!DateAdded.isValidDate(date)) {
+                throw new IllegalValueException(DateAdded.MESSAGE_CONSTRAINTS);
+            }
+            modelDate = new DateAdded(date);
+        }
 
         // Handle stage field with backward compatibility (default to CANDIDATES if missing)
         final Stage modelStage;
@@ -131,7 +136,7 @@ class JsonAdaptedPerson {
             modelStage = Stage.fromString(stage);
         }
 
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelStage);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelDate, modelStage);
     }
 
 }

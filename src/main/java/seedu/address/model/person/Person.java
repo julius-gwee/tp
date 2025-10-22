@@ -2,10 +2,7 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -32,13 +29,13 @@ public class Person {
      * Stage defaults to CANDIDATES.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, tags, Stage.CANDIDATES);
+        this(name, phone, email, address, tags, new DateAdded(new Date()), Stage.CANDIDATES);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Stage stage) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, DateAdded date, Stage stage) {
         requireAllNonNull(name, phone, email, address, tags, stage);
         this.name = name;
         this.phone = phone;

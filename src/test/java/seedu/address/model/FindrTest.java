@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.person.Address;
-import seedu.address.model.person.DateAdded;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -34,7 +32,7 @@ public class FindrTest {
         tags.add(new Tag("friends"));
         return new Person(new Name(name), new Phone("12345678"),
                 new Email(name.toLowerCase() + "@example.com"),
-                new Address("123 Street"), new DateAdded(new Date()), tags);
+                new Address("123 Street"), tags);
     }
 
     @Test
