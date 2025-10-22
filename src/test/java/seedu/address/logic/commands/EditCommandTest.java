@@ -25,6 +25,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -51,8 +52,12 @@ public class EditCommandTest {
 
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
-        Index indexLastPerson = Index.fromOneBased(model.getFilteredCandidateList().size());
-        Person lastPerson = model.getFilteredCandidateList().get(indexLastPerson.getZeroBased());
+        Model workingModel = new ModelManager(new Findr(model.getCandidateList()), new UserPrefs());
+        Tag existingTag = new Tag(VALID_TAG_HUSBAND);
+        workingModel.addTag(existingTag);
+
+        Index indexLastPerson = Index.fromOneBased(workingModel.getFilteredCandidateList().size());
+        Person lastPerson = workingModel.getFilteredCandidateList().get(indexLastPerson.getZeroBased());
 
         PersonBuilder personInList = new PersonBuilder(lastPerson);
         Person editedPerson = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
@@ -64,10 +69,10 @@ public class EditCommandTest {
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(new Findr(model.getCandidateList()), new UserPrefs());
+        Model expectedModel = new ModelManager(new Findr(workingModel.getCandidateList()), new UserPrefs());
         expectedModel.setPerson(lastPerson, editedPerson);
 
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(editCommand, workingModel, expectedMessage, expectedModel);
     }
 
     @Test
