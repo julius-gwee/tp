@@ -15,6 +15,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Rating;
 import seedu.address.model.person.Stage;
 import seedu.address.model.tag.Tag;
 
@@ -30,6 +31,7 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String rating;
     private final String stage;
 
     /**
@@ -38,7 +40,8 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("stage") String stage) {
+            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("rating") String rating,
+            @JsonProperty("stage") String stage) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -46,6 +49,7 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.rating = rating;
         this.stage = stage;
     }
 
@@ -60,6 +64,7 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        rating = source.getRating().toString();
         stage = source.getStage().name();
     }
 
@@ -108,6 +113,17 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
+        // Handle rating field with backward compatibility (default to UNDEFINED if missing)
+        final Rating modelRating;
+        if (rating == null) {
+            modelRating = new Rating(Rating.RatingType.UNRATED.toString());
+        } else {
+            if (!Rating.isValidRating(rating)) {
+                throw new IllegalValueException(Rating.MESSAGE_CONSTRAINTS);
+            }
+            modelRating = new Rating(rating);
+        }
+
         // Handle stage field with backward compatibility (default to CANDIDATES if missing)
         final Stage modelStage;
         if (stage == null) {
@@ -119,7 +135,7 @@ class JsonAdaptedPerson {
             modelStage = Stage.fromString(stage);
         }
 
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelStage);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelRating, modelStage);
     }
 
 }

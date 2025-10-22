@@ -23,6 +23,7 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private final Rating rating;
     private final Set<Tag> tags = new HashSet<>();
     private final Stage stage;
 
@@ -31,19 +32,20 @@ public class Person {
      * Stage defaults to CANDIDATES.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, tags, Stage.CANDIDATES);
+        this(name, phone, email, address, tags, new Rating(Rating.RatingType.UNRATED.toString()), Stage.CANDIDATES);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Stage stage) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Rating rating, Stage stage) {
         requireAllNonNull(name, phone, email, address, tags, stage);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.rating = rating;
         this.stage = stage;
     }
 
@@ -61,6 +63,10 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Rating getRating() {
+        return rating;
     }
 
     /**
