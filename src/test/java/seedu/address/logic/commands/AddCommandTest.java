@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.function.Predicate;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,13 +22,13 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.commands.TagCommandUtil;
 import seedu.address.model.Findr;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyFindr;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.exceptions.TagNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -69,8 +69,7 @@ public class AddCommandTest {
         Person candidateWithNewTag = new PersonBuilder().withTags("newtag").build();
         AddCommand addCommand = new AddCommand(candidateWithNewTag);
 
-        assertThrows(CommandException.class, TagCommandUtil.MESSAGE_TAG_NOT_FOUND,
-                () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class, TagCommandUtil.MESSAGE_TAG_NOT_FOUND, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -219,7 +218,7 @@ public class AddCommandTest {
             return availableTags.stream()
                     .filter(tag::isSameTag)
                     .findFirst()
-                    .orElseThrow(AssertionError::new);
+                    .orElseThrow(TagNotFoundException::new);
         }
 
         @Override
