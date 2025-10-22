@@ -88,6 +88,7 @@ public class MoveCommand extends Command {
                 personToMove.getAddress(),
                 personToMove.getTags(),
                 personToMove.getDateAdded(),
+                personToMove.getRating(),
                 toStage);
 
         model.setPerson(personToMove, movedPerson);

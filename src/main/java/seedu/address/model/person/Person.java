@@ -8,7 +8,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
- * Represents a Person in the address book.
+ * Represents a Person in the candidate list.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person {
@@ -21,6 +21,7 @@ public class Person {
     // Data fields
     private final Address address;
     private final DateAdded date;
+    private final Rating rating;
     private final Set<Tag> tags = new HashSet<>();
     private final Stage stage;
 
@@ -29,13 +30,13 @@ public class Person {
      * Stage defaults to CANDIDATES.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, tags, new DateAdded(new Date()), Stage.CANDIDATES);
+        this(name, phone, email, address, tags, new DateAdded(new Date()), new Rating(Rating.RatingType.UNRATED.toString()), Stage.CANDIDATES);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, DateAdded date, Stage stage) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, DateAdded date, Rating rating, Stage stage) {
         requireAllNonNull(name, phone, email, address, tags, stage);
         this.name = name;
         this.phone = phone;
@@ -43,6 +44,7 @@ public class Person {
         this.address = address;
         this.date = date;
         this.tags.addAll(tags);
+        this.rating = rating;
         this.stage = stage;
     }
 
@@ -64,6 +66,10 @@ public class Person {
 
     public DateAdded getDateAdded() {
         return date;
+    }
+
+    public Rating getRating() {
+        return rating;
     }
 
     /**
@@ -131,8 +137,9 @@ public class Person {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
-                .add("date added", date)
                 .add("tags", tags)
+                .add("date added", date)
+                .add("rating", rating)
                 .add("stage", stage)
                 .toString();
     }
