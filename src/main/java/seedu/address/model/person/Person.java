@@ -23,17 +23,19 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private final DateAdded date;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Person(Name name, Phone phone, Email email, Address address, DateAdded date, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, date, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.date = date;
         this.tags.addAll(tags);
     }
 
@@ -51,6 +53,10 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public DateAdded getDateAdded() {
+        return date;
     }
 
     /**
@@ -110,6 +116,7 @@ public class Person {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
+                .add("date added", date)
                 .add("tags", tags)
                 .toString();
     }
