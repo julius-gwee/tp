@@ -49,9 +49,7 @@ public class Rating {
      * Returns true if a given string is a valid rating.
      */
     public static boolean isValidRating(String test) {
-        if (test == null) {
-            return false;
-        }
+        requireNonNull(test);
         try {
             convertToRating(test);
             return true;
