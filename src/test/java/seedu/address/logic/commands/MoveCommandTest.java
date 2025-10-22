@@ -60,15 +60,11 @@ public class MoveCommandTest {
     }
 
     @Test
-    public void execute_wrongCurrentStage_throwsCommandException() {
-        Person personToMove = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
-        // Person is in CANDIDATES stage, but we specify CONTACTED as current stage
+    public void execute_invalidIndexForStage_throwsCommandException() {
+        // Try to move from CONTACTED stage when there are no persons in that stage
         MoveCommand moveCommand = new MoveCommand(INDEX_FIRST_CANDIDATE, Stage.CONTACTED, Stage.INTERVIEWED);
 
-        String expectedMessage = String.format(MoveCommand.MESSAGE_WRONG_CURRENT_STAGE,
-                personToMove.getStage().getDisplayName());
-
-        assertCommandFailure(moveCommand, model, expectedMessage);
+        assertCommandFailure(moveCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
     }
 
     @Test
