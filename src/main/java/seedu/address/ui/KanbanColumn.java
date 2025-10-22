@@ -26,6 +26,9 @@ public class KanbanColumn extends UiPart<Region> {
 
     /**
      * Creates a {@code KanbanColumn} with the given header and {@code ObservableList}.
+     *
+     * @param headerText The header text for the column.
+     * @param personList The filtered list of persons to display in this column.
      */
     public KanbanColumn(String headerText, ObservableList<Person> personList) {
         super(FXML);
@@ -46,6 +49,7 @@ public class KanbanColumn extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
+                // Use column-relative index (1, 2, 3... within each column)
                 setGraphic(new PersonCard(person, getIndex() + 1).getRoot());
             }
         }

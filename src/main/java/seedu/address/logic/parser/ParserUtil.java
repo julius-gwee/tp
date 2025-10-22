@@ -16,6 +16,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Stage;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -199,5 +200,20 @@ public class ParserUtil {
         default:
             throw new ParseException(MESSAGE_INVALID_SORT_CRITERIA);
         }
+    }
+
+    /**
+     * Parses a {@code String stage} into a {@code Stage}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code stage} is invalid.
+     */
+    public static Stage parseStage(String stage) throws ParseException {
+        requireNonNull(stage);
+        String trimmedStage = stage.trim();
+        if (!Stage.isValidStage(trimmedStage)) {
+            throw new ParseException(Stage.MESSAGE_CONSTRAINTS);
+        }
+        return Stage.fromString(trimmedStage);
     }
 }

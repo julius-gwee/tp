@@ -17,6 +17,7 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.MoveCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagAddCommand;
 import seedu.address.logic.commands.TagDeleteCommand;
@@ -85,6 +86,8 @@ public class FindrParser {
         case SortCommand.COMMAND_WORD:
             return new SortCommandParser().parse(arguments);
 
+        case MoveCommand.COMMAND_WORD:
+            return new MoveCommandParser().parse(arguments);
         case TagAddCommand.COMMAND_WORD:
             return new TagAddCommandParser().parse(arguments);
 
