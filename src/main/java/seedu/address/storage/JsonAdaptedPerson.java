@@ -116,12 +116,12 @@ class JsonAdaptedPerson {
         // Handle rating field with backward compatibility (default to UNDEFINED if missing)
         final Rating modelRating;
         if (rating == null) {
-            modelRating = Rating.UNDEFINED;
+            modelRating = new Rating(Rating.RatingType.UNRATED.toString());
         } else {
             if (!Rating.isValidRating(rating)) {
                 throw new IllegalValueException(Rating.MESSAGE_CONSTRAINTS);
             }
-            modelRating = Rating.fromString(rating);
+            modelRating = new Rating(rating);
         }
 
         // Handle stage field with backward compatibility (default to CANDIDATES if missing)

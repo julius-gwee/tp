@@ -32,7 +32,7 @@ public class Person {
      * Stage defaults to CANDIDATES.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, tags, Rating.UNDEFINED, Stage.CANDIDATES);
+        this(name, phone, email, address, tags, new Rating(Rating.RatingType.UNRATED.toString()), Stage.CANDIDATES);
     }
 
     /**
