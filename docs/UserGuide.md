@@ -142,6 +142,27 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd candidate in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st candidate in the results of the `find` command.
 
+### Moving a candidate between stages : `move`
+
+Moves a candidate from one recruitment stage to another in the kanban board.
+
+Format: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
+
+* Moves the candidate at the specified `INDEX` from `CURRENT_STAGE` to `NEW_STAGE`.
+* The index refers to the index number shown **within the specified stage column** (not the global list).
+* The index **must be a positive integer** 1, 2, 3, …​
+* Valid stages are: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
+* You cannot move a candidate to the same stage they are currently in.
+
+Examples:
+* `move 1 from/Candidates to/Contacted` moves the 1st candidate in the Candidates column to the Contacted stage.
+* `move 2 from/Interviewed to/Hired` moves the 2nd candidate in the Interviewed column to the Hired stage.
+* `move 1 from/contacted to/INTERVIEWED` also works (case-insensitive stage names).
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+The index shown on each candidate card in the kanban board corresponds to their position within that specific stage column. Use this index when moving candidates.
+</div>
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the candidate list.
@@ -197,4 +218,5 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
+**Move** | `move INDEX from/CURRENT_STAGE to/NEW_STAGE`<br> e.g., `move 1 from/Candidates to/Contacted`
 **Help** | `help`
