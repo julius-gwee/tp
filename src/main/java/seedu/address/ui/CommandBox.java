@@ -27,13 +27,13 @@ public class CommandBox extends UiPart<Region> {
     private final CommandExecutor commandExecutor;
     private final Storage storage;
 
+    @FXML
+    private TextField commandTextField;
+
     // Search history navigation fields
     private final List<String> searchHistory = new ArrayList<>();
     private int historyIndex = -1; // -1 means we're at the "new command" position
     private String currentInput = ""; // Store current input when navigating history
-
-    @FXML
-    private TextField commandTextField;
 
     /**
      * Creates a {@code CommandBox} with the given {@code CommandExecutor} and {@code Storage}.
@@ -56,7 +56,7 @@ public class CommandBox extends UiPart<Region> {
      * Handles the Enter button pressed event.
      */
     @FXML
-    public void handleCommandEntered() {
+    private void handleCommandEntered() {
         String commandText = commandTextField.getText();
         if (commandText.equals("")) {
             return;
@@ -98,7 +98,7 @@ public class CommandBox extends UiPart<Region> {
     /**
      * Handles key press events for arrow key navigation through search history.
      */
-    public void handleKeyPressed(KeyEvent event) {
+    private void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.UP) {
             navigateHistoryUp();
             event.consume(); // Prevent default behavior
@@ -206,6 +206,23 @@ public class CommandBox extends UiPart<Region> {
         }
     }
 
+    // Package-private accessor methods for testing
+    List<String> getSearchHistory() {
+        return new ArrayList<>(searchHistory);
+    }
+
+    int getHistoryIndex() {
+        return historyIndex;
+    }
+
+    String getCurrentInput() {
+        return currentInput;
+    }
+
+    TextField getCommandTextField() {
+        return commandTextField;
+    }
+
     /**
      * Represents a function that can execute commands.
      */
@@ -218,5 +235,4 @@ public class CommandBox extends UiPart<Region> {
          */
         CommandResult execute(String commandText) throws CommandException, ParseException;
     }
-
 }
