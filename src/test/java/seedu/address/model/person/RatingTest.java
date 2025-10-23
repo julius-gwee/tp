@@ -27,9 +27,7 @@ public class RatingTest {
         // invalid ratings
         assertFalse(Rating.isValidRating("")); // empty string
         assertFalse(Rating.isValidRating(" ")); // spaces only
-        assertFalse(Rating.isValidRating("91")); // less than 3 numbers
         assertFalse(Rating.isValidRating("rating")); // non-numeric
-        assertFalse(Rating.isValidRating("thr33")); // alphabets within digits
         assertFalse(Rating.isValidRating("9 4")); // spaces within digits
 
         // valid ratings

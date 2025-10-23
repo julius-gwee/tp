@@ -8,6 +8,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Rating;
 
 /**
  * Parses input arguments and creates a new {@code RateCommand} object
@@ -29,8 +30,11 @@ public class RateCommandParser implements Parser<RateCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), ive);
         }
 
-        String remark = argMultimap.getValue(PREFIX_RATE).orElse("");
+        String rating = argMultimap.getValue(PREFIX_RATE).orElse(null);
+        if (rating == null || rating.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+        }
 
-        return new RateCommand(index, remark);
+        return new RateCommand(index, new Rating(rating));
     }
 }
