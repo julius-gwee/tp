@@ -26,6 +26,7 @@ public class RateCommandTest {
 
     private Model model = new ModelManager(getTypicalFindr(), new UserPrefs());
 
+    @Test
     public void execute_addRating_success() {
         Person firstCandidate = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         Person editedCandidate = new PersonBuilder(firstCandidate).withRating(new Rating("ONE")).build();
