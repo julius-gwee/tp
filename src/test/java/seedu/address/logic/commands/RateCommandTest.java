@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Rating;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for RateCommand.
@@ -25,17 +26,17 @@ public class RateCommandTest {
 
     @Test
     public void execute() {
-        final String rating = "ONE";
+        final Rating rating = new Rating("ONE");
         assertCommandFailure(new RateCommand(INDEX_FIRST_CANDIDATE, rating), model,
                 String.format(MESSAGE_ARGUMENTS, INDEX_FIRST_CANDIDATE.getOneBased(), rating));
     }
 
     @Test
     public void equals() {
-        final RateCommand standardCommand = new RateCommand(INDEX_FIRST_CANDIDATE, VALID_RATING_AMY);
+        final RateCommand standardCommand = new RateCommand(INDEX_FIRST_CANDIDATE, new Rating(VALID_RATING_AMY));
 
         // same values -> returns true
-        RateCommand commandWithSameValues = new RateCommand(INDEX_FIRST_CANDIDATE, VALID_RATING_AMY);
+        RateCommand commandWithSameValues = new RateCommand(INDEX_FIRST_CANDIDATE, new Rating(VALID_RATING_AMY));
         assertTrue(standardCommand.equals(commandWithSameValues));
 
         // same object -> returns true
@@ -48,9 +49,9 @@ public class RateCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different index -> returns false
-        assertFalse(standardCommand.equals(new RateCommand(INDEX_SECOND_CANDIDATE, VALID_RATING_AMY)));
+        assertFalse(standardCommand.equals(new RateCommand(INDEX_SECOND_CANDIDATE, new Rating(VALID_RATING_AMY))));
 
         // different remark -> returns false
-        assertFalse(standardCommand.equals(new RateCommand(INDEX_FIRST_CANDIDATE, VALID_RATING_BOB)));
+        assertFalse(standardCommand.equals(new RateCommand(INDEX_FIRST_CANDIDATE, new Rating(VALID_RATING_BOB))));
     }
 }

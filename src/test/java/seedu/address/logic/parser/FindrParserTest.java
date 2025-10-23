@@ -28,6 +28,7 @@ import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Rating;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -98,9 +99,9 @@ public class FindrParserTest {
     }
     @Test
     public void parseCommand_rate() throws Exception {
-        final String rating = "ONE";
+        final Rating rating = new Rating("ONE");
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_RATE + rating);
+                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_RATE + rating.value);
         assertEquals(new RateCommand(INDEX_FIRST_CANDIDATE, rating), command);
     }
 

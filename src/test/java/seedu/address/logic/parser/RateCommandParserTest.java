@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.RateCommand;
+import seedu.address.model.person.Rating;
 
 public class RateCommandParserTest {
     private RateCommandParser parser = new RateCommandParser();
@@ -20,13 +21,9 @@ public class RateCommandParserTest {
         // have rating
         Index targetIndex = INDEX_FIRST_CANDIDATE;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_RATE + nonEmptyRating;
-        RateCommand expectedCommand = new RateCommand(INDEX_FIRST_CANDIDATE, nonEmptyRating);
+        RateCommand expectedCommand = new RateCommand(INDEX_FIRST_CANDIDATE, new Rating(nonEmptyRating));
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // no rating
-        userInput = targetIndex.getOneBased() + " " + PREFIX_RATE;
-        expectedCommand = new RateCommand(INDEX_FIRST_CANDIDATE, "");
-        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
@@ -38,5 +35,8 @@ public class RateCommandParserTest {
 
         // no index
         assertParseFailure(parser, RateCommand.COMMAND_WORD + " " + nonEmptyRating, expectedMessage);
+
+        // no rating
+        assertParseFailure(parser, RateCommand.COMMAND_WORD + PREFIX_RATE, expectedMessage);
     }
 }
