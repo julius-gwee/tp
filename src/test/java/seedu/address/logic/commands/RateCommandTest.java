@@ -34,7 +34,8 @@ public class RateCommandTest {
         RateCommand rateCommand = new RateCommand(INDEX_FIRST_CANDIDATE,
                 new Rating(editedCandidate.getRating().value.toString()));
 
-        String expectedMessage = String.format(RateCommand.MESSAGE_RATE_SUCCESS, editedCandidate);
+        String expectedMessage = String.format(RateCommand.MESSAGE_RATE_SUCCESS,
+                editedCandidate.getName(), editedCandidate.getRating());
 
         Model expectedModel = new ModelManager(new Findr(model.getCandidateList()), new UserPrefs());
         expectedModel.setPerson(firstCandidate, editedCandidate);
