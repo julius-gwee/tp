@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
@@ -18,6 +19,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MoveCommand;
+import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagAddCommand;
 import seedu.address.logic.commands.TagDeleteCommand;
@@ -88,6 +90,7 @@ public class FindrParser {
 
         case MoveCommand.COMMAND_WORD:
             return new MoveCommandParser().parse(arguments);
+
         case TagAddCommand.COMMAND_WORD:
             return new TagAddCommandParser().parse(arguments);
 
@@ -99,6 +102,9 @@ public class FindrParser {
 
         case TagListCommand.COMMAND_WORD:
             return new TagListCommand();
+
+        case RateCommand.COMMAND_WORD:
+            return new RateCommand(Index.fromOneBased(1), "ONE");
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
