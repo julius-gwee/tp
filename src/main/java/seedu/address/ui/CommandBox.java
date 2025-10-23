@@ -52,6 +52,10 @@ public class CommandBox extends UiPart<Region> {
         loadSearchHistory();
     }
 
+    public TextField getCommandTextField() {
+        return commandTextField;
+    }
+
     /**
      * Handles the Enter button pressed event.
      */
