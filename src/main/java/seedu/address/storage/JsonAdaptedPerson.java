@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.DateAdded;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -31,6 +33,7 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final Date date;
     private final String rating;
     private final String stage;
 
@@ -40,8 +43,8 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("rating") String rating,
-            @JsonProperty("stage") String stage) {
+            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("date") Date date,
+            @JsonProperty("rating") String rating, @JsonProperty("stage") String stage) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -49,6 +52,7 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.date = date;
         this.rating = rating;
         this.stage = stage;
     }
@@ -64,6 +68,7 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        date = source.getDateAdded().date();
         rating = source.getRating().toString();
         stage = source.getStage().name();
     }
@@ -113,6 +118,14 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
+        // Handle date added field with backward compatibility (default to current date if missing)
+        final DateAdded modelDate;
+        if (date == null) {
+            modelDate = new DateAdded(new Date());
+        } else {
+            modelDate = new DateAdded(date);
+        }
+
         // Handle rating field with backward compatibility (default to UNDEFINED if missing)
         final Rating modelRating;
         if (rating == null) {
@@ -135,7 +148,8 @@ class JsonAdaptedPerson {
             modelStage = Stage.fromString(stage);
         }
 
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelRating, modelStage);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags,
+                modelDate, modelRating, modelStage);
     }
 
 }

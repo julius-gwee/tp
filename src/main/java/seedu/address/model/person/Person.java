@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private final DateAdded date;
     private final Rating rating;
     private final Set<Tag> tags = new HashSet<>();
     private final Stage stage;
@@ -32,18 +34,21 @@ public class Person {
      * Stage defaults to CANDIDATES.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, tags, new Rating(Rating.RatingType.UNRATED.toString()), Stage.CANDIDATES);
+        this(name, phone, email, address, tags, new DateAdded(new Date()),
+                new Rating(Rating.RatingType.UNRATED.toString()), Stage.CANDIDATES);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Rating rating, Stage stage) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  DateAdded date, Rating rating, Stage stage) {
         requireAllNonNull(name, phone, email, address, tags, stage);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.date = date;
         this.tags.addAll(tags);
         this.rating = rating;
         this.stage = stage;
@@ -63,6 +68,10 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public DateAdded getDateAdded() {
+        return date;
     }
 
     public Rating getRating() {
@@ -135,6 +144,8 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("dateAdded", date)
+                .add("rating", rating)
                 .add("stage", stage)
                 .toString();
     }

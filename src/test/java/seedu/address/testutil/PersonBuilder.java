@@ -1,9 +1,11 @@
 package seedu.address.testutil;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
+import seedu.address.model.person.DateAdded;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -27,6 +29,7 @@ public class PersonBuilder {
     private Phone phone;
     private Email email;
     private Address address;
+    private DateAdded date;
     private Set<Tag> tags;
     private Rating rating;
     private Stage stage;
@@ -39,6 +42,7 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
+        date = new DateAdded(new Date());
         tags = new HashSet<>();
         rating = new Rating(Rating.RatingType.UNRATED.toString());
         stage = Stage.CANDIDATES;
@@ -52,6 +56,7 @@ public class PersonBuilder {
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
+        date = personToCopy.getDateAdded();
         tags = new HashSet<>(personToCopy.getTags());
         rating = personToCopy.getRating();
         stage = personToCopy.getStage();
@@ -114,7 +119,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags, rating, stage);
+        return new Person(name, phone, email, address, tags, date, rating, stage);
     }
 
 }
