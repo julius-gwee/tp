@@ -104,7 +104,7 @@ public class FindrParser {
             return new TagListCommand();
 
         case RateCommand.COMMAND_WORD:
-            return new RateCommand(Index.fromOneBased(1), "ONE");
+            return new RateCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
