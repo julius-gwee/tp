@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_RATING_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_RATING_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.RateCommand.MESSAGE_ARGUMENTS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CANDIDATE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_CANDIDATE;
@@ -12,10 +13,13 @@ import static seedu.address.testutil.TypicalPersons.getTypicalFindr;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.Findr;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Rating;
+import seedu.address.testutil.PersonBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for RateCommand.
@@ -24,11 +28,19 @@ public class RateCommandTest {
 
     private Model model = new ModelManager(getTypicalFindr(), new UserPrefs());
 
-    @Test
-    public void execute() {
-        final Rating rating = new Rating("ONE");
-        assertCommandFailure(new RateCommand(INDEX_FIRST_CANDIDATE, rating), model,
-                String.format(MESSAGE_ARGUMENTS, INDEX_FIRST_CANDIDATE.getOneBased(), rating));
+    public void execute_addRating_success() {
+        Person firstCandidate = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person editedCandidate = new PersonBuilder(firstCandidate).withRating(new Rating("ONE")).build();
+
+        RateCommand rateCommand = new RateCommand(INDEX_FIRST_CANDIDATE,
+                new Rating(editedCandidate.getRating().value.toString()));
+
+        String expectedMessage = String.format(RateCommand.MESSAGE_RATE_SUCCESS, editedCandidate);
+
+        Model expectedModel = new ModelManager(new Findr(model.getCandidateList()), new UserPrefs());
+        expectedModel.setPerson(firstCandidate, editedCandidate);
+
+        assertCommandSuccess(rateCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
