@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static seedu.address.testutil.TypicalPersons.getTypicalFindr;
 
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,8 @@ public class StorageManagerTest {
     public void setUp() {
         JsonFindrStorage addressBookStorage = new JsonFindrStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(getTempFilePath("searchHistory"));
+        storageManager = new StorageManager(addressBookStorage, userPrefsStorage, searchHistoryStorage);
     }
 
     private Path getTempFilePath(String fileName) {
@@ -63,6 +66,29 @@ public class StorageManagerTest {
     @Test
     public void getFindrFilePath() {
         assertNotNull(storageManager.getFindrFilePath());
+    }
+
+    @Test
+    public void searchHistoryReadSave() throws Exception {
+        /*
+         * Note: This is an integration test that verifies the StorageManager is properly wired to the
+         * {@link JsonSearchHistoryStorage} class.
+         * More testing of search history saving/reading is done in {@link JsonSearchHistoryStorageTest} class.
+         */
+        List<String> original = Arrays.asList("list", "add n/Test p/123 e/test@example.com", "find Test");
+        storageManager.saveSearchHistory(original);
+        List<String> retrieved = storageManager.readSearchHistory().get();
+        assertEquals(original, retrieved);
+    }
+
+    @Test
+    public void getSearchHistoryFilePath() {
+        assertNotNull(storageManager.getSearchHistoryFilePath());
+    }
+
+    @Test
+    public void getUserPrefsFilePath() {
+        assertNotNull(storageManager.getUserPrefsFilePath());
     }
 
 }

@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
@@ -29,6 +30,7 @@ import seedu.address.model.ReadOnlyFindr;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.storage.JsonFindrStorage;
+import seedu.address.storage.JsonSearchHistoryStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilder;
@@ -48,7 +50,9 @@ public class LogicManagerTest {
         JsonFindrStorage addressBookStorage =
                 new JsonFindrStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(
+                temporaryFolder.resolve("searchHistory.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, searchHistoryStorage);
         logic = new LogicManager(model, storage);
     }
 
@@ -85,6 +89,11 @@ public class LogicManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredCandidateList().remove(0));
+    }
+
+    @Test
+    public void getStorage_returnsCorrectStorage() {
+        assertNotNull(logic.getStorage());
     }
 
     /**
@@ -160,7 +169,9 @@ public class LogicManagerTest {
 
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ExceptionUserPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(
+                temporaryFolder.resolve("ExceptionSearchHistory.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, searchHistoryStorage);
 
         logic = new LogicManager(model, storage);
 
