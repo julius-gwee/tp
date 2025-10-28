@@ -197,6 +197,9 @@ public class ParserUtil {
         case "alphabetical":
             return SortCommand.SORT_BY_ALPHABET;
 
+        case "date":
+            return SortCommand.SORT_BY_DATEADDED;
+
         default:
             throw new ParseException(MESSAGE_INVALID_SORT_CRITERIA);
         }
