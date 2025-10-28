@@ -130,17 +130,21 @@ Examples:
 
 ### Deleting a candidate : `delete`
 
-Deletes the specified candidate from the candidate list.
+Deletes the specified candidate from the candidate list or from a specific kanban board stage.
 
-Format: `delete INDEX`
+Format: `delete INDEX [from/STAGE]`
 
 * Deletes the candidate at the specified `INDEX`.
-* The index refers to the index number shown in the displayed candidate list.
+* If `from/STAGE` is specified, the index refers to the position within that specific stage column in the kanban board.
+* If `from/STAGE` is not specified, the index refers to the index number shown in the displayed candidate list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive)
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd candidate in the address book.
+* `list` followed by `delete 2` deletes the 2nd candidate in the displayed list.
 * `find Betsy` followed by `delete 1` deletes the 1st candidate in the results of the `find` command.
+* `delete 1 from/Contacted` deletes the 1st candidate in the Contacted stage of the kanban board.
+* `delete 3 from/interviewed` deletes the 3rd candidate in the Interviewed stage (case-insensitive).
 
 ### Moving a candidate between stages : `move`
 

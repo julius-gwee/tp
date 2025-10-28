@@ -18,6 +18,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Stage;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -80,6 +81,47 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void execute_validIndexWithStage_success() {
+        // For this test, use the default candidates list where all are in Stage.CANDIDATES
+        Model model = new ModelManager(getTypicalFindr(), new UserPrefs());
+
+        Person personToDelete = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+
+        // Delete the first candidate from the CANDIDATES stage
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES);
+
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+                Messages.format(personToDelete));
+
+        // Create expected model and delete the person
+        ModelManager expectedModel = new ModelManager(model.getCandidateList(), new UserPrefs());
+        expectedModel.deleteCandidate(personToDelete);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_invalidIndexWithStage_throwsCommandException() {
+        Model model = new ModelManager(getTypicalFindr(), new UserPrefs());
+
+        // Try to delete at an index beyond the number of candidates in CANDIDATES stage
+        Index outOfBoundIndex = Index.fromOneBased(model.getObservableCandidateList().size() + 1);
+        DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex, Stage.CANDIDATES);
+
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_validIndexWithEmptyStage_throwsCommandException() {
+        Model model = new ModelManager(getTypicalFindr(), new UserPrefs());
+
+        // Try to delete from Hired stage (which is empty in typical data)
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_CANDIDATE, Stage.HIRED);
+
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
+    }
+
+    @Test
     public void equals() {
         DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_CANDIDATE);
         DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_CANDIDATE);
@@ -99,14 +141,34 @@ public class DeleteCommandTest {
 
         // different person -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
+
+        // test with stage - same values -> returns true
+        DeleteCommand deleteFirstWithStage = new DeleteCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES);
+        DeleteCommand deleteFirstWithStageCopy = new DeleteCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES);
+        assertTrue(deleteFirstWithStage.equals(deleteFirstWithStageCopy));
+
+        // test with stage - different stage -> returns false
+        DeleteCommand deleteFirstWithDifferentStage = new DeleteCommand(INDEX_FIRST_CANDIDATE, Stage.CONTACTED);
+        assertFalse(deleteFirstWithStage.equals(deleteFirstWithDifferentStage));
+
+        // test with stage - one with stage, one without -> returns false
+        assertFalse(deleteFirstCommand.equals(deleteFirstWithStage));
+        assertFalse(deleteFirstWithStage.equals(deleteFirstCommand));
     }
 
     @Test
     public void toStringMethod() {
         Index targetIndex = Index.fromOneBased(1);
         DeleteCommand deleteCommand = new DeleteCommand(targetIndex);
-        String expected = DeleteCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
+        String expected = DeleteCommand.class.getCanonicalName()
+                + "{targetIndex=" + targetIndex + ", fromStage=null}";
         assertEquals(expected, deleteCommand.toString());
+
+        // Test with stage
+        DeleteCommand deleteCommandWithStage = new DeleteCommand(targetIndex, Stage.CANDIDATES);
+        String expectedWithStage = DeleteCommand.class.getCanonicalName()
+                + "{targetIndex=" + targetIndex + ", fromStage=" + Stage.CANDIDATES + "}";
+        assertEquals(expectedWithStage, deleteCommandWithStage.toString());
     }
 
     /**
