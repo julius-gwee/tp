@@ -35,7 +35,7 @@ public class Person {
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         this(name, phone, email, address, tags, new DateAdded(new Date()),
-                new Rating(Rating.RatingType.UNRATED.toString()), Stage.CANDIDATES);
+                Rating.UNRATED, Stage.CANDIDATES);
     }
 
     /**

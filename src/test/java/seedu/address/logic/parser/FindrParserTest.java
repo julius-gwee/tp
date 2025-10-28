@@ -99,9 +99,9 @@ public class FindrParserTest {
     }
     @Test
     public void parseCommand_rate() throws Exception {
-        final Rating rating = new Rating("ONE");
+        final Rating rating = Rating.fromString("Excellent");
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_RATE + rating.value);
+                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_RATE + rating.name());
         assertEquals(new RateCommand(INDEX_FIRST_CANDIDATE, rating), command);
     }
 
