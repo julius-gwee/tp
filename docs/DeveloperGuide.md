@@ -334,19 +334,54 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: Delete a candidate**
 
 **MSS**
-1. Recruiter requests to delete a specific candidate from the current list.
-2. Findr requests confirmation.
-3. Recruiter confirms deletion.
-4. Findr deletes the candidate and updates the list.
+1. Recruiter requests to delete a specific candidate from the current list or from a specific kanban stage.
+2. Findr validates the index and optional stage parameter.
+3. Findr deletes the candidate and updates the list.
+4. Findr shows a success message with the deleted candidate's details.
    Use case ends.
 
 **Extensions**
-* 1a. The given index/identifier is invalid.
-  1a1. Findr shows an error message.
+* 1a. The given index is invalid for the displayed list or specified stage.
+  1a1. Findr shows an error message indicating invalid index.
   Use case resumes at step 1.
 
-* 2a. Recruiter cancels at confirmation.
-  Use case ends.
+* 1b. A stage is specified but the stage name is invalid.
+  1b1. Findr shows an error message with valid stage names (Candidates, Contacted, Interviewed, Hired).
+  Use case resumes at step 1.
+
+* 1c. The specified stage has no candidates.
+  1c1. Findr shows an error message indicating the stage is empty or index is out of bounds.
+  Use case resumes at step 1.
+
+---
+
+**Use case: Move a candidate between recruitment stages**
+
+**MSS**
+1. Recruiter requests to view the kanban board.
+2. Findr displays candidates organized by recruitment stage (Candidates, Contacted, Interviewed, Hired).
+3. Recruiter identifies a candidate in one stage and specifies the new stage to move them to.
+4. Findr validates the move request (index and stage names).
+5. Findr updates the candidate's stage and reflects the change in the kanban board view.
+6. Findr shows a success message with the candidate's name and the stage transition.
+   Use case ends.
+
+**Extensions**
+* 3a. The given index is invalid for the specified source stage.
+  3a1. Findr shows an error message indicating invalid index.
+  Use case resumes at step 3.
+
+* 3b. The stage name is invalid or misspelled.
+  3b1. Findr shows an error message with valid stage names.
+  Use case resumes at step 3.
+
+* 4a. Source stage and destination stage are the same.
+  4a1. Findr shows an error message that the candidate is already in the specified stage.
+  Use case resumes at step 3.
+
+* 4b. The specified source stage has no candidates.
+  4b1. Findr shows an error message indicating the stage is empty.
+  Use case resumes at step 3.
 
 ---
 
@@ -355,14 +390,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 1. Recruiter performs a change (e.g., add, delete, edit).
 2. Findr automatically persists the change to storage.
-3. Findr shows a brief “Saved” status.
+3. Findr shows a brief "Saved" status.
    Use case ends.
 
 **Extensions**
 * 2a. Temporary storage failure (e.g., file lock, I/O error).
   2a1. Findr queues a retry and shows a non-intrusive warning.
-  2a2. If retry succeeds, Findr shows “Saved” and logs the event.
-  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.
+  2a2. If retry succeeds, Findr shows "Saved" and logs the event.
+  2a3. If retry fails after N attempts, Findr prompts the recruiter to "Retry now" or "Save As…".
   Use case ends.
 
 * 2b. Storage is unavailable (e.g., permission denied).
