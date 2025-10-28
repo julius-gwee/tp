@@ -32,7 +32,7 @@ public interface Logic {
     ReadOnlyFindr getCandidateList();
 
     /** Returns an unmodifiable view of the filtered list of persons */
-    ObservableList<Person> getFilteredCandidateList();
+    ObservableList<Person> getObservableCandidateList();
 
     /**
      * Returns the user prefs' address book file path.

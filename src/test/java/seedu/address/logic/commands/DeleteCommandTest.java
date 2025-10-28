@@ -29,7 +29,7 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Person personToDelete = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person personToDelete = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_CANDIDATE);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
@@ -43,7 +43,7 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCandidateList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getObservableCandidateList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
@@ -53,7 +53,7 @@ public class DeleteCommandTest {
     public void execute_validIndexFilteredList_success() {
         showCandidateAtIndex(model, INDEX_FIRST_CANDIDATE);
 
-        Person personToDelete = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person personToDelete = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_CANDIDATE);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
@@ -115,6 +115,6 @@ public class DeleteCommandTest {
     private void showNoPerson(Model model) {
         model.updateFilteredCandidateList(p -> false);
 
-        assertTrue(model.getFilteredCandidateList().isEmpty());
+        assertTrue(model.getObservableCandidateList().isEmpty());
     }
 }
