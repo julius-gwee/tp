@@ -96,17 +96,12 @@ final class TagCommandTestUtil {
         }
 
         @Override
-        public ObservableList<Person> getFilteredCandidateList() {
+        public ObservableList<Person> getObservableCandidateList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void updateFilteredCandidateList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Person> getSortedCandidateList() {
             throw new AssertionError("This method should not be called.");
         }
 

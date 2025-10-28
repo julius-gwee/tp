@@ -33,7 +33,7 @@ public class RateCommandTest {
 
     @Test
     public void execute_addRating_success() {
-        Person firstCandidate = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person firstCandidate = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         Person editedCandidate = new PersonBuilder(firstCandidate).withRating(Rating.fromString("EXCELLENT")).build();
 
         RateCommand rateCommand = new RateCommand(INDEX_FIRST_CANDIDATE,

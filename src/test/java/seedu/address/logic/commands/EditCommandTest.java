@@ -45,7 +45,7 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new Findr(model.getCandidateList()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredCandidateList().get(0), editedPerson);
+        expectedModel.setPerson(model.getObservableCandidateList().get(0), editedPerson);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -56,8 +56,8 @@ public class EditCommandTest {
         Tag existingTag = new Tag(VALID_TAG_HUSBAND);
         workingModel.addTag(existingTag);
 
-        Index indexLastPerson = Index.fromOneBased(workingModel.getFilteredCandidateList().size());
-        Person lastPerson = workingModel.getFilteredCandidateList().get(indexLastPerson.getZeroBased());
+        Index indexLastPerson = Index.fromOneBased(workingModel.getObservableCandidateList().size());
+        Person lastPerson = workingModel.getObservableCandidateList().get(indexLastPerson.getZeroBased());
 
         PersonBuilder personInList = new PersonBuilder(lastPerson);
         Person editedPerson = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
@@ -78,7 +78,7 @@ public class EditCommandTest {
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_CANDIDATE, new EditPersonDescriptor());
-        Person editedPerson = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person editedPerson = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
@@ -91,7 +91,7 @@ public class EditCommandTest {
     public void execute_filteredList_success() {
         showCandidateAtIndex(model, INDEX_FIRST_CANDIDATE);
 
-        Person personInFilteredList = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person personInFilteredList = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_CANDIDATE,
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
@@ -99,14 +99,14 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new Findr(model.getCandidateList()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredCandidateList().get(0), editedPerson);
+        expectedModel.setPerson(model.getObservableCandidateList().get(0), editedPerson);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_duplicatePersonUnfilteredList_failure() {
-        Person firstPerson = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person firstPerson = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_CANDIDATE, descriptor);
 
@@ -127,7 +127,7 @@ public class EditCommandTest {
 
     @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCandidateList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getObservableCandidateList().size() + 1);
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 

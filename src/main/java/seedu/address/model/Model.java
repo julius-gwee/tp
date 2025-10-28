@@ -79,16 +79,13 @@ public interface Model {
     void setPerson(Person target, Person editedPerson);
 
     /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredCandidateList();
+    ObservableList<Person> getObservableCandidateList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredCandidateList(Predicate<Person> predicate);
-
-    /** Returns an unmodifiable view of the sorted person list */
-    ObservableList<Person> getSortedCandidateList();
 
     /**
      * Updates the sort type of the sorted person list to sort by the given criteria.

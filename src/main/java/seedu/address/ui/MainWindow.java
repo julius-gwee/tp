@@ -110,7 +110,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        kanbanBoard = new KanbanBoard(logic.getFilteredCandidateList());
+        kanbanBoard = new KanbanBoard(logic.getObservableCandidateList());
         personListPanelPlaceholder.getChildren().add(kanbanBoard.getRoot());
 
         resultDisplay = new ResultDisplay();

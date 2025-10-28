@@ -107,24 +107,24 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         Findr expectedFindr = new Findr(actualModel.getCandidateList());
-        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredCandidateList());
+        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getObservableCandidateList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedFindr, actualModel.getCandidateList());
-        assertEquals(expectedFilteredList, actualModel.getFilteredCandidateList());
+        assertEquals(expectedFilteredList, actualModel.getObservableCandidateList());
     }
     /**
      * Updates {@code model}'s filtered list to show only the candidate at the given {@code targetIndex} in the
      * {@code model}'s candidate list.
      */
     public static void showCandidateAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredCandidateList().size());
+        assertTrue(targetIndex.getZeroBased() < model.getObservableCandidateList().size());
 
-        Person person = model.getFilteredCandidateList().get(targetIndex.getZeroBased());
+        Person person = model.getObservableCandidateList().get(targetIndex.getZeroBased());
         final String[] splitName = person.getName().fullName.split("\\s+");
         model.updateFilteredCandidateList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-        assertEquals(1, model.getFilteredCandidateList().size());
+        assertEquals(1, model.getObservableCandidateList().size());
     }
 
 }

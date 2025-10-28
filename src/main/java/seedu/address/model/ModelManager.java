@@ -37,8 +37,8 @@ public class ModelManager implements Model {
 
         this.findr = new Findr(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.findr.getCandidateList());
-        sortedPersons = new SortedList<>(this.findr.getCandidateList());
+        this.filteredPersons = new FilteredList<>(this.findr.getCandidateList());
+        this.sortedPersons = new SortedList<>(this.filteredPersons);
     }
 
     public ModelManager() {
@@ -151,21 +151,27 @@ public class ModelManager implements Model {
         findr.removeTag(tag);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    //=========== Sorted and Filtered Person List Accessors ===================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Person> getFilteredCandidateList() {
-        return filteredPersons;
+    public ObservableList<Person> getObservableCandidateList() {
+        return sortedPersons;
     }
 
     @Override
     public void updateFilteredCandidateList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateSortedCandidateList(Comparator<Person> comparator) {
+        requireNonNull(comparator);
+        sortedPersons.setComparator(comparator);
     }
 
     @Override
@@ -182,24 +188,6 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return findr.equals(otherModelManager.findr)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && sortedPersons.equals(otherModelManager.sortedPersons);
     }
-
-    //=========== Sorted Person List Accessors =============================================================
-
-    /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
-     */
-    @Override
-    public ObservableList<Person> getSortedCandidateList() {
-        return sortedPersons;
-    }
-
-    @Override
-    public void updateSortedCandidateList(Comparator<Person> comparator) {
-        requireNonNull(comparator);
-        sortedPersons.setComparator(comparator);
-    }
-
 }
