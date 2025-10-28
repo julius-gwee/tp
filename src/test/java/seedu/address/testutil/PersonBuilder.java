@@ -25,7 +25,7 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_TAGS = "candidate";
-    public static final String DEFAULT_RATING = Rating.RatingType.UNRATED.toString();
+    public static final String DEFAULT_RATING = Rating.UNRATED.toString();
     public static final Date DEFAULT_DATEADDED = new Date();
     public static final Stage DEFAULT_STAGE = Stage.CANDIDATES;
 
@@ -48,7 +48,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         date = new DateAdded(DEFAULT_DATEADDED);
         tags = new HashSet<>();
-        rating = new Rating(DEFAULT_RATING);
+        rating = Rating.fromString(DEFAULT_RATING);
         stage = DEFAULT_STAGE;
     }
 

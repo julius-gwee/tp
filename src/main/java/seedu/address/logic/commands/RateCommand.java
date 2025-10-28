@@ -29,11 +29,11 @@ public class RateCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the rating of the candidate identified "
             + "by the index number used in the displayed candidate list. "
-            + "Existing remark will be overwritten by the input.\n"
+            + "Existing rating will be overwritten by the input.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + PREFIX_RATE + "[RATING]\n"
-            + "Example: " + COMMAND_WORD + "1"
-            + PREFIX_RATE + "FIVE";
+            + "Example: " + COMMAND_WORD + " 1 "
+            + PREFIX_RATE + "EXCELLENT";
 
     public static final String MESSAGE_RATE_SUCCESS = "Rating for %1$s: %2$s";
     public static final String MESSAGE_ARGUMENTS = "Index: %1$d, Rating: %2$s";
@@ -88,8 +88,8 @@ public class RateCommand extends Command {
             return false;
         }
 
-        RateCommand e = (RateCommand) other;
-        return index.equals(e.index)
-                && rating.equals(e.rating);
+        RateCommand otherRateCommand = (RateCommand) other;
+        return index.equals(otherRateCommand.index)
+                && rating.equals(otherRateCommand.rating);
     }
 }
