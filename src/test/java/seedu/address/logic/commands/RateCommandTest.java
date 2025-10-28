@@ -3,8 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM_SHORT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -14,6 +14,7 @@ import static seedu.address.testutil.TypicalPersons.getTypicalFindr;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.parser.RateCommandParser;
 import seedu.address.model.Findr;
 import seedu.address.model.Model;
@@ -64,11 +65,12 @@ public class RateCommandTest {
         expected.setPerson(candidateInCandidates, edited);
 
         assertCommandSuccess(cmd, model,
-                String.format(RateCommand.MESSAGE_RATE_SUCCESS, candidateInCandidates.getName(), Rating.GOOD), expected);
+                String.format(RateCommand.MESSAGE_RATE_SUCCESS,
+                        candidateInCandidates.getName(), Rating.GOOD), expected);
     }
 
     @Test
-    public void execute_withFromStage_invalidIndex_failure() {
+    public void execute_withFromStageInvalidIndex_failure() {
         RateCommand cmd = new RateCommand(Index.fromOneBased(999), Rating.GOOD, Stage.INTERVIEWED);
         assertCommandFailure(cmd, model,
                 String.format(RateCommand.MESSAGE_INVALID_INDEX_FOR_STAGE, Stage.INTERVIEWED));
@@ -99,7 +101,8 @@ public class RateCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different index -> returns false
-        assertFalse(standardCommand.equals(new RateCommand(INDEX_SECOND_CANDIDATE, Rating.EXCELLENT, Stage.CANDIDATES)));
+        assertFalse(standardCommand
+                .equals(new RateCommand(INDEX_SECOND_CANDIDATE, Rating.EXCELLENT, Stage.CANDIDATES)));
 
         // different remark -> returns false
         assertFalse(standardCommand.equals(new RateCommand(INDEX_FIRST_CANDIDATE, Rating.GOOD, Stage.CANDIDATES)));
