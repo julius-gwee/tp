@@ -40,6 +40,20 @@ public class RateCommandParserTest {
     }
 
     @Test
+    public void parse_missingStage_throwsParseException() {
+        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " r/Good";
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidStage_throwsParseException() {
+        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " from/NotAStage r/Good";
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_validDisplayName_success() {
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " f/Candidates r/Good";
         RateCommand expected = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.GOOD, Stage.CANDIDATES);
