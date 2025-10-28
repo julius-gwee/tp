@@ -30,7 +30,7 @@ public class MoveCommandTest {
 
     @Test
     public void execute_validMoveUnfilteredList_success() {
-        Person personToMove = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person personToMove = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         MoveCommand moveCommand = new MoveCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES, Stage.CONTACTED);
 
         Person movedPerson = new PersonBuilder(personToMove).withStage(Stage.CONTACTED).build();
@@ -46,7 +46,7 @@ public class MoveCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCandidateList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getObservableCandidateList().size() + 1);
         MoveCommand moveCommand = new MoveCommand(outOfBoundIndex, Stage.CANDIDATES, Stage.CONTACTED);
 
         assertCommandFailure(moveCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
@@ -69,7 +69,7 @@ public class MoveCommandTest {
 
     @Test
     public void execute_moveFromCandidatesToHired_success() {
-        Person personToMove = model.getFilteredCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
+        Person personToMove = model.getObservableCandidateList().get(INDEX_FIRST_CANDIDATE.getZeroBased());
         MoveCommand moveCommand = new MoveCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES, Stage.HIRED);
 
         Person movedPerson = new PersonBuilder(personToMove).withStage(Stage.HIRED).build();

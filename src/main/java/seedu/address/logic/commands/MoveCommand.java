@@ -68,7 +68,7 @@ public class MoveCommand extends Command {
         }
 
         // Filter the full list to get only persons in the specified fromStage
-        List<Person> personsInFromStage = model.getFilteredCandidateList().stream()
+        List<Person> personsInFromStage = model.getObservableCandidateList().stream()
                 .filter(person -> person.getStage().equals(fromStage))
                 .collect(Collectors.toList());
 
