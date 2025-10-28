@@ -163,6 +163,12 @@ Examples:
 The index shown on each candidate card in the kanban board corresponds to their position within that specific stage column. Use this index when moving candidates.
 </div>
 
+### Adding rating : `rate`
+
+Adds rating to specified candidate.
+
+Format: `rate 1 r/ONE`
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the candidate list.
