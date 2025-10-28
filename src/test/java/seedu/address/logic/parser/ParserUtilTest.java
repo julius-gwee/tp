@@ -215,12 +215,12 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseSortCriteria_validInput_alphabetical_success() throws Exception {
+    public void parseSortCriteria_validInputAlphabetical_success() throws Exception {
         assertEquals(SortCommand.SORT_BY_ALPHABET, ParserUtil.parseSortCriteria("alphabetical"));
     }
 
     @Test
-    public void parseSortCriteria_validInput_date_success() throws Exception {
+    public void parseSortCriteria_validInputDate_success() throws Exception {
         assertEquals(SortCommand.SORT_BY_DATEADDED, ParserUtil.parseSortCriteria("date"));
     }
 }
