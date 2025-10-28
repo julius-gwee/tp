@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM_SHORT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -27,19 +29,21 @@ import seedu.address.model.tag.Tag;
 public class RateCommand extends Command {
     public static final String COMMAND_WORD = "rate";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the rating of the candidate identified "
-            + "by the index number used in the displayed candidate list. "
-            + "Existing rating will be overwritten by the input.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + PREFIX_RATE + "[RATING]\n"
-            + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_RATE + "EXCELLENT";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the rating of the candidate. "
+            + "You can scope the index to a specific stage column using " + PREFIX_FROM + " or "
+            + PREFIX_FROM_SHORT + ".\n"
+            + "Parameters: INDEX (positive integer) " + PREFIX_FROM + "STAGE | " + PREFIX_FROM_SHORT + "STAGE "
+            + PREFIX_RATE + "RATING\n"
+            + "Stages: Candidates, Contacted, Interviewed, Hired (case-insensitive)\n"
+            + "Ratings: Unrated, Very Poor, Poor, Average, Good, Excellent (case-insensitive)\n"
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_FROM_SHORT + "Candidates " + PREFIX_RATE + "Excellent";
 
     public static final String MESSAGE_RATE_SUCCESS = "Rating for %1$s: %2$s";
-    public static final String MESSAGE_ARGUMENTS = "Index: %1$d, Rating: %2$s";
+    public static final String MESSAGE_INVALID_INDEX_FOR_STAGE = "Invalid index for stage %s";
 
     private final Index index;
     private final Rating rating;
+    private final Stage fromStage; // optional; when provided, index is relative to this stage column
 
     /**
      * @param index of the candidate in the filtered candidate list to edit the rating
@@ -49,17 +53,40 @@ public class RateCommand extends Command {
         requireAllNonNull(index, rating);
         this.index = index;
         this.rating = rating;
+        this.fromStage = null;
+    }
+
+    /**
+     * Overloaded constructor accepting an optional from-stage to scope the index to a stage column.
+     */
+    public RateCommand(Index index, Rating rating, Stage fromStage) {
+        requireAllNonNull(index, rating);
+        this.index = index;
+        this.rating = rating;
+        this.fromStage = fromStage;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        List<Person> lastShownList = model.getObservableCandidateList();
+        List<Person> targetList;
+        if (fromStage == null) {
+            // default behaviour: use current filtered list
+            targetList = model.getObservableCandidateList();
+        } else {
+            // mirror MoveCommand behaviour: index is relative to the specified stage column
+            targetList = model.getObservableCandidateList().stream()
+                    .filter(person -> person.getStage().equals(fromStage))
+                    .collect(java.util.stream.Collectors.toList());
+        }
 
-        if (index.getZeroBased() >= lastShownList.size()) {
+        if (index.getZeroBased() >= targetList.size()) {
+            if (fromStage != null) {
+                throw new CommandException(String.format(MESSAGE_INVALID_INDEX_FOR_STAGE, fromStage));
+            }
             throw new CommandException(Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
         }
 
-        Person candidateToEdit = lastShownList.get(index.getZeroBased());
+        Person candidateToEdit = targetList.get(index.getZeroBased());
         Name currentName = candidateToEdit.getName();
         Phone currentPhone = candidateToEdit.getPhone();
         Email currentEmail = candidateToEdit.getEmail();
@@ -90,6 +117,7 @@ public class RateCommand extends Command {
 
         RateCommand otherRateCommand = (RateCommand) other;
         return index.equals(otherRateCommand.index)
-                && rating.equals(otherRateCommand.rating);
+                && rating.equals(otherRateCommand.rating)
+                && java.util.Objects.equals(fromStage, otherRateCommand.fromStage);
     }
 }
