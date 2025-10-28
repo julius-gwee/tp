@@ -151,7 +151,7 @@ public class ModelManager implements Model {
         findr.removeTag(tag);
     }
 
-    //=========== Sorted and Filtered Person List Accessors =============================================================
+    //=========== Sorted and Filtered Person List Accessors ===================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
