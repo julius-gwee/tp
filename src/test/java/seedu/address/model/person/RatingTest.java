@@ -29,9 +29,24 @@ public class RatingTest {
         assertFalse(Rating.isValidRating(" ")); // spaces only
         assertFalse(Rating.isValidRating("not a rating"));
 
-        // valid ratings (new)
+        // valid ratings
         assertTrue(Rating.isValidRating("very poor"));
         assertTrue(Rating.isValidRating("AVERAGE"));
         assertTrue(Rating.isValidRating(" Excellent "));
+    }
+
+    @Test
+    public void fromString_parsesDisplayNamesAndEnumNames() {
+        // display names
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.VERY_POOR, Rating.fromString("Very Poor"));
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.EXCELLENT, Rating.fromString("excellent"));
+        // enum names
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.GOOD, Rating.fromString("GOOD"));
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.AVERAGE, Rating.fromString("average"));
+    }
+
+    @Test
+    public void getDisplayName_matchesToString() {
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.EXCELLENT.toString(), Rating.EXCELLENT.getDisplayName());
     }
 }
