@@ -163,6 +163,23 @@ Examples:
 The index shown on each candidate card in the kanban board corresponds to their position within that specific stage column. Use this index when moving candidates.
 </div>
 
+### Rating a candidate : `rate`
+
+Sets or updates a candidate's rating.
+
+Format: `rate INDEX from/CANDIDATE'S_STAGE r/RATING` or `rate INDEX f/CANDIDATE'S_STAGE r/RATING`
+
+* Rates the candidate at the specified `INDEX`.
+* The `from/CANDIDATE'S_STAGE` (or `f/CANDIDATE'S_STAGE`) is required and scopes the index to that stage column.
+* The index **must be a positive integer** 1, 2, 3, …
+* Valid stages are: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
+* Valid ratings are: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
+
+Examples:
+* `rate 1 f/Candidates r/Excellent` rates the 1st candidate in the Candidates column as Excellent.
+* `rate 2 f/Interviewed r/Good` rates the 2nd candidate in the Interviewed column as Good.
+* `rate 3 from/Contacted r/Very Poor` rates the 3rd candidate in the Contacted column as Very Poor.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the candidate list.
@@ -226,4 +243,5 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Move** | `move INDEX from/CURRENT_STAGE to/NEW_STAGE`<br> e.g., `move 1 from/Candidates to/Contacted`
+**Rate** | `rate INDEX from/CANDIDATE'S_STAGE r/RATING` or `rate INDEX f/CANDIDATE'S_STAGE r/RATING`
 **Help** | `help`

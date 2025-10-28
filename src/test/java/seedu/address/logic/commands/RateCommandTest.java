@@ -3,9 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_RATING_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_RATING_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM_SHORT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CANDIDATE;
@@ -50,17 +49,17 @@ public class RateCommandTest {
 
     @Test
     public void parse_invalidIndex_throwsParseException() {
-        String userInput = "0 " + PREFIX_RATE + "EXCELLENT"; // 0 is invalid
+        String userInput = "0 " + PREFIX_FROM_SHORT + "Candidates " + PREFIX_RATE + "EXCELLENT"; // 0 is invalid
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void equals() {
-        final RateCommand standardCommand = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.fromString(VALID_RATING_AMY));
+        final RateCommand standardCommand = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.EXCELLENT);
 
         // same values -> returns true
-        RateCommand commandWithSameValues = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.fromString(VALID_RATING_AMY));
+        RateCommand commandWithSameValues = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.EXCELLENT);
         assertTrue(standardCommand.equals(commandWithSameValues));
 
         // same object -> returns true
@@ -73,11 +72,9 @@ public class RateCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different index -> returns false
-        assertFalse(standardCommand.equals(new RateCommand(INDEX_SECOND_CANDIDATE,
-                Rating.fromString(VALID_RATING_AMY))));
+        assertFalse(standardCommand.equals(new RateCommand(INDEX_SECOND_CANDIDATE, Rating.EXCELLENT)));
 
         // different remark -> returns false
-        assertFalse(standardCommand.equals(new RateCommand(INDEX_FIRST_CANDIDATE,
-                Rating.fromString(VALID_RATING_BOB))));
+        assertFalse(standardCommand.equals(new RateCommand(INDEX_FIRST_CANDIDATE, Rating.GOOD)));
     }
 }
