@@ -64,8 +64,9 @@ public class FindrParserTest {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_CANDIDATE, descriptor), command);
+                + INDEX_FIRST_CANDIDATE.getOneBased() + " from/candidates "
+                + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+        assertEquals(new EditCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES, descriptor), command);
     }
 
     @Test
