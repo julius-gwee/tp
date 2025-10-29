@@ -58,7 +58,7 @@ public class MainAppTest {
     @Test
     public void initModelManager_validStorage_success() {
         JsonFindrStorage findrStorage = new JsonFindrStorage(TEST_DATA_FOLDER.resolve("findr.json"));
-        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json"));
+        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("preferences.json"));
         JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(
                 TEST_DATA_FOLDER.resolve("searchHistory.json"));
         Storage storage = new StorageManager(findrStorage, prefsStorage, searchHistoryStorage);
@@ -72,7 +72,7 @@ public class MainAppTest {
     @Test
     public void initModelManager_missingFile_createsEmptyAddressBook() {
         JsonFindrStorage findrStorage = new JsonFindrStorage(Paths.get("nonexistent_file.json"));
-        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json"));
+        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("preferences.json"));
         JsonSearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(
                 TEST_DATA_FOLDER.resolve("searchHistory.json"));
         Storage storage = new StorageManager(findrStorage, prefsStorage, searchHistoryStorage);
@@ -120,7 +120,7 @@ public class MainAppTest {
 
     @Test
     public void initConfig_invalidPath_createsDefaultConfig() {
-        Path configPath = Paths.get("nonexistent_config.json");
+        Path configPath = Paths.get("config.json");
         Config config = mainApp.initConfig(configPath);
         assertNotNull(config);
     }
@@ -135,14 +135,14 @@ public class MainAppTest {
 
     @Test
     public void initPrefs_validStorage_success() {
-        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json"));
+        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("preferences.json"));
         UserPrefs userPrefs = mainApp.initPrefs(prefsStorage);
         assertNotNull(userPrefs);
     }
 
     @Test
     public void initPrefs_missingFile_createsDefaultPrefs() {
-        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(Paths.get("nonexistent_prefs.json"));
+        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(Paths.get("preferences.json"));
         UserPrefs userPrefs = mainApp.initPrefs(prefsStorage);
         assertNotNull(userPrefs);
     }
@@ -150,7 +150,7 @@ public class MainAppTest {
     @Test
     public void initPrefs_dataLoadingException_createsDefaultPrefs() {
         // Create a mock storage that throws DataLoadingException
-        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json")) {
+        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("preferences.json")) {
             @Override
             public java.util.Optional<UserPrefs> readUserPrefs() throws DataLoadingException {
                 throw new DataLoadingException(new IOException("Test exception"));
@@ -164,7 +164,7 @@ public class MainAppTest {
     @Test
     public void initPrefs_saveIoException_logsWarning() {
         // Create a mock storage that throws IOException on save
-        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json")) {
+        JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("preferences.json")) {
             @Override
             public void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException {
                 throw new IOException("Test save exception");
@@ -197,7 +197,7 @@ public class MainAppTest {
         mainApp.model = model;
         mainApp.storage = new StorageManager(
                 new JsonFindrStorage(TEST_DATA_FOLDER.resolve("findr.json")),
-                new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json")),
+                new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("preferences.json")),
                 new JsonSearchHistoryStorage(TEST_DATA_FOLDER.resolve("searchHistory.json")));
 
         assertDoesNotThrow(() -> mainApp.stop());
@@ -208,7 +208,7 @@ public class MainAppTest {
         // Create a mock storage that throws IOException on save
         Storage storage = new StorageManager(
                 new JsonFindrStorage(TEST_DATA_FOLDER.resolve("findr.json")),
-                new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("prefs.json")) {
+                new JsonUserPrefsStorage(TEST_DATA_FOLDER.resolve("preferences.json")) {
                     @Override
                     public void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException {
                         throw new IOException("Test stop save exception");
