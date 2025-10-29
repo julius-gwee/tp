@@ -22,13 +22,12 @@ public class DeleteCommand extends Command {
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the candidate identified by the index number.\n"
-            + "Parameters: INDEX (must be a positive integer) [" + PREFIX_FROM + "STAGE]\n"
-            + "If stage is specified, the index refers to the position within that stage column.\n"
-            + "If stage is not specified, the index refers to the displayed candidate list.\n"
+            + ": Deletes the candidate identified by the index number in the specified stage.\n"
+            + "Parameters: INDEX (must be a positive integer) " + PREFIX_FROM + "STAGE\n"
+            + "The index refers to the position within that stage column.\n"
             + "Stages: Candidates, Contacted, Interviewed, Hired (case-insensitive)\n"
             + "Examples:\n"
-            + COMMAND_WORD + " 1\n"
+            + COMMAND_WORD + " 1 " + PREFIX_FROM + "candidates\n"
             + COMMAND_WORD + " 1 " + PREFIX_FROM + "Contacted";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Candidate: %1$s";
@@ -37,23 +36,14 @@ public class DeleteCommand extends Command {
     private final Stage fromStage;
 
     /**
-     * Creates a DeleteCommand to delete the candidate at the specified index.
-     * The candidate will be deleted from the displayed candidate list.
-     *
-     * @param targetIndex Index of the candidate in the displayed list (1-based).
-     */
-    public DeleteCommand(Index targetIndex) {
-        this(targetIndex, null);
-    }
-
-    /**
      * Creates a DeleteCommand to delete the candidate at the specified index within a specific stage.
      *
      * @param targetIndex Index of the candidate within the specified stage column (1-based).
-     * @param fromStage   The stage from which to delete the candidate. If null, deletes from displayed list.
+     * @param fromStage   The stage from which to delete the candidate.
      */
     public DeleteCommand(Index targetIndex, Stage fromStage) {
         requireNonNull(targetIndex);
+        requireNonNull(fromStage);
         this.targetIndex = targetIndex;
         this.fromStage = fromStage;
     }
@@ -62,16 +52,10 @@ public class DeleteCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        List<Person> targetList;
-        if (fromStage != null) {
-            // Filter the full list to get only persons in the specified fromStage
-            targetList = model.getObservableCandidateList().stream()
-                    .filter(person -> person.getStage().equals(fromStage))
-                    .collect(Collectors.toList());
-        } else {
-            // Use the currently displayed list
-            targetList = model.getObservableCandidateList();
-        }
+        // Filter the full list to get only persons in the specified fromStage
+        List<Person> targetList = model.getObservableCandidateList().stream()
+                .filter(person -> person.getStage().equals(fromStage))
+                .collect(Collectors.toList());
 
         if (targetIndex.getZeroBased() >= targetList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
@@ -94,10 +78,8 @@ public class DeleteCommand extends Command {
         }
 
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        boolean indexEquals = targetIndex.equals(otherDeleteCommand.targetIndex);
-        boolean stageEquals = (fromStage == null && otherDeleteCommand.fromStage == null)
-                || (fromStage != null && fromStage.equals(otherDeleteCommand.fromStage));
-        return indexEquals && stageEquals;
+        return targetIndex.equals(otherDeleteCommand.targetIndex)
+                && fromStage.equals(otherDeleteCommand.fromStage);
     }
 
     @Override

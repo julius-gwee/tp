@@ -55,8 +55,8 @@ public class FindrParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_CANDIDATE.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_CANDIDATE), command);
+                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_CANDIDATE.getOneBased() + " from/candidates");
+        assertEquals(new DeleteCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES), command);
     }
 
     @Test
@@ -64,8 +64,9 @@ public class FindrParserTest {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_CANDIDATE, descriptor), command);
+                + INDEX_FIRST_CANDIDATE.getOneBased() + " from/candidates "
+                + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+        assertEquals(new EditCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES, descriptor), command);
     }
 
     @Test

@@ -22,8 +22,8 @@ public class DeleteCommandParserTest {
     private DeleteCommandParser parser = new DeleteCommandParser();
 
     @Test
-    public void parse_validArgs_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1", new DeleteCommand(INDEX_FIRST_CANDIDATE));
+    public void parse_missingStage_throwsParseException() {
+        assertParseFailure(parser, "1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
 
     @Test
