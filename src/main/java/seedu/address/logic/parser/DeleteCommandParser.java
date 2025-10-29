@@ -29,20 +29,21 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
         }
 
-        // Check if stage is specified
-        if (argMultimap.getValue(PREFIX_FROM).isPresent()) {
-            argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FROM);
-            Stage fromStage;
-            try {
-                fromStage = ParserUtil.parseStage(argMultimap.getValue(PREFIX_FROM).get());
-            } catch (ParseException pe) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
-            }
-            return new DeleteCommand(index, fromStage);
-        } else {
-            return new DeleteCommand(index);
+        // Stage is now mandatory
+        if (!argMultimap.getValue(PREFIX_FROM).isPresent()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
+
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_FROM);
+        Stage fromStage;
+        try {
+            fromStage = ParserUtil.parseStage(argMultimap.getValue(PREFIX_FROM).get());
+        } catch (ParseException pe) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
+        }
+        return new DeleteCommand(index, fromStage);
     }
 
 }
