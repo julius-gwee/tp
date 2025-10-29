@@ -32,6 +32,13 @@ public class RateCommandParserTest {
     }
 
     @Test
+    public void parse_emptyRating_throwsParseException() {
+        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "Candidates " + PREFIX_RATE;
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_invalidIndex_throwsParseException() {
         String userInput = "0 " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good"; // invalid index zero
         assertParseFailure(parser, userInput,
