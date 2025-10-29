@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM_SHORT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CANDIDATE;
@@ -105,7 +105,7 @@ public class FindrParserTest {
         final Rating rating = Rating.EXCELLENT;
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_CANDIDATE.getOneBased() + " "
-                + PREFIX_FROM_SHORT + "Candidates "
+                + PREFIX_FROM + "Candidates "
                 + PREFIX_RATE + rating.name());
         assertEquals(new RateCommand(INDEX_FIRST_CANDIDATE, rating, Stage.CANDIDATES), command);
     }

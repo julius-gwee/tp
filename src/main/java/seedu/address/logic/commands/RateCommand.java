@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM_SHORT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -30,13 +29,12 @@ public class RateCommand extends Command {
     public static final String COMMAND_WORD = "rate";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the rating of the candidate. "
-            + "You can scope the index to a specific stage column using " + PREFIX_FROM + " or "
-            + PREFIX_FROM_SHORT + ".\n"
-            + "Parameters: INDEX (positive integer) " + PREFIX_FROM + "STAGE | " + PREFIX_FROM_SHORT + "STAGE "
+            + "You can scope the index to a specific stage column using " + PREFIX_FROM + ".\n"
+            + "Parameters: INDEX (positive integer) " + PREFIX_FROM + "STAGE "
             + PREFIX_RATE + "RATING\n"
             + "Stages: Candidates, Contacted, Interviewed, Hired (case-insensitive)\n"
             + "Ratings: Unrated, Very Poor, Poor, Average, Good, Excellent (case-insensitive)\n"
-            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_FROM_SHORT + "Candidates " + PREFIX_RATE + "Excellent";
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Excellent";
 
     public static final String MESSAGE_RATE_SUCCESS = "Rating for %1$s: %2$s";
     public static final String MESSAGE_INVALID_INDEX_FOR_STAGE = "Invalid index for stage %s";
