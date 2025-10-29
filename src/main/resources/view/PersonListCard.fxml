@@ -25,7 +25,9 @@
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
-        <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
+          <Label fx:id="name" text="\$first" styleClass="cell_big_label"
+                 wrapText="true" textOverrun="CLIP" maxWidth="Infinity"
+                 HBox.hgrow="ALWAYS" />
       </HBox>
       <FlowPane fx:id="tags" />
       <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
