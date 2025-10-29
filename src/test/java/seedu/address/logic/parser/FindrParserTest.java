@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CANDIDATE;
@@ -29,6 +30,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Rating;
+import seedu.address.model.person.Stage;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -46,15 +48,15 @@ public class FindrParserTest {
 
     @Test
     public void parseCommand_clear() throws Exception {
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
+        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " all") instanceof ClearCommand);
+        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " candidates") instanceof ClearCommand);
     }
 
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_CANDIDATE.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_CANDIDATE), command);
+                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_CANDIDATE.getOneBased() + " from/candidates");
+        assertEquals(new DeleteCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES), command);
     }
 
     @Test
@@ -62,8 +64,9 @@ public class FindrParserTest {
         Person person = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_CANDIDATE, descriptor), command);
+                + INDEX_FIRST_CANDIDATE.getOneBased() + " from/candidates "
+                + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+        assertEquals(new EditCommand(INDEX_FIRST_CANDIDATE, Stage.CANDIDATES, descriptor), command);
     }
 
     @Test
@@ -97,12 +100,15 @@ public class FindrParserTest {
         assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD) instanceof SortCommand);
         assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD + " alphabetical") instanceof SortCommand);
     }
+
     @Test
     public void parseCommand_rate() throws Exception {
-        final Rating rating = new Rating("ONE");
+        final Rating rating = Rating.EXCELLENT;
         RateCommand command = (RateCommand) parser.parseCommand(RateCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_RATE + rating.value);
-        assertEquals(new RateCommand(INDEX_FIRST_CANDIDATE, rating), command);
+                + INDEX_FIRST_CANDIDATE.getOneBased() + " "
+                + PREFIX_FROM + "Candidates "
+                + PREFIX_RATE + rating.name());
+        assertEquals(new RateCommand(INDEX_FIRST_CANDIDATE, rating, Stage.CANDIDATES), command);
     }
 
     @Test

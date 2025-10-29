@@ -31,7 +31,7 @@ public class TagEditCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Edited tag: %1$s";
     public static final String MESSAGE_DUPLICATE_TAG = "This tag already exists in the tag list.";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_TAG_NOT_FOUND = "This tag does not exist in the tag list.";
+    public static final String MESSAGE_TAG_NOT_FOUND = TagCommandUtil.MESSAGE_TAG_NOT_FOUND;
 
     private final String targetTagName;
     private final EditTagDescriptor editTagDescriptor;

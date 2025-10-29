@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 public class RatingTest {
 
     @Test
-    public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Rating(null));
+    public void fromString_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Rating.fromString(null));
     }
 
     @Test
-    public void constructor_invalidRating_throwsIllegalArgumentException() {
+    public void fromString_invalidRating_throwsIllegalArgumentException() {
         String invalidRating = "";
-        assertThrows(IllegalArgumentException.class, () -> new Rating(invalidRating));
+        assertThrows(IllegalArgumentException.class, () -> Rating.fromString(invalidRating));
     }
 
     @Test
@@ -27,32 +27,26 @@ public class RatingTest {
         // invalid ratings
         assertFalse(Rating.isValidRating("")); // empty string
         assertFalse(Rating.isValidRating(" ")); // spaces only
-        assertFalse(Rating.isValidRating("rating")); // non-numeric
-        assertFalse(Rating.isValidRating("9 4")); // spaces within digits
+        assertFalse(Rating.isValidRating("not a rating"));
 
         // valid ratings
-        assertTrue(Rating.isValidRating("one")); // small letters
-        assertTrue(Rating.isValidRating("TWO")); //  capital letters
-        assertTrue(Rating.isValidRating(" three ")); // whitespace
+        assertTrue(Rating.isValidRating("very poor"));
+        assertTrue(Rating.isValidRating("AVERAGE"));
+        assertTrue(Rating.isValidRating(" Excellent "));
     }
 
     @Test
-    public void equals() {
-        Rating rating = new Rating("ONE");
+    public void fromString_parsesDisplayNamesAndEnumNames() {
+        // display names
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.VERY_POOR, Rating.fromString("Very Poor"));
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.EXCELLENT, Rating.fromString("excellent"));
+        // enum names
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.GOOD, Rating.fromString("GOOD"));
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.AVERAGE, Rating.fromString("average"));
+    }
 
-        // same values -> returns true
-        assertTrue(rating.equals(new Rating("ONE")));
-
-        // same object -> returns true
-        assertTrue(rating.equals(rating));
-
-        // null -> returns false
-        assertFalse(rating.equals(null));
-
-        // different types -> returns false
-        assertFalse(rating.equals(5.0f));
-
-        // different values -> returns false
-        assertFalse(rating.equals(new Rating("TWO")));
+    @Test
+    public void getDisplayName_matchesToString() {
+        org.junit.jupiter.api.Assertions.assertEquals(Rating.EXCELLENT.toString(), Rating.EXCELLENT.getDisplayName());
     }
 }

@@ -5,6 +5,7 @@ import static seedu.address.logic.commands.TagCommandUtil.rebuildPersonWithTags;
 import static seedu.address.logic.commands.TagCommandUtil.resolveTags;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -28,6 +29,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Stage;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -38,34 +40,39 @@ public class EditCommand extends Command {
     public static final String COMMAND_WORD = "edit";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the displayed person list. "
+            + "by the index number in the specified stage. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: INDEX " + PREFIX_FROM + "STAGE "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_FROM + "candidates "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_EMPTY_STAGE = "There are no candidates in the %1$s stage.";
 
     private final Index index;
+    private final Stage fromStage;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
+     * @param index of the person in the specified stage to edit
+     * @param fromStage the stage where the person is located
      * @param editPersonDescriptor details to edit the person with
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+    public EditCommand(Index index, Stage fromStage, EditPersonDescriptor editPersonDescriptor) {
         requireNonNull(index);
+        requireNonNull(fromStage);
         requireNonNull(editPersonDescriptor);
 
         this.index = index;
+        this.fromStage = fromStage;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
@@ -74,11 +81,20 @@ public class EditCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getObservableCandidateList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
+        // Filter candidates by the specified stage
+        List<Person> targetList = lastShownList.stream()
+                .filter(person -> person.getStage().equals(fromStage))
+                .toList();
+
+        if (targetList.isEmpty()) {
+            throw new CommandException(String.format(MESSAGE_EMPTY_STAGE, fromStage));
+        }
+
+        if (index.getZeroBased() >= targetList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
         }
 
-        Person personToEdit = lastShownList.get(index.getZeroBased());
+        Person personToEdit = targetList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
         Person resolvedEditedPerson = resolveTagsForPerson(model, editedPerson);
 
@@ -108,10 +124,9 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-        //DateAdded updatedDate = editPersonDescriptor.getDateAdded().orElse(personToEdit.getDateAdded());
-        //Rating updatedRating = editPersonDescriptor.getRating().orElse(personToEdit.getRating());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags,
+                personToEdit.getDateAdded(), personToEdit.getRating(), personToEdit.getStage());
     }
 
     @Override
@@ -127,6 +142,7 @@ public class EditCommand extends Command {
 
         EditCommand otherEditCommand = (EditCommand) other;
         return index.equals(otherEditCommand.index)
+                && fromStage.equals(otherEditCommand.fromStage)
                 && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
     }
 
@@ -134,6 +150,7 @@ public class EditCommand extends Command {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("index", index)
+                .add("fromStage", fromStage)
                 .add("editPersonDescriptor", editPersonDescriptor)
                 .toString();
     }

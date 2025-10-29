@@ -2,26 +2,54 @@
 layout: page
 title: User Guide
 ---
+# :mag:findr
 
-Findr is a **desktop app for managing candidates, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Findr can get your candidate management tasks done faster than traditional GUI apps.
-
-* Table of Contents
-{:toc}
+`findr` is a **desktop app for managing candidates, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, `findr` can get your candidate management tasks done faster than traditional GUI apps.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Quick start
+## Table of Contents
+* [Quick Start](#quick-start)
+* [Features](#features)
+  * [General Commands](#features)
+    * [help](#viewing-help--help)
+    * [add](#adding-a-candidate-add)
+    * [list](#listing-all-candidates--list)
+    * [edit](#editing-a-candidate--edit)
+    * [find](#locating-candidates-by-name-find)
+    * [delete](#deleting-a-candidate--delete)
+    * [move](#moving-a-candidate-between-stages--move)
+    * [rate](#rating-a-candidate--rate)
+    * [sort](#sorting-candidates--sort)
+    * [clear](#clearing-all-entries--clear)
+    * [↑ or ↓](#navigating-search-history---or-)
+    * [exit](#exiting-the-program--exit)
+  * [Managing Tags](#commands-for-managing-tags--)
+    * [tagadd](#adding-a-tag-definition--tagadd)
+    * [tagedit](#editing-a-tag-definition--tagedit)
+    * [tagdelete](#deleting-a-tag-definition--tagdelete)
+    * [taglist](#listing-all-tag-definitions--taglist)
+  * [Saving Data](#saving-the-data)
+  * [Editing Data](#editing-the-data-file)
+  * [New Features](#new-features-coming-in-v20)
+* [FAQ](#faq)
+* [Known Issues](#known-issues)
+* [Command Summary](#command-summary)
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Quick Start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your candidate list.
+3. Copy the file to the folder you want to use as the _home folder_ for your candidate list.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar findr.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/mvp-gui.png)
+   ![Ui](images/updated-mvp-gui.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
@@ -30,7 +58,9 @@ Findr is a **desktop app for managing candidates, optimized for use via a Comman
 
    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a candidate named `John Doe` to the candidate list.
 
-   * `delete 3` : Deletes the 3rd candidate shown in the current list.
+   * `delete 3 from/Candidates` : Deletes the 3rd candidate from Candidate stage shown in the current list.
+   
+   * `sort` : Sorts the candidate list alphabetically.
 
    * `clear` : Deletes all candidates.
 
@@ -79,13 +109,21 @@ Adds a candidate to the candidate list.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A candidate can have any number of tags (including 0)
-</div>
+* Adds a new candidate to the candidate list in the `Candidates` stage. 
+* New candidate created with the specified `NAME`, `PHONE_NUMBER`, `EMAIL_ADDRESS`, and `[TAG]`. 
+* If no `[TAG]` specified, candidate is created with no tags by default. 
+* `[TAG]` has to be created using [tag commands](#commands-for-managing-tags--) before adding to candidates. 
+* Candidate is created with date added as current date and rating as `UNRATED`.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+
+<div markdown="span" class="alert alert-primary">
+
+:bulb: **Tip:**
+A candidate can have any number of tags (including 0)
+</div>
 
 ### Listing all candidates : `list`
 
@@ -130,17 +168,18 @@ Examples:
 
 ### Deleting a candidate : `delete`
 
-Deletes the specified candidate from the candidate list.
+Deletes the specified candidate from the candidate list or from a specific kanban board stage.
 
-Format: `delete INDEX`
+Format: `delete INDEX from/STAGE`
 
-* Deletes the candidate at the specified `INDEX`.
-* The index refers to the index number shown in the displayed candidate list.
+* Deletes the candidate at the specified `INDEX` and `STAGE`, the index refers to the position within that specific stage column in the kanban board.
 * The index **must be a positive integer** 1, 2, 3, …​
+* Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive)
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd candidate in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st candidate in the results of the `find` command.
+* `list` followed by `delete 2 from/Contacted` deletes the 2nd candidate in the Contacted stage of the kanban board.
+* `find Betsy` followed by `delete 1 from/Candidates` deletes the 1st candidate in the Candidates stage in the results of the `find` command.
+* `delete 3 from/interviewed` deletes the 3rd candidate in the Interviewed stage (case-insensitive).
 
 ### Moving a candidate between stages : `move`
 
@@ -159,9 +198,48 @@ Examples:
 * `move 2 from/Interviewed to/Hired` moves the 2nd candidate in the Interviewed column to the Hired stage.
 * `move 1 from/contacted to/INTERVIEWED` also works (case-insensitive stage names).
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">
+
+:bulb: **Tip:**
 The index shown on each candidate card in the kanban board corresponds to their position within that specific stage column. Use this index when moving candidates.
 </div>
+
+### Rating a candidate : `rate`
+
+Sets or updates a candidate's rating.
+
+Format: `rate INDEX from/CANDIDATE'S_STAGE r/RATING` or `rate INDEX f/CANDIDATE'S_STAGE r/RATING`
+
+* Rates the candidate at the specified `INDEX`.
+* The `from/CANDIDATE'S_STAGE` (or `f/CANDIDATE'S_STAGE`) is required and scopes the index to that stage column.
+* The index **must be a positive integer** 1, 2, 3, …
+* Valid stages are: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
+* Valid ratings are: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
+
+Examples:
+* `rate 1 f/Candidates r/Excellent` rates the 1st candidate in the Candidates column as Excellent.
+* `rate 2 f/Interviewed r/Good` rates the 2nd candidate in the Interviewed column as Good.
+* `rate 3 from/Contacted r/Very Poor` rates the 3rd candidate in the Contacted column as Very Poor.
+
+### Sorting candidates : `sort`
+
+Sorts candidates by a sorting criteria
+
+Format: `sort [SORT_CRITERIA]`
+
+* Sorts all candidates in all stages based on the specified `[SORT_CRITERIA]`.
+* If no `[SORT_CRITERIA]` provided, candidates are sorted alphabetically by candidate name by default. 
+* Valid sort criteria are: `alphabetical`, `date`, `tags` (case-sensitive).
+
+`alphabetical` - sorts alphabetically by candidate name
+
+`date` - sorts by date added to findr
+
+`tags` - sorts by tags
+
+Examples:
+* `sort` sorts all candidates alphabetically
+* `sort date` sorts all candidates by date added
 
 ### Clearing all entries : `clear`
 
@@ -182,20 +260,84 @@ Exits the program.
 
 Format: `exit`
 
+### Commands for Managing tags : 
+`tagadd`, `tagedit`, `tagdelete`, `taglist`
+
+Use the tag catalogue commands to define reusable tags for candidates.
+
+#### Adding a tag definition : `tagadd`
+
+Creates a new tag in the global tag catalogue.
+
+Format: `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`
+
+* Adds a new tag with the specified `TAG_NAME`, `[CATEGORY]`, `[COLOUR]`, and `[DESCRIPTION]`.
+* If not specified, new tag is created with `General` category, `#7A7A7A` color, and no description by default. 
+* Tag names must be alphanumeric and unique.
+* Tag colour must be 6 digit hexadecimal beginning with `#`
+
+Examples:
+* `tagadd tn/backend tc/Engineering tcol/#1F75FE td/Backend specialist` adds new tag called backend with specified fields
+* `tagadd tn/urgent` adds new tag called urgent with default fields
+
+#### Editing a tag definition : `tagedit`
+
+Updates an existing tag in the catalogue.
+
+Format: `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`
+
+* Edits the tag with the specified `CURRENT_NAME`
+* At least one optional field must be provided.
+* The new values replace the existing tag details. Updating the tag name updates candidates that use the tag.
+
+Examples:
+* `tagedit tn/backend tc/Product` edits backend tag to have a new category
+* `tagedit tn/urgent nn/highpriority tcol/#FF0000` replaces urgent tag with highpriority and edits its colour to the one specified
+
+#### Deleting a tag definition : `tagdelete`
+
+Removes a tag from the catalogue.
+
+Format: `tagdelete tn/TAG_NAME`
+
+* Deleting a tag removes it from all candidates that were using it.
+
+Example:
+* `tagdelete tn/backend` removes backend tag from catalogue and all candidates
+
+#### Listing all tag definitions : `taglist`
+
+Shows all tag definitions in the catalogue with their category, colour, and description.
+
+Format: `taglist`
+
+Example:
+* `taglist`
+
+
 ### Saving the data
 
 Candidate list data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-Candidate list data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Candidate list data are saved automatically as a JSON file `[JAR file location]/data/findr.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, Findr will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the Findr to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+<div markdown="block" class="alert alert-info">
+
+:information_source: JSON file will only be created after first command run
 </div>
 
-### New Tag Features `[coming in v2.0]`
+<div markdown="span" class="alert alert-warning">
+
+:exclamation: **CAUTION:**
+If your changes to the data file makes its format invalid, findr will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the findr to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+</div>
+
+### New Features `[coming in v2.0]`
+#### Head Hunting Platform Integration
+* Integration with applications and platforms such as LinkedIn etc.
 
 _Details coming soon ..._
 
@@ -219,11 +361,17 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Delete** | `delete INDEX from/STAGE`<br> e.g. `delete 3 from/Contacted`
+**Edit** | `edit INDEX from/STAGE [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 from/Candidates n/James Lee e/jameslee@example.com`
+**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g. `find James Jake`
 **List** | `list`
-**Move** | `move INDEX from/CURRENT_STAGE to/NEW_STAGE`<br> e.g., `move 1 from/Candidates to/Contacted`
+**Move** | `move INDEX from/CURRENT_STAGE to/NEW_STAGE`<br> e.g. `move 1 from/Candidates to/Contacted`
+**Rate** | `rate INDEX from/STAGE r/RATING` or `rate INDEX f/STAGE r/RATING`
+**Sort** | `sort [SORT_CRITERIA]`<br> e.g. `sort alphabetical`
+**Tag Add** | `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagadd tn/urgent`
+**Tag Edit** | `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagedit tn/urgent nn/veryurgent`
+**Tag Delete** | `tagdelete tn/TAG_NAME`<br> e.g. `tagdelete tn/veryurgent`
+**Tag List** | `taglist`
 **Help** | `help`

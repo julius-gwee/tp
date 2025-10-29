@@ -100,7 +100,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
+1. When `Logic` is called upon to execute a command, it is passed to a `FindrParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
@@ -111,7 +111,7 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <img src="images/ParserClasses.png" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
+* When called upon to parse a user command, the `FindrParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `FindrParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
@@ -122,12 +122,12 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the findr data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
+* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered and sorted_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `Findr`, which `Person` references. This allows `Findr` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
 
@@ -141,8 +141,8 @@ The `Model` component,
 <img src="images/StorageClassDiagram.png" width="550" />
 
 The `Storage` component,
-* can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* can save both findr data and user preference data in JSON format, and read them back into corresponding objects.
+* inherits from both `FindrStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
@@ -159,37 +159,37 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo/redo mechanism is facilitated by `VersionedFindr`. It extends `Findr` with an undo/redo history, stored internally as a `findrStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+* `VersionedFindr#commit()` — Saves the current findr state in its history.
+* `VersionedFindr#undo()` — Restores the previous findr state from its history.
+* `VersionedFindr#redo()` — Restores a previously undone findr state from its history.
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+These operations are exposed in the `Model` interface as `Model#commitFindr()`, `Model#undoFindr()` and `Model#redoFindr()` respectively.
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+Step 1. The user launches the application for the first time. The `VersionedFindr` will be initialized with the initial findr state, and the `currentStatePointer` pointing to that single findr state.
 
 ![UndoRedoState0](images/UndoRedoState0.png)
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete 5` command to delete the 5th person in findr. The `delete` command calls `Model#commitFindr()`, causing the modified state of findr after the `delete 5` command executes to be saved in the `findrStateList`, and the `currentStatePointer` is shifted to the newly inserted findr state.
 
 ![UndoRedoState1](images/UndoRedoState1.png)
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitFindr()`, causing another modified findr state to be saved into the `findrStateList`.
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitFindr()`, so the findr state will not be saved into the `findrStateList`.
 
 </div>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoFindr()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous findr state, and restores findr to that state.
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial findr state, then there are no previous findr states to restore. The `undo` command uses `Model#canUndoFindr()` to check if this is the case. If so, it will return an error to the user rather
 than attempting to perform the undo.
 
 </div>
@@ -206,17 +206,17 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 
 ![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+The `redo` command does the opposite — it calls `Model#redoFindr()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores findr to that state.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `findrStateList.size() - 1`, pointing to the latest findr state, then there are no undone findr states to restore. The `redo` command uses `Model#canRedoFindr()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
 
 </div>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
+Step 5. The user then decides to execute the command `list`. Commands that do not modify findr, such as `list`, will usually not call `Model#commitFindr()`, `Model#undoFindr()` or `Model#redoFindr()`. Thus, the `findrStateList` remains unchanged.
 
 ![UndoRedoState4](images/UndoRedoState4.png)
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+Step 6. The user executes `clear`, which calls `Model#commitFindr()`. Since the `currentStatePointer` is not pointing at the end of the `findrStateList`, all findr states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
 ![UndoRedoState5](images/UndoRedoState5.png)
 
@@ -228,7 +228,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 **Aspect: How undo & redo executes:**
 
-* **Alternative 1 (current choice):** Saves the entire address book.
+* **Alternative 1 (current choice):** Saves the entire findr.
   * Pros: Easy to implement.
   * Cons: May have performance issues in terms of memory usage.
 
@@ -278,22 +278,22 @@ assess, and engage top-tier candidates. Go beyond the resume to find the perfect
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                                 | So that I can…​                                                        |
-|----------|--------------------------------------------|----------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions                       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | recruiter                                  | add a potential candidate                    | keep track of all possible candidates                                  |
-| `* * *`  | recruiter                                  | delete candidates I am no longer considering | reduce clutter on my contacts list                                     |
-| `* * *`  | user                                       | find a person by name                        | locate details of persons without having to go through the entire list |
-| `* * *`  | recruiter                                  | see all my contacts in one list              | view all candidates conveniently                                       |
-| `* *`    | recruiter                                  | autosave my changes                          | not lose my work accidentally                                          |
-| `* *`    | user                                       | hide private contact details                 | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name                         | locate a person easily                                                 |
+| Priority | As a …​                         | I want to …​                                 | So that I can…​                                                        |
+|----------|---------------------------------|----------------------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new user                        | see usage instructions                       | refer to instructions when I forget how to use the App                 |
+| `* * *`  | recruiter                       | add a potential candidate                    | keep track of all possible candidates                                  |
+| `* * *`  | recruiter                       | delete candidates I am no longer considering | reduce clutter on my contacts list                                     |
+| `* * *`  | user                            | find a person by name                        | locate details of persons without having to go through the entire list |
+| `* * *`  | recruiter                       | see all my contacts in one list              | view all candidates conveniently                                       |
+| `* *`    | recruiter                       | autosave my changes                          | not lose my work accidentally                                          |
+| `* *`    | user                            | hide private contact details                 | minimize chance of someone else seeing them by accident                |
+| `*`      | user with many persons in findr | sort persons by name                         | locate a person easily                                                 |
 
 *{More to be added}*
 
 ### Use cases
 
-(For all use cases below, the **System** is the `findr` and the **Actor** is the `Recruiter`, unless specified otherwise)
+(For all use cases below, the **System** is `findr` and the **Actor** is the `Recruiter`, unless specified otherwise)
 
 **Use case: View-all candidates**
 
@@ -334,19 +334,54 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: Delete a candidate**
 
 **MSS**
-1. Recruiter requests to delete a specific candidate from the current list.
-2. Findr requests confirmation.
-3. Recruiter confirms deletion.
-4. Findr deletes the candidate and updates the list.
+1. Recruiter requests to delete a specific candidate from the current list or from a specific kanban stage.
+2. Findr validates the index and optional stage parameter.
+3. Findr deletes the candidate and updates the list.
+4. Findr shows a success message with the deleted candidate's details.
    Use case ends.
 
 **Extensions**
-* 1a. The given index/identifier is invalid.
-  1a1. Findr shows an error message.
+* 1a. The given index is invalid for the displayed list or specified stage.
+  1a1. Findr shows an error message indicating invalid index.
   Use case resumes at step 1.
 
-* 2a. Recruiter cancels at confirmation.
-  Use case ends.
+* 1b. A stage is specified but the stage name is invalid.
+  1b1. Findr shows an error message with valid stage names (Candidates, Contacted, Interviewed, Hired).
+  Use case resumes at step 1.
+
+* 1c. The specified stage has no candidates.
+  1c1. Findr shows an error message indicating the stage is empty or index is out of bounds.
+  Use case resumes at step 1.
+
+---
+
+**Use case: Move a candidate between recruitment stages**
+
+**MSS**
+1. Recruiter requests to view the kanban board.
+2. Findr displays candidates organized by recruitment stage (Candidates, Contacted, Interviewed, Hired).
+3. Recruiter identifies a candidate in one stage and specifies the new stage to move them to.
+4. Findr validates the move request (index and stage names).
+5. Findr updates the candidate's stage and reflects the change in the kanban board view.
+6. Findr shows a success message with the candidate's name and the stage transition.
+   Use case ends.
+
+**Extensions**
+* 3a. The given index is invalid for the specified source stage.
+  3a1. Findr shows an error message indicating invalid index.
+  Use case resumes at step 3.
+
+* 3b. The stage name is invalid or misspelled.
+  3b1. Findr shows an error message with valid stage names.
+  Use case resumes at step 3.
+
+* 4a. Source stage and destination stage are the same.
+  4a1. Findr shows an error message that the candidate is already in the specified stage.
+  Use case resumes at step 3.
+
+* 4b. The specified source stage has no candidates.
+  4b1. Findr shows an error message indicating the stage is empty.
+  Use case resumes at step 3.
 
 ---
 
@@ -355,14 +390,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 1. Recruiter performs a change (e.g., add, delete, edit).
 2. Findr automatically persists the change to storage.
-3. Findr shows a brief “Saved” status.
+3. Findr shows a brief "Saved" status.
    Use case ends.
 
 **Extensions**
 * 2a. Temporary storage failure (e.g., file lock, I/O error).
   2a1. Findr queues a retry and shows a non-intrusive warning.
-  2a2. If retry succeeds, Findr shows “Saved” and logs the event.
-  2a3. If retry fails after N attempts, Findr prompts the recruiter to “Retry now” or “Save As…”.
+  2a2. If retry succeeds, Findr shows "Saved" and logs the event.
+  2a3. If retry fails after N attempts, Findr prompts the recruiter to "Retry now" or "Save As…".
   Use case ends.
 
 * 2b. Storage is unavailable (e.g., permission denied).

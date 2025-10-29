@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 
 import seedu.address.commons.core.index.Index;
@@ -9,6 +10,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.RateCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Rating;
+import seedu.address.model.person.Stage;
 
 /**
  * Parses input arguments and creates a new {@code RateCommand} object
@@ -21,7 +23,7 @@ public class RateCommandParser implements Parser<RateCommand> {
      */
     public RateCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_RATE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_RATE, PREFIX_FROM);
 
         Index index;
         try {
@@ -35,6 +37,25 @@ public class RateCommandParser implements Parser<RateCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
         }
 
-        return new RateCommand(index, new Rating(rating));
+        Rating parsed;
+        try {
+            parsed = Rating.fromString(rating);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+        }
+
+        // Stage must be provided via from/
+        String stageArg = argMultimap.getValue(PREFIX_FROM).orElse(null);
+        if (stageArg == null || stageArg.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+        }
+        Stage fromStage;
+        try {
+            fromStage = ParserUtil.parseStage(stageArg);
+        } catch (ParseException pe) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), pe);
+        }
+
+        return new RateCommand(index, parsed, fromStage);
     }
 }
