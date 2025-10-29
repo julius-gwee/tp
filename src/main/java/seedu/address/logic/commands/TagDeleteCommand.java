@@ -19,7 +19,7 @@ public class TagDeleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " tn/backend";
 
     public static final String MESSAGE_SUCCESS = "Deleted tag: %1$s";
-    public static final String MESSAGE_TAG_NOT_FOUND = "This tag does not exist in the tag list.";
+    public static final String MESSAGE_TAG_NOT_FOUND = TagCommandUtil.MESSAGE_TAG_NOT_FOUND;
 
     private final String targetTagName;
 
