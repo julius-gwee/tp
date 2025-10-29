@@ -51,6 +51,7 @@ public final class TagCommandUtil {
     public static Person rebuildPersonWithTags(Person source, Set<Tag> tags) {
         requireNonNull(source);
         requireNonNull(tags);
-        return new Person(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), tags);
+        return new Person(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), tags,
+                source.getDateAdded(), source.getRating(), source.getStage());
     }
 }
