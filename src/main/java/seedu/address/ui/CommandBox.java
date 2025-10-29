@@ -26,6 +26,7 @@ public class CommandBox extends UiPart<Region> {
 
     private final CommandExecutor commandExecutor;
     private final Storage storage;
+    private final FeedbackDisplay feedbackDisplay;
 
     // Search history navigation fields
     private final List<String> searchHistory = new ArrayList<>();
@@ -36,12 +37,14 @@ public class CommandBox extends UiPart<Region> {
     private TextField commandTextField;
 
     /**
-     * Creates a {@code CommandBox} with the given {@code CommandExecutor} and {@code Storage}.
+     * Creates a {@code CommandBox} with the given {@code CommandExecutor},
+     * {@code Storage}, and {@code FeedbackDisplay}.
      */
-    public CommandBox(CommandExecutor commandExecutor, Storage storage) {
+    public CommandBox(CommandExecutor commandExecutor, Storage storage, FeedbackDisplay feedbackDisplay) {
         super(FXML);
         this.commandExecutor = commandExecutor;
         this.storage = storage;
+        this.feedbackDisplay = feedbackDisplay;
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
 
@@ -113,6 +116,7 @@ public class CommandBox extends UiPart<Region> {
      */
     private void navigateHistoryUp() {
         if (searchHistory.isEmpty()) {
+            feedbackDisplay.showFeedback("No previous command!");
             return;
         }
 
@@ -121,13 +125,17 @@ public class CommandBox extends UiPart<Region> {
             currentInput = commandTextField.getText();
         }
 
-        // Move to previous history item
-        if (historyIndex < searchHistory.size() - 1) {
-            historyIndex++;
-            String historyCommand = searchHistory.get(searchHistory.size() - 1 - historyIndex);
-            commandTextField.setText(historyCommand);
-            commandTextField.positionCaret(historyCommand.length()); // Move cursor to end
+        // Check if we're already at the oldest command
+        if (historyIndex >= searchHistory.size() - 1) {
+            feedbackDisplay.showFeedback("No previous command!");
+            return;
         }
+
+        // Move to previous history item
+        historyIndex++;
+        String historyCommand = searchHistory.get(searchHistory.size() - 1 - historyIndex);
+        commandTextField.setText(historyCommand);
+        commandTextField.positionCaret(historyCommand.length()); // Move cursor to end
     }
 
     /**
@@ -217,6 +225,17 @@ public class CommandBox extends UiPart<Region> {
          * @see seedu.address.logic.Logic#execute(String)
          */
         CommandResult execute(String commandText) throws CommandException, ParseException;
+    }
+
+    /**
+     * Represents a function that can display feedback messages to the user.
+     */
+    @FunctionalInterface
+    public interface FeedbackDisplay {
+        /**
+         * Displays feedback message to the user.
+         */
+        void showFeedback(String message);
     }
 
 }
