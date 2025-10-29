@@ -180,7 +180,8 @@ public class Findr implements ReadOnlyFindr {
             if (tagModified) {
                 anyChanges = true;
                 updatedPersons.add(new Person(person.getName(), person.getPhone(), person.getEmail(),
-                        person.getAddress(), updatedTags));
+                        person.getAddress(), updatedTags, person.getDateAdded(), person.getRating(),
+                        person.getStage()));
             } else {
                 updatedPersons.add(person);
             }
@@ -199,7 +200,9 @@ public class Findr implements ReadOnlyFindr {
             }
             resolvedTags.add(tags.get(tag));
         }
-        return new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), resolvedTags);
+        return new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), resolvedTags,
+                person.getDateAdded(), person.getRating(),
+                person.getStage());
     }
 
     //// util methods
