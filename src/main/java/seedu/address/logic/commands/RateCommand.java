@@ -6,21 +6,16 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
-import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.DateAdded;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
 import seedu.address.model.person.Rating;
 import seedu.address.model.person.Stage;
-import seedu.address.model.tag.Tag;
 
 /**
  * Adds a rating to a candidate in the candidate list.
@@ -39,23 +34,16 @@ public class RateCommand extends Command {
     public static final String MESSAGE_RATE_SUCCESS = "Rating for %1$s: %2$s";
     public static final String MESSAGE_INVALID_INDEX_FOR_STAGE = "Invalid index for stage %s";
 
+    private static final Logger logger = LogsCenter.getLogger(RateCommand.class);
+
     private final Index index;
     private final Rating rating;
-    private final Stage fromStage; // optional; when provided, index is relative to this stage column
+    private final Stage fromStage;
 
     /**
      * @param index of the candidate in the filtered candidate list to edit the rating
      * @param rating of the candidate to be updated to
-     */
-    public RateCommand(Index index, Rating rating) {
-        requireAllNonNull(index, rating);
-        this.index = index;
-        this.rating = rating;
-        this.fromStage = null;
-    }
-
-    /**
-     * Overloaded constructor accepting an optional from-stage to scope the index to a stage column.
+     * @param fromStage stage candidate belongs to
      */
     public RateCommand(Index index, Rating rating, Stage fromStage) {
         requireAllNonNull(index, rating);
@@ -66,40 +54,38 @@ public class RateCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        List<Person> targetList;
-        if (fromStage == null) {
-            // default behaviour: use current filtered list
-            targetList = model.getObservableCandidateList();
-        } else {
-            // mirror MoveCommand behaviour: index is relative to the specified stage column
-            targetList = model.getObservableCandidateList().stream()
-                    .filter(person -> person.getStage().equals(fromStage))
-                    .collect(java.util.stream.Collectors.toList());
-        }
+        logger.log(Level.INFO, "Executing RateCommand for index {0}, from stage: {1}",
+                new Object[]{index, fromStage});
+
+        List<Person> targetList = model.getObservableCandidateList().stream()
+                .filter(person -> person.getStage().equals(fromStage))
+                .collect(java.util.stream.Collectors.toList());
+
+        logger.log(Level.FINE, "Filtered candidates for stage {0}: {1}", new Object[]{fromStage, targetList.size()});
 
         if (index.getZeroBased() >= targetList.size()) {
-            if (fromStage != null) {
-                throw new CommandException(String.format(MESSAGE_INVALID_INDEX_FOR_STAGE, fromStage));
-            }
-            throw new CommandException(Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
+            logger.log(Level.WARNING, "Invalid index {0} for stage {1}", new Object[]{index, fromStage});
+            throw new CommandException(String.format(MESSAGE_INVALID_INDEX_FOR_STAGE, fromStage));
         }
 
         Person candidateToEdit = targetList.get(index.getZeroBased());
-        Name currentName = candidateToEdit.getName();
-        Phone currentPhone = candidateToEdit.getPhone();
-        Email currentEmail = candidateToEdit.getEmail();
-        Address currentAddress = candidateToEdit.getAddress();
-        Set<Tag> currentTags = candidateToEdit.getTags();
-        DateAdded currentDateAdded = candidateToEdit.getDateAdded();
-        Stage currentStage = candidateToEdit.getStage();
+        logger.log(Level.INFO, "Updating rating for {0} to {1}", new Object[]{candidateToEdit.getName(), rating});
 
-        Person editedPerson = new Person(currentName, currentPhone, currentEmail, currentAddress, currentTags,
-                currentDateAdded, rating, currentStage);
+        Person editedPerson = new Person(
+                candidateToEdit.getName(),
+                candidateToEdit.getPhone(),
+                candidateToEdit.getEmail(),
+                candidateToEdit.getAddress(),
+                candidateToEdit.getTags(),
+                candidateToEdit.getDateAdded(),
+                rating,
+                candidateToEdit.getStage()
+        );
 
         model.setPerson(candidateToEdit, editedPerson);
         model.updateFilteredCandidateList(PREDICATE_SHOW_ALL_PERSONS);
 
-        return new CommandResult(String.format(MESSAGE_RATE_SUCCESS, currentName, rating));
+        return new CommandResult(String.format(MESSAGE_RATE_SUCCESS, candidateToEdit.getName(), rating));
     }
 
     @Override

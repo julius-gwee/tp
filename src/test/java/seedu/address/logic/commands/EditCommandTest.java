@@ -15,6 +15,8 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CANDIDATE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_CANDIDATE;
 import static seedu.address.testutil.TypicalPersons.getTypicalFindr;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -57,8 +59,12 @@ public class EditCommandTest {
         Tag existingTag = new Tag(VALID_TAG_HUSBAND);
         workingModel.addTag(existingTag);
 
-        Index indexLastPerson = Index.fromOneBased(workingModel.getObservableCandidateList().size());
-        Person lastPerson = workingModel.getObservableCandidateList().get(indexLastPerson.getZeroBased());
+        List<Person> candidatesStageList = workingModel.getObservableCandidateList().stream()
+                .filter(p -> p.getStage() == Stage.CANDIDATES)
+                .toList();
+
+        Index indexLastPerson = Index.fromOneBased(candidatesStageList.size());
+        Person lastPerson = candidatesStageList.get(indexLastPerson.getZeroBased());
 
         PersonBuilder personInList = new PersonBuilder(lastPerson);
         Person editedPerson = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
