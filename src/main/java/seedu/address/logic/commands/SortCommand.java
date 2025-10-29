@@ -21,8 +21,8 @@ public class SortCommand extends Command {
             + "If no criteria stated, default is sorted alphabetically.\n"
             + "Parameters: [SORT CRITERIA] (optional, only the examples below are valid sort criteria)\n"
             + "Example: " + COMMAND_WORD + "\n"
-            + "Example: " + COMMAND_WORD + " alphabetical"
-            + "Example: " + COMMAND_WORD + " date"
+            + "Example: " + COMMAND_WORD + " alphabetical" + "\n"
+            + "Example: " + COMMAND_WORD + " date" + "\n"
             + "Example: " + COMMAND_WORD + " rating";
 
     public static final String MESSAGE_SUCCESS = "Sorted all candidates";

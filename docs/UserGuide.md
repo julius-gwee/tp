@@ -4,54 +4,26 @@ title: User Guide
 ---
 # :mag:findr
 
-`findr` is a **desktop app for managing candidates, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, `findr` can get your candidate management tasks done faster than traditional GUI apps.
+`findr` is a **desktop app for recruiters to manage candidates, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, `findr` can get your candidate management tasks done faster than traditional GUI apps.
 
---------------------------------------------------------------------------------------------------------------------
-
-## Table of Contents
-* [Quick Start](#quick-start)
-* [Features](#features)
-  * [General Commands](#features)
-    * [help](#viewing-help--help)
-    * [add](#adding-a-candidate-add)
-    * [list](#listing-all-candidates--list)
-    * [edit](#editing-a-candidate--edit)
-    * [find](#locating-candidates-by-name-find)
-    * [delete](#deleting-a-candidate--delete)
-    * [move](#moving-a-candidate-between-stages--move)
-    * [rate](#rating-a-candidate--rate)
-    * [sort](#sorting-candidates--sort)
-    * [clear](#clearing-all-entries--clear)
-    * [↑ or ↓](#navigating-search-history---or-)
-    * [exit](#exiting-the-program--exit)
-  * [Managing Tags](#commands-for-managing-tags--)
-    * [tagadd](#adding-a-tag-definition--tagadd)
-    * [tagedit](#editing-a-tag-definition--tagedit)
-    * [tagdelete](#deleting-a-tag-definition--tagdelete)
-    * [taglist](#listing-all-tag-definitions--taglist)
-  * [Saving Data](#saving-the-data)
-  * [Editing Data](#editing-the-data-file)
-  * [New Features](#new-features-coming-in-v20)
-* [FAQ](#faq)
-* [Known Issues](#known-issues)
-* [Command Summary](#command-summary)
+* Table of Contents {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick Start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-Check if Java is already installed in the command terminal by typing in: `java -version`. <br>
-   If the version shown is Java 17 or higher, you will be able to run `findr` smoothly. <br>
-   If not, download and install java 17 from [Oracle](https://www.oracle.com/java/technologies/downloads/#java17).<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have Java `17` or above installed in your Computer.
+   - Check if Java is already installed in the command terminal by typing in: `java -version`. 
+   - If the version shown is Java 17 or higher, you will be able to run `findr` smoothly. 
+   - If not, download and install java 17 from [Oracle](https://www.oracle.com/java/technologies/downloads/#java17).
+   - **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
 2. Download the latest `findr.jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your `findr` app.
 
-4. Open a command terminal, navigate into the folder you put the jar file in using the `cd` command (change directory).<br>
-For example, if you put the jar file in C:\Users\Recruiter\findr\, use the following command in the terminal:
+4. Open a command terminal, navigate into the folder you put the jar file in using the `cd` command (change directory).
+   - For example, if you put the jar file in C:\Users\Recruiter\findr\, use the following command in the terminal:
 > cd C:\Users\Recruiter\findr\
 
 5. Use the `java -jar findr.jar` command to run the application.<br>
@@ -139,22 +111,28 @@ Shows a list of all candidates in the candidate list.
 
 Format: `list`
 
+<div markdown="span" class="alert alert-primary">
+
+:bulb: **Tip:**
+Use this after finding candidates by name to view the entire list again.
+</div>
+
 ### Editing a candidate : `edit`
 
 Edits an existing candidate in the candidate list.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX from/STAGE [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list in the specified `STAGE`. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the candidate will be removed i.e adding of tags is not cumulative.
-* You can remove all the candidate’s tags by typing `t/` without
-    specifying any tags after it.
+* You can remove all the candidate’s tags by typing `t/` without specifying any tags after it.
+* Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive)
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st candidate to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd candidate to be `Betsy Crower` and clears all existing tags.
+*  `edit 1 from/Candidates p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st candidate in the Candidate stage to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2 from/Interviewed n/Betsy Crower t/` Edits the name of the 2nd candidate in the Interviewed stage to be `Betsy Crower` and clears all existing tags.
 
 ### Locating candidates by name: `find`
 
@@ -198,7 +176,7 @@ Format: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
 * Moves the candidate at the specified `INDEX` from `CURRENT_STAGE` to `NEW_STAGE`.
 * The index refers to the index number shown **within the specified stage column** (not the global list).
 * The index **must be a positive integer** 1, 2, 3, …​
-* Valid stages are: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
+* Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * You cannot move a candidate to the same stage they are currently in.
 
 Examples:
@@ -216,13 +194,13 @@ The index shown on each candidate card in the kanban board corresponds to their 
 
 Sets or updates a candidate's rating.
 
-Format: `rate INDEX from/CANDIDATE'S_STAGE r/RATING`
+Format: `rate INDEX from/STAGE r/RATING`
 
 * Rates the candidate at the specified `INDEX`.
-* The `from/CANDIDATE'S_STAGE` is required and scopes the index to that stage column.
+* The `from/STAGE` is required and scopes the index to that stage column.
 * The index **must be a positive integer** 1, 2, 3, …
-* Valid stages are: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
-* Valid ratings are: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
+* Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
+* Valid ratings: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
 
 Examples:
 * `rate 1 f/Candidates r/Excellent` rates the 1st candidate in the Candidates column as Excellent.
@@ -237,7 +215,7 @@ Format: `sort [SORT_CRITERIA]`
 
 * Sorts all candidates in all stages based on the specified `[SORT_CRITERIA]`.
 * If no `[SORT_CRITERIA]` provided, candidates are sorted alphabetically by candidate name by default. 
-* Valid sort criteria are: `alphabetical`, `date`, `rating` (case-sensitive).
+* Valid sort criteria: `alphabetical`, `date`, `rating` (case-sensitive).
 
 `alphabetical` - sorts alphabetically by candidate name
 
@@ -246,19 +224,27 @@ Format: `sort [SORT_CRITERIA]`
 `rating` - sorts by rating
 
 Examples:
-* `sort` sorts all candidates alphabetically
-* `sort date` sorts all candidates by date added
+* `sort` sorts all candidates alphabetically. 
+* `sort date` sorts all candidates by date added. 
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the candidate list.
+Clears candidates from the candidate list.
 
-Format: `clear`
+Format: `clear [STAGE]`
+
+* Deletes all candidates from the specified `STAGE`. 
+* If no `STAGE` specified, clears from all stages by default.
+* Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired`, `All` (case-insensitive).
+
+Examples:
+* `clear all` deletes all candidates from all stages. 
+* `clear` also deletes all candidates from all stages. 
+* `clear Interviewed` deletes all candidates from Interviewed stage. 
 
 ### Navigating search history : `↑` or `↓`
 
-Use the UP arrow key to view previous commands
-and the DOWN arrow key to navigate back to more recent commands.
+Use the UP arrow key to view previous commands and the DOWN arrow key to navigate back to more recent commands.
 
 Format: `↑` or `↓`
 
@@ -371,13 +357,13 @@ _Details coming soon ..._
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
+**Clear** | `clear [STAGE]`<br> e.g. `clear all`
 **Delete** | `delete INDEX from/STAGE`<br> e.g. `delete 3 from/Contacted`
 **Edit** | `edit INDEX from/STAGE [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 from/Candidates n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g. `find James Jake`
 **List** | `list`
 **Move** | `move INDEX from/CURRENT_STAGE to/NEW_STAGE`<br> e.g. `move 1 from/Candidates to/Contacted`
-**Rate** | `rate INDEX from/STAGE r/RATING`
+**Rate** | `rate INDEX from/STAGE r/RATING`<br> e.g. `rate 1 from/Candidates r/Good`
 **Sort** | `sort [SORT_CRITERIA]`<br> e.g. `sort alphabetical`
 **Tag Add** | `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagadd tn/urgent`
 **Tag Edit** | `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagedit tn/urgent nn/veryurgent`
