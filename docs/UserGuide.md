@@ -216,10 +216,10 @@ The index shown on each candidate card in the kanban board corresponds to their 
 
 Sets or updates a candidate's rating.
 
-Format: `rate INDEX from/CANDIDATE'S_STAGE r/RATING` or `rate INDEX f/CANDIDATE'S_STAGE r/RATING`
+Format: `rate INDEX from/CANDIDATE'S_STAGE r/RATING`
 
 * Rates the candidate at the specified `INDEX`.
-* The `from/CANDIDATE'S_STAGE` (or `f/CANDIDATE'S_STAGE`) is required and scopes the index to that stage column.
+* The `from/CANDIDATE'S_STAGE` is required and scopes the index to that stage column.
 * The index **must be a positive integer** 1, 2, 3, …
 * Valid stages are: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * Valid ratings are: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
@@ -377,7 +377,7 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g. `find James Jake`
 **List** | `list`
 **Move** | `move INDEX from/CURRENT_STAGE to/NEW_STAGE`<br> e.g. `move 1 from/Candidates to/Contacted`
-**Rate** | `rate INDEX from/STAGE r/RATING` or `rate INDEX f/STAGE r/RATING`
+**Rate** | `rate INDEX from/STAGE r/RATING`
 **Sort** | `sort [SORT_CRITERIA]`<br> e.g. `sort alphabetical`
 **Tag Add** | `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagadd tn/urgent`
 **Tag Edit** | `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagedit tn/urgent nn/veryurgent`
