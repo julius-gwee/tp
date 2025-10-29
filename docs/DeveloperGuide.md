@@ -95,7 +95,9 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+<div markdown="span" class="alert alert-info">
+
+:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
 
 How the `Logic` component works:
@@ -181,25 +183,28 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitFindr()`, so the findr state will not be saved into the `findrStateList`.
+<div markdown="span" class="alert alert-info">
 
+:information_source: **Note:** If a command fails its execution, it will not call `Model#commitFindr()`, so the findr state will not be saved into the `findrStateList`.
 </div>
 
 Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoFindr()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous findr state, and restores findr to that state.
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial findr state, then there are no previous findr states to restore. The `undo` command uses `Model#canUndoFindr()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+<div markdown="span" class="alert alert-info">
 
+:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial findr state, then there are no previous findr states to restore. The `undo` command uses `Model#canUndoFindr()` to check if this is the case. If so, it will return an error to the user rather
+than attempting to perform the undo.
 </div>
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
 
 ![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+<div markdown="span" class="alert alert-info">
 
+:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
 
 Similarly, how an undo operation goes through the `Model` component is shown below:
@@ -208,8 +213,9 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 
 The `redo` command does the opposite — it calls `Model#redoFindr()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores findr to that state.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `findrStateList.size() - 1`, pointing to the latest findr state, then there are no undone findr states to restore. The `redo` command uses `Model#canRedoFindr()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+<div markdown="span" class="alert alert-info">
 
+:information_source: **Note:** If the `currentStatePointer` is at index `findrStateList.size() - 1`, pointing to the latest findr state, then there are no undone findr states to restore. The `redo` command uses `Model#canRedoFindr()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
 </div>
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify findr, such as `list`, will usually not call `Model#commitFindr()`, `Model#undoFindr()` or `Model#redoFindr()`. Thus, the `findrStateList` remains unchanged.
@@ -278,16 +284,17 @@ assess, and engage top-tier candidates. Go beyond the resume to find the perfect
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                         | I want to …​                                 | So that I can…​                                                        |
-|----------|---------------------------------|----------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                        | see usage instructions                       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | recruiter                       | add a potential candidate                    | keep track of all possible candidates                                  |
-| `* * *`  | recruiter                       | delete candidates I am no longer considering | reduce clutter on my contacts list                                     |
-| `* * *`  | user                            | find a person by name                        | locate details of persons without having to go through the entire list |
-| `* * *`  | recruiter                       | see all my contacts in one list              | view all candidates conveniently                                       |
-| `* *`    | recruiter                       | autosave my changes                          | not lose my work accidentally                                          |
-| `* *`    | user                            | hide private contact details                 | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in findr | sort persons by name                         | locate a person easily                                                 |
+| Priority | As a …​                          | I want to …​                                 | So that I can…​                                                        |
+|----------|----------------------------------|----------------------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new recruiter                    | see usage instructions                       | refer to instructions when I forget how to use the App                 |
+| `* * *`  | recruiter                        | add a potential candidate                    | keep track of all possible candidates                                  |
+| `* * *`  | recruiter                        | delete candidates I am no longer considering | reduce clutter on my contacts list                                     |
+| `* * *`  | recruiter                        | find a candidate by name                     | locate details of persons without having to go through the entire list |
+| `* * *`  | recruiter                        | see all candidates in the list               | view all candidates conveniently                                       |
+| `* *`    | recruiter                        | autosave my changes                          | not lose my work accidentally                                          |
+| `* *`    | recruiter with many candidates   | sort candidates by name                      | locate a person easily                                                 |
+| `* *`    | recruiter with many candidates   | sort candidates by date added                | locate a person easily                                                 |
+| `* *`    | recruiter with many candidates   | sort candidates by rating                    | locate a person easily                                                 |
 
 *{More to be added}*
 
@@ -298,12 +305,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: View-all candidates**
 
 **MSS**
-1. Recruiter requests to view all candidates.
-2. Findr displays the full candidate list with key fields (name, role, status, tags).
+1. Actor requests to view all candidates.
+2. System displays the full candidate list with key fields (name, role, status, tags).
+
    Use case ends.
 
 **Extensions**
 * 1a. The candidate list is empty.
+
   Use case ends.
 
 ---
@@ -311,22 +320,29 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: Add a candidate**
 
 **MSS**
-1. Recruiter chooses to add a candidate.
-2. Findr requests the candidate details (e.g., name, role, contact, tags).
-3. Recruiter enters required details.
-4. Findr validates and creates the candidate.
-5. Findr shows the updated list including the new candidate.
+1. Actor chooses to add a candidate.
+2. System requests the candidate details (e.g., name, role, contact, tags).
+3. Actor enters required details.
+4. System validates and creates the candidate.
+5. System shows the updated list including the new candidate.
+
    Use case ends.
 
 **Extensions**
 * 3a. Required details are missing or invalid.
-  3a1. Findr highlights invalid fields and requests corrections.
-  3a2. Recruiter provides corrected data.
+
+  3a1. System highlights invalid fields and requests corrections.
+
+  3a2. Actor provides corrected data.
+
   Steps 3a1–3a2 repeat until data are valid. Use case resumes from step 4.
 
 * 4a. Duplicate candidate (e.g., same email) detected.
-  4a1. Findr shows a duplicate warning and suggests viewing the existing record.
-  4a2. Recruiter chooses to cancel or proceed with an override if allowed by policy.
+
+  4a1. System shows a duplicate warning and suggests viewing the existing record.
+
+  4a2. Actor chooses to cancel or proceed with an override if allowed by policy.
+
   Use case resumes from step 5 (if created) or ends (if cancelled).
 
 ---
@@ -334,23 +350,30 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: Delete a candidate**
 
 **MSS**
-1. Recruiter requests to delete a specific candidate from the current list or from a specific kanban stage.
-2. Findr validates the index and optional stage parameter.
-3. Findr deletes the candidate and updates the list.
-4. Findr shows a success message with the deleted candidate's details.
+1. Actor requests to delete a specific candidate from the current list or from a specific kanban stage.
+2. System validates the index and optional stage parameter.
+3. Actor deletes the candidate and updates the list.
+4. System shows a success message with the deleted candidate's details.
+
    Use case ends.
 
 **Extensions**
 * 1a. The given index is invalid for the displayed list or specified stage.
-  1a1. Findr shows an error message indicating invalid index.
+
+  1a1. System shows an error message indicating invalid index.
+
   Use case resumes at step 1.
 
 * 1b. A stage is specified but the stage name is invalid.
-  1b1. Findr shows an error message with valid stage names (Candidates, Contacted, Interviewed, Hired).
+
+  1b1. System shows an error message with valid stage names (Candidates, Contacted, Interviewed, Hired).
+
   Use case resumes at step 1.
 
 * 1c. The specified stage has no candidates.
-  1c1. Findr shows an error message indicating the stage is empty or index is out of bounds.
+
+  1c1. System shows an error message indicating the stage is empty or index is out of bounds.
+
   Use case resumes at step 1.
 
 ---
@@ -358,50 +381,83 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Use case: Move a candidate between recruitment stages**
 
 **MSS**
-1. Recruiter requests to view the kanban board.
-2. Findr displays candidates organized by recruitment stage (Candidates, Contacted, Interviewed, Hired).
-3. Recruiter identifies a candidate in one stage and specifies the new stage to move them to.
-4. Findr validates the move request (index and stage names).
-5. Findr updates the candidate's stage and reflects the change in the kanban board view.
-6. Findr shows a success message with the candidate's name and the stage transition.
+1. Actor identifies a candidate in one stage and specifies the new stage to move them to.
+2. System validates the move request (index and stage names).
+3. System updates the candidate's stage and reflects the change in the kanban board view.
+4. System shows a success message with the candidate's name and the stage transition.
+
    Use case ends.
 
 **Extensions**
-* 3a. The given index is invalid for the specified source stage.
-  3a1. Findr shows an error message indicating invalid index.
-  Use case resumes at step 3.
+* 1a. The given index is invalid for the specified source stage.
 
-* 3b. The stage name is invalid or misspelled.
-  3b1. Findr shows an error message with valid stage names.
-  Use case resumes at step 3.
+  1a1. System shows an error message indicating invalid index.
 
-* 4a. Source stage and destination stage are the same.
-  4a1. Findr shows an error message that the candidate is already in the specified stage.
-  Use case resumes at step 3.
+  Use case resumes at step 1.
 
-* 4b. The specified source stage has no candidates.
-  4b1. Findr shows an error message indicating the stage is empty.
-  Use case resumes at step 3.
+* 1b. The stage name is invalid or misspelled.
+
+  1b1. System shows an error message with valid stage names.
+
+  Use case resumes at step 1.
+
+* 2a. Source stage and destination stage are the same.
+
+  2a1. System shows an error message that the candidate is already in the specified stage.
+
+  Use case resumes at step 1.
+
+* 2b. The specified source stage has no candidates.
+
+  2b1. System shows an error message indicating the stage is empty.
+
+  Use case resumes at step 1.
+
+---
+
+**Use case: Sort candidates by sort criteria**
+
+**MSS**
+1. Actor requests to sort candidate list by sort criteria. 
+2. System validates the sort request (sort criteria).
+3. System updates the candidate list and reflects the change in the kanban board view. 
+4. System shows a success message.
+
+   Use case ends.
+
+**Extensions**
+* 1a. The specified sort criteria is invalid.
+
+  1a1. System shows an error message with valid sort criteria.
+
+  Use case resumes at step 1.
 
 ---
 
 **Use case: Auto-save changes**
 
 **MSS**
-1. Recruiter performs a change (e.g., add, delete, edit).
-2. Findr automatically persists the change to storage.
-3. Findr shows a brief "Saved" status.
+1. Actor performs a change (e.g., add, delete, edit).
+2. System automatically persists the change to storage.
+3. System shows a brief "Saved" status.
+
    Use case ends.
 
 **Extensions**
 * 2a. Temporary storage failure (e.g., file lock, I/O error).
-  2a1. Findr queues a retry and shows a non-intrusive warning.
-  2a2. If retry succeeds, Findr shows "Saved" and logs the event.
-  2a3. If retry fails after N attempts, Findr prompts the recruiter to "Retry now" or "Save As…".
+
+  2a1. System queues a retry and shows a non-intrusive warning.
+
+  2a2. If retry succeeds, System shows "Saved" and logs the event.
+
+  2a3. If retry fails after N attempts, System prompts the recruiter to "Retry now" or "Save As…".
+
   Use case ends.
 
 * 2b. Storage is unavailable (e.g., permission denied).
-  2b1. Findr prevents further destructive actions and displays recovery guidance.
+
+  2b1. System prevents further destructive actions and displays recovery guidance.
+
   Use case ends.
 
 ### Non-Functional Requirements
@@ -433,9 +489,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 Given below are instructions to test the app manually.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
+<div markdown="span" class="alert alert-info">
 
+:information_source: **Note:** These instructions only provide a starting point for testers to work on;
+testers are expected to do more *exploratory* testing.
 </div>
 
 ### Launch and shutdown
