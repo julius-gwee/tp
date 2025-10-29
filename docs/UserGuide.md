@@ -41,17 +41,24 @@ title: User Guide
 ## Quick Start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
+Check if Java is already installed in the command terminal by typing in: `java -version`. <br>
+   If the version shown is Java 17 or higher, you will be able to run `findr` smoothly. <br>
+   If not, download and install java 17 from [Oracle](https://www.oracle.com/java/technologies/downloads/#java17).<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `findr.jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your candidate list.
+3. Copy the file to the folder you want to use as the _home folder_ for your `findr` app.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar findr.jar` command to run the application.<br>
+4. Open a command terminal, navigate into the folder you put the jar file in using the `cd` command (change directory).<br>
+For example, if you put the jar file in C:\Users\Recruiter\findr\, use the following command in the terminal:
+> cd C:\Users\Recruiter\findr\
+
+5. Use the `java -jar findr.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/updated-mvp-gui.png)
+   ![Ui](images/Start-Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type a command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all candidates.
@@ -62,11 +69,12 @@ title: User Guide
    
    * `sort` : Sorts the candidate list alphabetically.
 
-   * `clear` : Deletes all candidates.
+   * `clear all` : Deletes all candidates.
 
    * `exit` : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
+2. If you want to start a new contact list from scratch using `findr`, use the `clear all` command, which will clear all the sample data from `findr`.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -229,13 +237,13 @@ Format: `sort [SORT_CRITERIA]`
 
 * Sorts all candidates in all stages based on the specified `[SORT_CRITERIA]`.
 * If no `[SORT_CRITERIA]` provided, candidates are sorted alphabetically by candidate name by default. 
-* Valid sort criteria are: `alphabetical`, `date`, `tags` (case-sensitive).
+* Valid sort criteria are: `alphabetical`, `date`, `rating` (case-sensitive).
 
 `alphabetical` - sorts alphabetically by candidate name
 
-`date` - sorts by date added to findr
+`date` - sorts by date added to `findr`
 
-`tags` - sorts by tags
+`rating` - sorts by rating
 
 Examples:
 * `sort` sorts all candidates alphabetically
@@ -325,14 +333,15 @@ Candidate list data are saved automatically as a JSON file `[JAR file location]/
 
 <div markdown="block" class="alert alert-info">
 
-:information_source: JSON file will only be created after first command run
+:information_source: **NOTE:**
+JSON file will only be created after first command run.
 </div>
 
 <div markdown="span" class="alert alert-warning">
 
 :exclamation: **CAUTION:**
-If your changes to the data file makes its format invalid, findr will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the findr to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, `findr` will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the `findr` to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### New Features `[coming in v2.0]`
@@ -346,7 +355,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous `findr` home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
