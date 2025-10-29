@@ -16,7 +16,9 @@ import seedu.address.model.tag.exceptions.TagNotFoundException;
  */
 public final class TagCommandUtil {
 
-    public static final String MESSAGE_TAG_NOT_FOUND = "Would you like to create this tag first?";
+    public static final String MESSAGE_TAG_NOT_FOUND = "Tag not found. Create it first using "
+            + "\"tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]\" "
+            + "(e.g. tagadd tn/backend tc/Engineering tcol/#1F75FE).";
 
     private TagCommandUtil() {
         // Utility class
