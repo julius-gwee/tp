@@ -8,21 +8,23 @@ import static java.util.Objects.requireNonNull;
  * Now modeled as an enum similar to {@link Stage}.
  */
 public enum Rating {
-    UNRATED("Unrated"),
-    VERY_POOR("Very Poor"),
-    POOR("Poor"),
-    AVERAGE("Average"),
-    GOOD("Good"),
-    EXCELLENT("Excellent");
+    UNRATED("Unrated", 5),
+    VERY_POOR("Very Poor", 4),
+    POOR("Poor", 3),
+    AVERAGE("Average", 2),
+    GOOD("Good", 1),
+    EXCELLENT("Excellent", 0);
 
     public static final String MESSAGE_CONSTRAINTS =
             "Rating should be one of: Unrated, Very Poor, Poor, Average, Good, Excellent"
             + " (case-insensitive)";
 
     private final String displayName;
+    private final int integer;
 
-    Rating(String displayName) {
+    Rating(String displayName, int integer) {
         this.displayName = displayName;
+        this.integer = integer;
     }
 
     /**
@@ -30,6 +32,13 @@ public enum Rating {
      */
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * Returns the integer of the rating.
+     */
+    public int getInteger() {
+        return integer;
     }
 
     /**

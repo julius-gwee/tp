@@ -223,4 +223,9 @@ public class ParserUtilTest {
     public void parseSortCriteria_validInputDate_success() throws Exception {
         assertEquals(SortCommand.SORT_BY_DATEADDED, ParserUtil.parseSortCriteria("date"));
     }
+
+    @Test
+    public void parseSortCriteria_validInputTags_success() throws Exception {
+        assertEquals(SortCommand.SORT_BY_RATING, ParserUtil.parseSortCriteria("rating"));
+    }
 }
