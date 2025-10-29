@@ -37,7 +37,8 @@ public class CommandBox extends UiPart<Region> {
     private TextField commandTextField;
 
     /**
-     * Creates a {@code CommandBox} with the given {@code CommandExecutor}, {@code Storage}, and {@code FeedbackDisplay}.
+     * Creates a {@code CommandBox} with the given {@code CommandExecutor},
+     * {@code Storage}, and {@code FeedbackDisplay}.
      */
     public CommandBox(CommandExecutor commandExecutor, Storage storage, FeedbackDisplay feedbackDisplay) {
         super(FXML);
