@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM_SHORT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CANDIDATE;
@@ -78,7 +78,7 @@ public class RateCommandTest {
 
     @Test
     public void parse_invalidIndex_throwsParseException() {
-        String userInput = "0 " + PREFIX_FROM_SHORT + "Candidates " + PREFIX_RATE + "EXCELLENT"; // 0 is invalid
+        String userInput = "0 " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "EXCELLENT"; // 0 is invalid
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
     }
@@ -104,7 +104,7 @@ public class RateCommandTest {
         assertFalse(standardCommand
                 .equals(new RateCommand(INDEX_SECOND_CANDIDATE, Rating.EXCELLENT, Stage.CANDIDATES)));
 
-        // different remark -> returns false
+        // different rating -> returns false
         assertFalse(standardCommand.equals(new RateCommand(INDEX_FIRST_CANDIDATE, Rating.GOOD, Stage.CANDIDATES)));
 
         // different stage -> returns false

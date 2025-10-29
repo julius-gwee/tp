@@ -16,25 +16,25 @@ public class RateCommandParserTest {
 
     @Test
     public void parse_missingRating_throwsParseException() {
-        String userInput = "1 f/Candidates"; // stage provided, rating missing
+        String userInput = "1 from/Candidates"; // stage provided, rating missing
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_invalidIndex_throwsParseException() {
-        String userInput = "0 f/Candidates r/Good"; // invalid index
+        String userInput = "0 from/Candidates r/Good"; // invalid index
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
 
-        userInput = "abc f/Candidates r/Good"; // non-numeric index
+        userInput = "abc from/Candidates r/Good"; // non-numeric index
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_invalidRating_throwsParseException() {
-        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " f/Candidates rAndom";
+        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " from/Candidates rAndom";
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
     }
@@ -55,15 +55,8 @@ public class RateCommandParserTest {
 
     @Test
     public void parse_validDisplayName_success() {
-        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " f/Candidates r/Good";
+        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " from/Candidates r/Good";
         RateCommand expected = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.GOOD, Stage.CANDIDATES);
-        assertParseSuccess(parser, userInput, expected);
-    }
-
-    @Test
-    public void parse_withShortFromPrefix_success() {
-        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " f/Candidates r/Excellent";
-        RateCommand expected = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.EXCELLENT, Stage.CANDIDATES);
         assertParseSuccess(parser, userInput, expected);
     }
 
