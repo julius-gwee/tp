@@ -21,12 +21,18 @@ public class SortCommand extends Command {
             + "If no criteria stated, default is sorted alphabetically.\n"
             + "Parameters: [SORT CRITERIA] (optional, only the examples below are valid sort criteria)\n"
             + "Example: " + COMMAND_WORD + "\n"
-            + "Example: " + COMMAND_WORD + " alphabetical";
+            + "Example: " + COMMAND_WORD + " alphabetical"
+            + "Example: " + COMMAND_WORD + " date"
+            + "Example: " + COMMAND_WORD + " rating";
 
     public static final String MESSAGE_SUCCESS = "Sorted all candidates";
 
-    public static final Comparator<Person> SORT_BY_ALPHABET = Comparator.comparing(o -> o.getName().toString());
-    public static final Comparator<Person> SORT_BY_ADDRESS = Comparator.comparing(o -> o.getAddress().toString());
+    public static final Comparator<Person> SORT_BY_ALPHABET = Comparator.comparing(
+            o -> o.getName().toString());
+    public static final Comparator<Person> SORT_BY_DATEADDED = Comparator.comparing(
+            o -> o.getDateAdded().toDate());
+    public static final Comparator<Person> SORT_BY_RATING = Comparator.comparing(
+            o -> o.getRating().getInteger());
 
     private final Comparator<Person> comparator;
 

@@ -49,4 +49,9 @@ public class RatingTest {
     public void getDisplayName_matchesToString() {
         org.junit.jupiter.api.Assertions.assertEquals(Rating.EXCELLENT.toString(), Rating.EXCELLENT.getDisplayName());
     }
+
+    @Test
+    public void getInteger_matchesInt() {
+        org.junit.jupiter.api.Assertions.assertEquals(0, Rating.EXCELLENT.getInteger());
+    }
 }

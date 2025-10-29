@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.SortCommand.SORT_BY_ADDRESS;
 import static seedu.address.logic.commands.SortCommand.SORT_BY_ALPHABET;
+import static seedu.address.logic.commands.SortCommand.SORT_BY_DATEADDED;
 import static seedu.address.testutil.TypicalPersons.getTypicalFindr;
 
 import java.util.Comparator;
@@ -32,7 +32,7 @@ public class SortCommandTest {
     @Test
     public void equals() {
         SortCommand sortFirstCommand = new SortCommand(SORT_BY_ALPHABET);
-        SortCommand sortSecondCommand = new SortCommand(SORT_BY_ADDRESS);
+        SortCommand sortSecondCommand = new SortCommand(SORT_BY_DATEADDED);
 
         // same object -> returns true
         assertTrue(sortFirstCommand.equals(sortFirstCommand));
