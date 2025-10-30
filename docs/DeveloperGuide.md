@@ -9,7 +9,7 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+* Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -102,8 +102,8 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to a `FindrParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
+1. When `Logic` is called upon to execute a command, it is passed to a `FindrParser` object which in turn creates a parser that matches the command (e.g. `DeleteCommandParser`) and uses it to parse the command.
+1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g. `DeleteCommand`) which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
@@ -113,8 +113,8 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <img src="images/ParserClasses.png" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `FindrParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `FindrParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+* When called upon to parse a user command, the `FindrParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g. `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g. `AddCommand`) which the `FindrParser` returns back as a `Command` object.
+* All `XYZCommandParser` classes (e.g. `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
@@ -125,7 +125,7 @@ How the parsing works:
 The `Model` component,
 
 * stores the findr data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered and sorted_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the currently 'selected' `Person` objects (e.g. results of a search query) as a separate _filtered and sorted_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
@@ -284,167 +284,349 @@ assess, and engage top-tier candidates. Go beyond the resume to find the perfect
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                          | I want to …​                                 | So that I can…​                                                        |
-|----------|----------------------------------|----------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new recruiter                    | see usage instructions                       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | recruiter                        | add a potential candidate                    | keep track of all possible candidates                                  |
-| `* * *`  | recruiter                        | delete candidates I am no longer considering | reduce clutter on my contacts list                                     |
-| `* * *`  | recruiter                        | find a candidate by name                     | locate details of persons without having to go through the entire list |
-| `* * *`  | recruiter                        | see all candidates in the list               | view all candidates conveniently                                       |
-| `* *`    | recruiter                        | autosave my changes                          | not lose my work accidentally                                          |
-| `* *`    | recruiter with many candidates   | sort candidates by name                      | locate a person easily                                                 |
-| `* *`    | recruiter with many candidates   | sort candidates by date added                | locate a person easily                                                 |
-| `* *`    | recruiter with many candidates   | sort candidates by rating                    | locate a person easily                                                 |
-
-*{More to be added}*
+| Priority | As a …​                         | I want to …​                                     | So that I can…​                                                  |
+|----------|---------------------------------|--------------------------------------------------|------------------------------------------------------------------|
+| `* * *`  | new recruiter                   | see usage instructions                           | refer to instructions when I forget how to use the App           |
+| `* * *`  | recruiter                       | add a potential candidate                        | keep track of all possible candidates                            |
+| `* * *`  | recruiter                       | edit details of my candidates                    | keep my information of candidates up to date                     |
+| `* * *`  | meticulous recruiter            | delete candidates I am no longer considering     | reduce clutter on my candidate list                              |
+| `* * *`  | recruiter                       | find a candidate by name                         | easily locate details of a specific candidates                   |
+| `* * *`  | recruiter                       | see all candidates in the list                   | view all candidates conveniently                                 |
+| `* *`    | recruiter                       | autosave my changes                              | not lose my work accidentally                                    |
+| `* *`    | recruiter with many candidates  | sort candidates by alphabetical order            | easily navigate the candidate list                               |
+| `* *`    | recruiter with many candidates  | sort candidates by date added                    | easily navigate the candidate list                               |
+| `* *`    | recruiter with many candidates  | sort candidates by rating                        | easily navigate the candidate list                               |
+| `* *`    | recruiter                       | assign candidates with ratings                   | evaluate their performance at a glance                           |
+| `* *`    | organized recruiter             | split my candidates into columns                 | easily identify candidates under different stages of recruitment |
+| `* *`    | recruiter                       | assign tags to my candidates                     | easily view their traits and skills                              |
+| `* *`    | recruiter                       | create new tags                                  | customize my tagging of candidates                               |
+| `* *`    | recruiter                       | view all tags                                    | keep track of my existing tags                                   |
+| `* *`    | recruiter                       | edit my existing tags                            | customize my tagging of candidates                               |
+| `* *`    | meticulous recruiter            | delete unused tags                               | reduce clutter on my tag list                                    |
+| `* *`    | impatient recruiter             | access my previously used commands with a button | reduce time taken to type the same command again                 |
 
 ### Use cases
 
 (For all use cases below, the **System** is `findr` and the **Actor** is the `Recruiter`, unless specified otherwise)
 
-**Use case: View-all candidates**
+**Use case: UC01 - View the kanban board**
 
 **MSS**
-1. Actor requests to view all candidates.
-2. System displays the full candidate list with key fields (name, role, status, tags).
+1. Actor requests to view the recruitment board (e.g. enters `list`).
+2. System displays all stages with each candidate card and summary details.
 
    Use case ends.
 
 **Extensions**
-* 1a. The candidate list is empty.
+* 1a. No candidates exist in storage.
+
+  1a1. System shows empty kanban columns.
 
   Use case ends.
 
 ---
 
-**Use case: Add a candidate**
+**Use case: UC02 - Add a candidate**
 
 **MSS**
-1. Actor chooses to add a candidate.
-2. System requests the candidate details (e.g., name, role, contact, tags).
-3. Actor enters required details.
-4. System validates and creates the candidate.
-5. System shows the updated list including the new candidate.
+1. Actor gathers the candidate's mandatory details and any tag names defined in the tag catalogue.
+2. Actor submits an add command with the details.
+3. System validates the fields and creates the candidate in the `Candidates` stage.
+4. System shows a success message and refreshes the board.
 
    Use case ends.
 
 **Extensions**
-* 3a. Required details are missing or invalid.
+* 1a. Actor references a tag name that does not exist in the catalogue.
 
-  3a1. System highlights invalid fields and requests corrections.
+  1a1. System rejects the command and lists the missing tag names.
 
-  3a2. Actor provides corrected data.
+  Use case resumes at step 1.
 
-  Steps 3a1–3a2 repeat until data are valid. Use case resumes from step 4.
+* 2a. Required fields are missing or malformed.
 
-* 4a. Duplicate candidate (e.g., same email) detected.
+  2a1. System rejects the command and highlights the problematic fields.
 
-  4a1. System shows a duplicate warning and suggests viewing the existing record.
+  Use case resumes at step 2.
 
-  4a2. Actor chooses to cancel or proceed with an override if allowed by policy.
+* 2b. The candidate duplicates an existing record (e.g. same email).
 
-  Use case resumes from step 5 (if created) or ends (if cancelled).
+  2b1. System warns about the duplicate and aborts creation.
+
+  Use case resumes at step 2 if the actor chooses to amend the command.
 
 ---
 
-**Use case: Delete a candidate**
+**Use case: UC03 - Edit a candidate**
 
 **MSS**
-1. Actor requests to delete a specific candidate from the current list or from a specific kanban stage.
-2. System validates the index and optional stage parameter.
-3. Actor deletes the candidate and updates the list.
-4. System shows a success message with the deleted candidate's details.
+1. Actor identifies a candidate by its stage and index.
+2. Actor submits an edit command with the updated fields.
+3. System validates the request and applies the updates.
+4. System shows a success message and refreshes the affected candidate card.
 
    Use case ends.
 
 **Extensions**
-* 1a. The given index is invalid for the displayed list or specified stage.
+* 1a. The specified index is out of range for the chosen stage.
 
-  1a1. System shows an error message indicating invalid index.
-
-  Use case resumes at step 1.
-
-* 1b. A stage is specified but the stage name is invalid.
-
-  1b1. System shows an error message with valid stage names (Candidates, Contacted, Interviewed, Hired).
+  1a1. System rejects the command and reminds the actor to check the stage list.
 
   Use case resumes at step 1.
 
-* 1c. The specified stage has no candidates.
+* 2a. The edited fields reuse tags that are not in the catalogue.
 
-  1c1. System shows an error message indicating the stage is empty or index is out of bounds.
+  2a1. System rejects the command and lists missing tag names.
 
-  Use case resumes at step 1.
+  Use case resumes at step 2.
+
+* 2b. No editable fields are provided.
+
+  2b1. System rejects the command and prompts the actor to include at least one field.
+
+  Use case resumes at step 2.
 
 ---
 
-**Use case: Move a candidate between recruitment stages**
+**Use case: UC04 - Find candidates by keyword**
 
 **MSS**
-1. Actor identifies a candidate in one stage and specifies the new stage to move them to.
-2. System validates the move request (index and stage names).
-3. System updates the candidate's stage and reflects the change in the kanban board view.
-4. System shows a success message with the candidate's name and the stage transition.
+1. Actor specifies one or more name keywords.
+2. System filters the candidates whose names match the keywords and shows the narrowed board.
 
    Use case ends.
 
 **Extensions**
-* 1a. The given index is invalid for the specified source stage.
+* 1a. No candidates match the keywords.
 
-  1a1. System shows an error message indicating invalid index.
+  1a1. System shows an empty result list with a suitable message.
+
+  Use case ends.
+
+---
+
+**Use case: UC05 - Delete a candidate**
+
+**MSS**
+1. Actor identifies the candidate's index within a stage.
+2. Actor submits a delete command with the index and stage.
+3. System validates the input and removes the candidate from storage.
+4. System shows a success message with the deleted candidate's summary.
+
+   Use case ends.
+
+**Extensions**
+* 1a. The given index is invalid for the displayed stage.
+
+  1a1. System shows an error and keeps the board unchanged.
 
   Use case resumes at step 1.
 
-* 1b. The stage name is invalid or misspelled.
+* 1b. The stage argument is misspelled or omitted.
 
-  1b1. System shows an error message with valid stage names.
-
-  Use case resumes at step 1.
-
-* 2a. Source stage and destination stage are the same.
-
-  2a1. System shows an error message that the candidate is already in the specified stage.
-
-  Use case resumes at step 1.
-
-* 2b. The specified source stage has no candidates.
-
-  2b1. System shows an error message indicating the stage is empty.
+  1b1. System rejects the command and displays the valid stage names.
 
   Use case resumes at step 1.
 
 ---
 
-**Use case: Sort candidates by sort criteria**
+**Use case: UC06 - Move a candidate between stages**
 
 **MSS**
-1. Actor requests to sort candidate list by sort criteria. 
-2. System validates the sort request (sort criteria).
-3. System updates the candidate list and reflects the change in the kanban board view. 
+1. Actor identifies a candidate by stage and index, and chooses a destination stage.
+2. Actor submits a move command specifying the source and destination stages.
+3. System validates the move and updates the candidate's stage.
+4. System shows a success message with the new stage.
+
+   Use case ends.
+
+**Extensions**
+* 1a. The source stage index is invalid or the stage has no candidates.
+
+  1a1. System shows an error and keeps the board unchanged.
+
+  Use case resumes at step 1.
+
+* 1b. The source and destination stages are the same.
+
+  1b1. System rejects the command and reminds the actor to pick a different destination.
+
+  Use case resumes at step 1.
+
+* 2a. The destination stage name is misspelled.
+
+  2a1. System rejects the command and lists valid stage names.
+
+  Use case resumes at step 2.
+
+---
+
+**Use case: UC07 - Rate a candidate**
+
+**MSS**
+1. Actor identifies a candidate by stage and index.
+2. Actor submits a rate command with the desired rating.
+3. System validates the rating value and updates the candidate.
+4. System shows a success message and refreshes the candidate card.
+
+   Use case ends.
+
+**Extensions**
+* 1a. The specified index is invalid for the stage.
+
+  1a1. System rejects the command and explains the valid index range.
+
+  Use case resumes at step 1.
+
+* 2a. The rating value is not one of the supported options.
+
+  2a1. System rejects the command and lists the allowed ratings.
+
+  Use case resumes at step 2.
+
+---
+
+**Use case: UC08 - Sort candidates**
+
+**MSS**
+1. Actor chooses a sort criterion (alphabetical, date, or rating).
+2. Actor issues the sort command.
+3. System validates the criterion and reorders the board accordingly.
 4. System shows a success message.
 
    Use case ends.
 
 **Extensions**
-* 1a. The specified sort criteria is invalid.
+* 1a. Actor specifies an unsupported criterion.
 
-  1a1. System shows an error message with valid sort criteria.
+  1a1. System rejects the command and lists valid options.
 
   Use case resumes at step 1.
+
+---
+
+**Use case: UC09 - Clear candidates**
+
+**MSS**
+1. Actor decides whether to clear a single stage or the entire board.
+2. Actor submits a clear command with the chosen scope.
+3. System validates the scope and removes the corresponding candidates.
+4. System shows a confirmation message.
+
+   Use case ends.
+
+**Extensions**
+* 1a. Actor tries to clear a stage that is already empty.
+
+  1a1. System informs the actor that there are no candidates to remove.
+
+  Use case ends.
+
+* 2a. The stage argument is invalid.
+
+  2a1. System rejects the command and lists valid stage names.
+
+  Use case resumes at step 2.
+
+---
+
+**Use case: UC10 - Add a tag definition**
+
+**MSS**
+1. Actor identifies a new tag name, optional category, colour, and description.
+2. Actor issues a tag creation command with the details.
+3. System validates the fields and adds the tag to the catalogue.
+4. System shows a success message and refreshes the tag list panel.
+
+   Use case ends.
+
+**Extensions**
+* 1a. Actor specifies a tag name that already exists.
+
+  1a1. System rejects the command and points to the existing tag entry.
+
+  Use case resumes at step 1.
+
+* 2a. The colour code or name format is invalid.
+
+  2a1. System rejects the command and explains the expected format.
+
+  Use case resumes at step 2.
+
+---
+
+**Use case: UC11 - Edit a tag definition**
+
+**MSS**
+1. Actor selects a tag to update by its current name.
+2. Actor issues a tag edit command with the new attributes.
+3. System validates the request, updates the catalogue, and cascades changes to affected candidates.
+4. System shows a success message and refreshes the tag list panel.
+
+   Use case ends.
+
+**Extensions**
+* 1a. The referenced tag name does not exist.
+
+  1a1. System rejects the command and prompts the actor to list available tags.
+
+  Use case resumes at step 1.
+
+* 2a. The updated tag name collides with another tag.
+
+  2a1. System rejects the command and highlights the conflicting name.
+
+  Use case resumes at step 2.
+
+---
+
+**Use case: UC12 - Delete a tag definition**
+
+**MSS**
+1. Actor selects a tag to remove.
+2. Actor issues a tag delete command.
+3. System validates the tag name, removes it from the catalogue, and detaches it from all candidates.
+4. System shows a success message and refreshes the tag list panel.
+
+   Use case ends.
+
+**Extensions**
+* 1a. The tag name does not exist.
+
+  1a1. System rejects the command and prompts the actor to use `taglist`.
+
+  Use case resumes at step 1.
+
+---
+
+**Use case: UC13 - List tag definitions**
+
+**MSS**
+1. Actor requests to view the tag catalogue.
+2. System displays all tag entries with their attributes.
+
+   Use case ends.
+
+**Extensions**
+* 1a. The catalogue is empty.
+
+  1a1. System shows an empty state message encouraging the actor to add tags.
+
+  Use case ends.
 
 ---
 
 **Use case: Auto-save changes**
 
 **MSS**
-1. Actor performs a change (e.g., add, delete, edit).
+1. Actor performs a change (e.g. add, delete, edit).
 2. System automatically persists the change to storage.
 3. System shows a brief "Saved" status.
 
    Use case ends.
 
 **Extensions**
-* 2a. Temporary storage failure (e.g., file lock, I/O error).
+* 2a. Temporary storage failure (e.g. file lock, I/O error).
 
   2a1. System queues a retry and shows a non-intrusive warning.
 
@@ -454,7 +636,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   Use case ends.
 
-* 2b. Storage is unavailable (e.g., permission denied).
+* 2b. Storage is unavailable (e.g. permission denied).
 
   2b1. System prevents further destructive actions and displays recovery guidance.
 
@@ -469,19 +651,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 5.  Data must save automatically after each change to prevent data loss.
 6.  The codebase must be well-documented and adhere to coding standards.
 
-*{More to be added}*
-
 ### Glossary
 
-* **Actor**: A role (e.g., recruiter, user) interacting with the system in a use case.
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Auto-save**: A system feature that automatically persists changes without explicit user action.
-* **Candidate**: A person added to the system by a recruiter as a potential hire.
-* **Mainstream OS**: Windows, Linux, Unix, MacOS (as stated in non-functional requirements).
-* **Override**: An action that allows bypassing system warnings (e.g., creating a candidate despite duplicates).
-* **Recruiter**: The primary user of findr who manages and tracks potential candidates.
-* **System**: Refers to the findr application in use cases.
-* **Tag**: A keyword or label assigned to a candidate (e.g., “Java,” “Frontend”) to aid categorization and search.
+Term | Definition
+--------|------------------
+**Actor** | A role (e.g. recruiter) interacting with the system in a use case.
+**System** | Refers to the `findr` application in use cases.
+**Kanban Board** | A visual workflow management tool that organizes candidates into columns representing different recruitment stages.
+**Auto-save** | A system feature that automatically persists changes without explicit user action.
+**Candidate** | A person added to the system by a recruiter as a potential hire.
+**Mainstream OS** | Windows, Linux, Unix, MacOS (as stated in non-functional requirements).
+**Override** | An action that allows bypassing system warnings (e.g. creating a candidate despite duplicates).
+**Recruiter** | The primary user of `findr` who manages and tracks potential candidates.
+**Tag** | A keyword or label assigned to a candidate (e.g. “Java,” “Frontend”) to aid categorization and search.
 
 --------------------------------------------------------------------------------------------------------------------
 
