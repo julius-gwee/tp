@@ -18,7 +18,7 @@ public class RateCommandParserTest {
 
     @Test
     public void parse_missingIndex_throwsParseException() {
-        String userInput = PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
+        String userInput = " " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
     }
@@ -83,7 +83,8 @@ public class RateCommandParserTest {
 
     @Test
     public void parse_invalidStage_throwsParseException() {
-        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "NotAStage ";
+        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM
+                + "NotAStage " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_STAGE));
     }
