@@ -21,7 +21,7 @@ public class SampleDataUtilTest {
         assertNotNull(samplePersons);
         assertFalse(samplePersons.length == 0);
         // Verify a known value for correctness
-        assertEquals("Alex Yeoh", samplePersons[0].getName().fullName);
+        assertEquals("Amelia Chen", samplePersons[0].getName().fullName);
     }
 
     @Test
@@ -38,25 +38,25 @@ public class SampleDataUtilTest {
 
     @Test
     public void getTagSet_validTags_success() {
-        Set<Tag> tags = SampleDataUtil.getTagSet("friends", "colleagues");
+        Set<Tag> tags = SampleDataUtil.getTagSet("frontend", "backend");
         assertNotNull(tags);
         assertEquals(2, tags.size());
 
-        Tag friendsTag = tags.stream()
-                .filter(tag -> tag.tagName.equals("friends"))
+        Tag frontendTag = tags.stream()
+                .filter(tag -> tag.tagName.equals("frontend"))
                 .findFirst()
                 .orElseThrow();
-        assertEquals("Social", friendsTag.category);
-        assertEquals("#0B5FFF", friendsTag.colour);
-        assertEquals("Close friends and confidants.", friendsTag.description);
+        assertEquals("Engineering Focus", frontendTag.category);
+        assertEquals("#0B5FFF", frontendTag.colour);
+        assertEquals("Specialises in building responsive user interfaces.", frontendTag.description);
 
-        Tag colleaguesTag = tags.stream()
-                .filter(tag -> tag.tagName.equals("colleagues"))
+        Tag backendTag = tags.stream()
+                .filter(tag -> tag.tagName.equals("backend"))
                 .findFirst()
                 .orElseThrow();
-        assertEquals("Work", colleaguesTag.category);
-        assertEquals("#8E44AD", colleaguesTag.colour);
-        assertEquals("Professional contacts and teammates.", colleaguesTag.description);
+        assertEquals("Engineering Focus", backendTag.category);
+        assertEquals("#8E44AD", backendTag.colour);
+        assertEquals("Experienced with server-side systems and APIs.", backendTag.description);
 
         // Tags outside the curated sample list should still fall back to defaults.
         Tag customTag = SampleDataUtil.getTagSet("gymbuddy").iterator().next();
