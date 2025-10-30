@@ -10,7 +10,6 @@ title: Developer Guide
 ## **Acknowledgements**
 
 * Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
-* 
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -654,15 +653,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Actor**: A role (e.g. recruiter, user) interacting with the system in a use case.
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Auto-save**: A system feature that automatically persists changes without explicit user action.
-* **Candidate**: A person added to the system by a recruiter as a potential hire.
-* **Mainstream OS**: Windows, Linux, Unix, MacOS (as stated in non-functional requirements).
-* **Override**: An action that allows bypassing system warnings (e.g. creating a candidate despite duplicates).
-* **Recruiter**: The primary user of findr who manages and tracks potential candidates.
-* **System**: Refers to the findr application in use cases.
-* **Tag**: A keyword or label assigned to a candidate (e.g. “Java,” “Frontend”) to aid categorization and search.
+Term | Definition
+--------|------------------
+**Actor** | A role (e.g. recruiter) interacting with the system in a use case.
+**System** | Refers to the `findr` application in use cases.
+**Kanban Board** | A visual workflow management tool that organizes candidates into columns representing different recruitment stages.
+**Auto-save** | A system feature that automatically persists changes without explicit user action.
+**Candidate** | A person added to the system by a recruiter as a potential hire.
+**Mainstream OS** | Windows, Linux, Unix, MacOS (as stated in non-functional requirements).
+**Override** | An action that allows bypassing system warnings (e.g. creating a candidate despite duplicates).
+**Recruiter** | The primary user of `findr` who manages and tracks potential candidates.
+**Tag** | A keyword or label assigned to a candidate (e.g. “Java,” “Frontend”) to aid categorization and search.
 
 --------------------------------------------------------------------------------------------------------------------
 
