@@ -2,11 +2,11 @@
 layout: page
 title: User Guide
 ---
+* Table of Contents {:toc}
+---
 # :mag:findr
 
 `findr` is a **desktop app for recruiters to manage candidates, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, `findr` can get your candidate management tasks done faster than traditional GUI apps.
-
-* Table of Contents {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -215,7 +215,7 @@ Format: `sort [SORT_CRITERIA]`
 
 * Sorts all candidates in all stages based on the specified `[SORT_CRITERIA]`.
 * If no `[SORT_CRITERIA]` provided, candidates are sorted alphabetically by candidate name by default. 
-* Valid sort criteria: `alphabetical`, `date`, `rating` (case-sensitive).
+* Valid sort criteria: `Alphabetical`, `Date`, `Rating` (case-insensitive).
 
 `alphabetical` - sorts alphabetically by candidate name
 
