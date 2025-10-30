@@ -20,7 +20,7 @@ public class RateCommandParserTest {
     public void parse_missingIndex_throwsParseException() {
         String userInput = PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
     }
 
     @Test
@@ -28,29 +28,35 @@ public class RateCommandParserTest {
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " "
                 + PREFIX_FROM + "Candidates"; // stage provided, rating missing
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_RATE));
     }
 
     @Test
     public void parse_emptyRating_throwsParseException() {
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "Candidates " + PREFIX_RATE;
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_RATE));
     }
 
     @Test
-    public void parse_invalidIndex_throwsParseException() {
-        String userInput = "0 " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good"; // invalid index zero
+    public void parse_invalidIndexZero_throwsParseException() {
+        String userInput = "0 " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
+    }
 
-        userInput = "-1 " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good"; // negative
+    @Test
+    public void parse_invalidIndexNegative_throwsParseException() {
+        String userInput = "-1 " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
+    }
 
-        userInput = "abc " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good"; // non-numeric index
+    @Test
+    public void parse_invalidIndexNonNumeric_throwsParseException() {
+        String userInput = "abc " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
     }
 
     @Test
@@ -58,28 +64,28 @@ public class RateCommandParserTest {
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "Candidates "
                 + PREFIX_RATE + "InvalidRating";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_RATE));
     }
 
     @Test
     public void parse_missingStage_throwsParseException() {
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_STAGE));
     }
 
     @Test
     public void parse_emptyStage_throwsParseException() {
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + " " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_STAGE));
     }
 
     @Test
     public void parse_invalidStage_throwsParseException() {
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "NotAStage ";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_STAGE));
     }
 
     @Test
