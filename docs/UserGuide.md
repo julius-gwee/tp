@@ -2,11 +2,11 @@
 layout: page
 title: User Guide
 ---
+* Table of Contents {:toc}
+---
 # :mag:findr
 
 `findr` is a **desktop app for recruiters to manage candidates, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, `findr` can get your candidate management tasks done faster than traditional GUI apps.
-
-* Table of Contents {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
