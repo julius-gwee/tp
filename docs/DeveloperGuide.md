@@ -157,6 +157,188 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+---
+
+### Managing Candidates
+
+#### Implementation
+
+The `Person` class under the `model.person` package represents a **candidate** in Findr.  
+It contains the following fields:
+
+- `Name` – candidate’s full name.
+- `Phone` – candidate’s phone number.
+- `Email` – candidate’s email address.
+- `Address` – candidate’s address.
+- `Tags` – a set of tag references used to classify candidates (e.g. `backend`, `urgent`, `frontend`).
+- `Stage` – indicates which recruitment stage the candidate is currently in (e.g. `Candidates`, `Contacted`, `Interviewed`, `Hired`).
+- `Rating` – reflects the recruiter’s qualitative evaluation of the candidate (e.g. `Excellent`, `Good`, `Average`, etc.).
+- `DateAdded` – the date the candidate was added to Findr.
+
+Each `Person` is **immutable**, and all fields are validated upon creation.
+
+All `Person` objects are stored within a `UniquePersonList`, which ensures there are no duplicate candidates and provides efficient lookup and update operations. The list is managed by the `ModelManager`, which handles all modifications triggered by commands.
+
+---
+
+#### Design Considerations
+
+**Aspect: Representing recruitment stages and ratings**
+
+| Design Choice                                            | Pros | Cons |
+|----------------------------------------------------------|------|------|
+| Use Enum types (`Stage`, `Rating`) as opposed to Strings | Prevents invalid values and simplifies filtering | Requires explicit updates when adding new values |
+
+**Aspect: Default system fields for stage and rating**
+
+| Design Choice | Pros                                                                                                                                                                                                                               | Cons |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
+| Treat as optional fields (default to `CANDIDATES`, `UNRATED`) | Ensures all candidates have valid stage and rating.<br/>Ensures candidate follows proper workflow (starts as an `UNRATED` `CANDIDATE`) before being moved to the another stage (`MoveCommand`) and given a rating (`RateCommand`). | Users cannot set these at creation |
+
+---
+
+### **Rating System**
+#### Implementation
+- Each `Person` has a `Rating` field that represents their evaluation score.
+
+- `Rating` is an enum representing qualitative evaluations.
+
+```java
+public enum Rating {
+    UNRATED("Unrated", 5),
+    VERY_POOR("Very Poor", 4),
+    POOR("Poor", 3),
+    AVERAGE("Average", 2),
+    GOOD("Good", 1),
+    EXCELLENT("Excellent", 0);
+} 
+```
+- The RateCommand allows recruiters to update this field:
+
+  `rate INDEX from/STAGE r/RATING`
+
+  - For example:
+`rate 2 from/Interviewed r/Excellent` updates the 2nd candidate in the Interviewed stage to have a GOOD rating.
+- `RateCommand` updates a candidate’s rating immutably:
+    1. Finds candidate by index and stage.
+    2. Creates new `Person` instance with updated rating.
+    3. The model replaces the old instance using setPerson().
+    4. The updated data is persisted to storage and UI is refreshed.
+
+---
+#### Design Considerations
+
+**Aspect: Displaying ratings**
+
+| Design Choice                                                            | Pros | Cons |
+|--------------------------------------------------------------------------|--|------|
+| Show text labels (e.g. “Excellent”) as opposed to star icons or colours. | Clear meaning | Takes up more UI space |
+
+---
+### **Stage Management**
+#### Implementation
+
+- The recruitment process in Findr is visualized as a kanban board, with each column corresponding to a recruitment stage:
+`Candidates`, `Contacted`, `Interviewed`, and `Hired`.
+
+These stages are implemented as an enum class:
+```java
+public enum Stage {
+    CANDIDATES,
+    CONTACTED,
+    INTERVIEWED,
+    HIRED
+}
+```
+
+- Each candidate is assigned a Stage value that determines which column they appear under.
+
+- The MoveCommand allows recruiters to move candidates between these stages: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
+  - The command retrieves the candidate from the specified stage and index.
+  - Updates their Stage field, and replaces the old candidate with the updated one in the model. 
+  - This is done immutably via the Model#setPerson(Person target, Person editedPerson) method.
+
+The UI automatically reflects the change by re-filtering candidates based on their new stage.
+
+---
+#### Design Considerations
+
+**Aspect: Handling move operations**
+
+| Design Choice                                                                                      | Pros                                   | Cons |
+|----------------------------------------------------------------------------------------------------|----------------------------------------|------|
+| Create new `Person` instance with updated stage as opposed to modifying exiting `Person` directly. | Immutability ensures model consistency | Slight overhead in object creation |
+
+---
+### **Tag Catalogue Management**
+#### Implementation
+
+Findr introduces a **Tag Catalogue**, allowing recruiters to define reusable tags with extra metadata such as color, category, and description.
+
+Tags are represented by the `Tag` class in the `model.tag` package with the following fields:
+- tagName 
+- category 
+- color (hexadecimal)
+- description
+
+Each candidate’s tag set refers to existing tag definitions in this global catalogue.
+
+Tag management is handled by the following commands:
+- tagadd – Creates a new tag definition. 
+- tagedit – Edits an existing tag’s properties. 
+- tagdelete – Deletes a tag and removes it from all candidates. 
+- taglist – Displays all defined tags.
+
+This catalogue is stored in the same JSON file as findr, under the tags field in JsonSerializableFindr.
+
+---
+#### Design Considerations
+
+**Aspect: Tag storage**
+
+| Design Choice                                                                                       | Pros                                   | Cons |
+|-----------------------------------------------------------------------------------------------------|----------------------------------------|------|
+| Store tags globally and reference them by name as opposed to storing directly under each candidate. | Centralized control; ensures consistency | Requires validation when deleting tags |
+
+---
+### **Sorting candidates**
+#### Implementation
+
+Sorting functionality is handled by the SortCommand, which sorts all candidates by:
+- Name (alphabetical)
+- Date added (date)
+- Rating (rating)
+
+The command defines comparators for each criteria:
+
+```java
+public static final Comparator<Person> SORT_BY_ALPHABET = Comparator.comparing(
+        o -> o.getName().toString());
+public static final Comparator<Person> SORT_BY_DATEADDED = Comparator.comparing(
+        o -> o.getDateAdded().toDate());
+public static final Comparator<Person> SORT_BY_RATING = Comparator.comparing(
+        o -> o.getRating().getInteger());
+```
+
+The comparator is passed to the model:
+``` 
+model.updateSortedCandidateList(comparator);
+```
+After sorting, the updated list is displayed in the UI immediately.
+
+`SortedList` wraps the `FilteredList`, so sorting happens automatically when the comparator changes
+
+---
+**Design Considerations**
+
+| Aspect                     | Design Choice                              | Pros                                 | Cons                                     |
+|----------------------------|-------------------------------------------|--------------------------------------|-----------------------------------------|
+| When to sort               | Sort on demand using comparator           | Efficient memory usage; flexible     | Must re-sort for every query            |
+| Maintaining sorted list    | Keep a constantly sorted list             | Fast access to sorted list           | Harder to maintain during edits         |
+| Comparator implementation  | Use Java `Comparator` for each criteria   | Clear, reusable, easy to extend      | Slight boilerplate code                 |
+
+---
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
