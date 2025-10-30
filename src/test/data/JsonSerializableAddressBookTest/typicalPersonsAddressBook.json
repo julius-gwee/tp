@@ -27,7 +27,9 @@
           "colour": "#0B5FFF",
           "description": "Close friends and confidants."
         }
-      ]
+      ],
+      "rating": "UNRATED",
+      "stage": "CANDIDATES"
     },
     {
       "name": "Benson Meier",
@@ -47,14 +49,18 @@
           "colour": "#7A7A7A",
           "description": ""
         }
-      ]
+      ],
+      "rating": "POOR",
+      "stage": "CONTACTED"
     },
     {
       "name": "Carl Kurz",
       "phone": "95352563",
       "email": "heinz@example.com",
       "address": "wall street",
-      "tags": []
+      "tags": [],
+      "rating": "EXCELLENT",
+      "stage": "INTERVIEWED"
     },
     {
       "name": "Daniel Meier",
@@ -68,28 +74,36 @@
           "colour": "#0B5FFF",
           "description": "Close friends and confidants."
         }
-      ]
+      ],
+      "rating": "UNRATED",
+      "stage": "CONTACTED"
     },
     {
       "name": "Elle Meyer",
       "phone": "9482224",
       "email": "werner@example.com",
       "address": "michegan ave",
-      "tags": []
+      "tags": [],
+      "rating": "VERY POOR",
+      "stage": "INTERVIEWED"
     },
     {
       "name": "Fiona Kunz",
       "phone": "9482427",
       "email": "lydia@example.com",
       "address": "little tokyo",
-      "tags": []
+      "tags": [],
+      "rating": "UNRATED",
+      "stage": "CANDIDATES"
     },
     {
       "name": "George Best",
       "phone": "9482442",
       "email": "anna@example.com",
       "address": "4th street",
-      "tags": []
+      "tags": [],
+      "rating": "UNRATED",
+      "stage": "CANDIDATES"
     }
   ]
 }

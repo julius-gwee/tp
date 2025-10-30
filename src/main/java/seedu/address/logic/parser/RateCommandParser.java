@@ -5,6 +5,9 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.RateCommand;
@@ -16,6 +19,8 @@ import seedu.address.model.person.Stage;
  * Parses input arguments and creates a new {@code RateCommand} object
  */
 public class RateCommandParser implements Parser<RateCommand> {
+    private static final Logger logger = LogsCenter.getLogger(RateCommandParser.class);
+
     /**
      * Parses the given {@code String} of arguments in the context of the {@code RateCommand}
      * and returns a {@code RateCommand} object for execution.
@@ -23,39 +28,51 @@ public class RateCommandParser implements Parser<RateCommand> {
      */
     public RateCommand parse(String args) throws ParseException {
         requireNonNull(args);
+        logger.info("Parsing RateCommand with arguments: " + args);
+
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_RATE, PREFIX_FROM);
 
         Index index;
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            logger.fine("Parsed index: " + index);
         } catch (IllegalValueException ive) {
+            logger.warning("Invalid index in RateCommand input: " + args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), ive);
         }
 
         String rating = argMultimap.getValue(PREFIX_RATE).orElse(null);
         if (rating == null || rating.isEmpty()) {
+            logger.warning("Missing /rate argument in RateCommand: " + args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
         }
 
         Rating parsed;
         try {
             parsed = Rating.fromString(rating);
+            logger.fine("Parsed rating: " + parsed);
         } catch (IllegalArgumentException e) {
+            logger.warning("Invalid rating string: " + rating);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
         }
 
         // Stage must be provided via from/
         String stageArg = argMultimap.getValue(PREFIX_FROM).orElse(null);
         if (stageArg == null || stageArg.isEmpty()) {
+            logger.warning("Missing /from argument in RateCommand: " + args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
         }
         Stage fromStage;
         try {
             fromStage = ParserUtil.parseStage(stageArg);
+            logger.fine("Parsed stage: " + fromStage);
         } catch (ParseException pe) {
+            logger.warning("Invalid stage string: " + stageArg);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), pe);
         }
 
+        logger.fine(String.format("Successfully parsed RateCommand: index=%s, stage=%s, rating=%s",
+                index, fromStage, parsed));
         return new RateCommand(index, parsed, fromStage);
     }
 }
