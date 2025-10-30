@@ -286,7 +286,7 @@ Format: `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/D
 
 Examples:
 * `tagedit tn/backend tc/Product` edits backend tag to have a new category
-* `tagedit tn/urgent nn/highpriority tcol/#FF0000` replaces urgent tag with highpriority and edits its colour to the one specified
+* `tagedit tn/urgent nn/highpriority tcol/#FF0000` replaces urgent tag with `highpriority` and edits its colour to the one specified
 
 #### Deleting a tag definition : `tagdelete`
 
