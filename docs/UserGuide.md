@@ -2,7 +2,8 @@
 layout: page
 title: User Guide
 ---
-* Table of Contents {:toc}
+* Table of Contents
+{:toc}
 ---
 # :mag:findr
 
@@ -98,7 +99,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
-
+![add](images/addCommand.png)
 <div markdown="span" class="alert alert-primary">
 
 :bulb: **Tip:**
@@ -130,6 +131,8 @@ Format: `edit INDEX from/STAGE [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]�
 * You can remove all the candidate’s tags by typing `t/` without specifying any tags after it.
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive)
 
+![edit](images/editCommand.png)
+
 Examples:
 *  `edit 1 from/Candidates p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st candidate in the Candidate stage to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 from/Interviewed n/Betsy Crower t/` Edits the name of the 2nd candidate in the Interviewed stage to be `Betsy Crower` and clears all existing tags.
@@ -150,7 +153,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+  ![result for 'find'](images/findCommand.png)
 
 ### Deleting a candidate : `delete`
 
@@ -203,8 +206,8 @@ Format: `rate INDEX from/STAGE r/RATING`
 * Valid ratings: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
 
 Examples:
-* `rate 1 f/Candidates r/Excellent` rates the 1st candidate in the Candidates column as Excellent.
-* `rate 2 f/Interviewed r/Good` rates the 2nd candidate in the Interviewed column as Good.
+* `rate 1 from/Candidates r/Excellent` rates the 1st candidate in the Candidates column as Excellent.
+* `rate 2 from/Interviewed r/Good` rates the 2nd candidate in the Interviewed column as Good.
 * `rate 3 from/Contacted r/Very Poor` rates the 3rd candidate in the Contacted column as Very Poor.
 
 ### Sorting candidates : `sort`
@@ -268,11 +271,16 @@ Format: `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`
 * Adds a new tag with the specified `TAG_NAME`, `[CATEGORY]`, `[COLOUR]`, and `[DESCRIPTION]`.
 * If not specified, new tag is created with `General` category, `#7A7A7A` color, and no description by default. 
 * Tag names must be alphanumeric and unique.
+* Tag names are case-sensitive and do not include spaces between.
+* Valid tag names: `backend`, `lowpriority`, `database`.
+* Invalid tag names: `back end`, `Low priority`.
 * Tag colour must be 6 digit hexadecimal beginning with `#`
 
 Examples:
 * `tagadd tn/backend tc/Engineering tcol/#1F75FE td/Backend specialist` adds new tag called backend with specified fields
 * `tagadd tn/urgent` adds new tag called urgent with default fields
+
+![tag](images/tagCommand.png)
 
 #### Editing a tag definition : `tagedit`
 
@@ -286,7 +294,7 @@ Format: `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/D
 
 Examples:
 * `tagedit tn/backend tc/Product` edits backend tag to have a new category
-* `tagedit tn/urgent nn/highpriority tcol/#FF0000` replaces urgent tag with highpriority and edits its colour to the one specified
+* `tagedit tn/urgent nn/highpriority tcol/#FF0000` replaces urgent tag with `highpriority` and edits its colour to the one specified
 
 #### Deleting a tag definition : `tagdelete`
 
@@ -370,3 +378,23 @@ Action | Format, Examples
 **Tag Delete** | `tagdelete tn/TAG_NAME`<br> e.g. `tagdelete tn/veryurgent`
 **Tag List** | `taglist`
 **Help** | `help`
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+
+Term | Definition
+--------|------------------
+**Alphanumeric** | Characters that consist of letters (A-Z, a-z) and numbers (0-9) only, with no special characters or spaces.
+**CLI** | Command Line Interface - A text-based interface where you type commands to interact with the application, rather than clicking buttons.
+**Command Terminal** | A text-based application (also called Command Prompt on Windows or Terminal on Mac/Linux) where you enter commands to run programs like `findr`.
+**GUI** | Graphical User Interface - A visual interface with buttons, windows, and menus that you can interact with using a mouse.
+**Stage** | A specific phase in the recruitment process (Candidates, Contacted, Interviewed, or Hired), represented as columns in the kanban board.
+**Kanban Board** | A visual workflow management tool that organizes candidates into columns representing different recruitment stages.
+**Case Sensitivity** | The distinction between uppercase and lowercase letters. Case-insensitive means `Candidates`, `candidates`, and `CANDIDATES` are treated the same. 
+**Hard disk** | Your computer's main storage device where files and data are permanently saved, even when the computer is turned off.
+**Hexadecimal** | A color code format using 6 characters (0-9 and A-F) preceded by `#` (e.g., `#FF0000` for red). Used to specify custom tag colors.
+**Java** | A programming language and computing platform required to run `findr`. Must be version 17 or higher.
+**JDK** | Java Development Kit - The software package that includes everything needed to run Java applications on your computer.
+**JSON** | JavaScript Object Notation - A file format used to store `findr`'s data in a structured, readable way. The file extension is `.json`.
+**Oracle** | The technology company that develops and maintains Java. Their website provides official Java downloads.

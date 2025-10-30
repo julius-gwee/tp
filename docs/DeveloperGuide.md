@@ -506,40 +506,110 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    1. Download the jar file and copy it into an empty folder.
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file.<br>
+      Expected: `findr` starts with the kanban board populated using the sample candidates and the catalogue of predefined tags
+      (e.g. `frontend`, `backend`).
 
 1. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+   1. Relaunch the app by double-clicking the jar file.<br>
+      Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+1. Fresh state
 
-### Deleting a person
+    1. Run `clear all` to remove sample candidates.<br>
+       Expected: All kanban columns become empty while the tag catalogue remains available for reuse.<br>
+   Warning: This function is irreversible so for testing purposes, it is recommended that you only do this at the end.
 
-1. Deleting a person while all persons are being shown
+### Candidate and kanban workflow
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+1. Adding and editing a candidate
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   1. Run `tagadd tn/contractor tc/Engagement tcol/#FF9F1C td/Ready for short-term roles` to create a reusable tag.<br>
+      Expected: Success message confirms the new tag is available in the catalogue (visible in `taglist`).
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+   1. Run `add n/Gina Lim p/91234567 e/gina.lim@talentmail.com a/123 Market Street t/contractor`.<br>
+      Expected: A candidate card for Gina appears in the **Candidates** column with rating `Unrated` and the `contractor` tag badge.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+   1. Run `edit 1 from/Candidates p/93335555 e/gina.lim@talenthub.io`.<br>
+      Expected: The candidate card keeps its position in the Candidates column but reflects the updated phone number and email.
 
-1. _{ more test cases …​ }_
+1. Moving candidates between stages
 
-### Saving data
+   1. Run `move 1 from/Candidates to/Contacted`.<br>
+      Expected: The candidate card moves into the **Contacted** column with a refreshed index within that column. The result message summarises the stage transition.
 
-1. Dealing with missing/corrupted data files
+1. Rating candidates
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    1. Run `rate 1 from/Contacted r/Good`.<br>
+       Expected: The candidate card shows the `Good` rating badge and the success message acknowledges the rating update. Stage placement remains unchanged.
 
-1. _{ more test cases …​ }_
+1. Deleting candidates from a stage
+
+    1. Run `delete 1 from/Contacted`.<br>
+       Expected: The candidate card disappears from the Contacted column and the status message references the removed candidate.
+
+1. Sorting candidates
+
+    1. Add a few candidates using the `add` command with varying rating and names.
+
+    1. Run `sort rating`.<br>
+       Expected: The board reorders candidates so that higher-rated candidates (e.g. `Excellent`) appear before lower-rated ones within each stage, and the result message states that sorting succeeded.
+
+    1. Run `sort date`.<br>
+       Expected: Candidates reorder by their `Date Added` values with the oldest dates appearing first.
+
+    1. Run `sort` (with no arguments).<br>
+       Expected: Candidates reorder alphabetically by name.
+
+1. Clearing stages safely
+
+    1. Run `clear Interviewed`.<br>
+       Expected: Only the **Interviewed** column becomes empty. Other stages and the tag catalogue stay intact.
+
+### Tag catalogue management
+
+These tests ensure the global tag catalogue stays in sync with candidate cards.
+
+1. Listing tags
+
+    1. Run `taglist`.<br>
+       Expected: The result panel shows the predefined tags (e.g. `frontend`, `backend`) and any tags you added earlier such as `contractor`.
+
+1. Editing a tag
+
+    1. Run `tagedit tn/contractor nn/helper tcol/#FFB347`.<br>
+       Expected: The catalogue now lists `helper` with the updated colour. Any candidate using the original `contractor` tag should display the renamed tag automatically.
+
+1. Deleting a tag
+
+    1. Run `tagdelete tn/helper`.<br>
+       Expected: The tag disappears from `taglist`, and any candidate that previously displayed it no longer shows the badge.
+
+### Data persistence and recovery
+
+1. Auto-saving candidate data
+
+    1. After modifying candidates (e.g. completing the add/edit/move/rate flow above), exit the app with `exit`.
+
+    1. Navigate to the `data` folder beside the jar and open `findr.json` in a text editor.<br>
+       Expected: The JSON contains the latest candidate details you observed before exiting, including stage, rating, and tags.
+
+    1. Relaunch the app.<br>
+       Expected: The kanban board reflects the saved state from the JSON file.
+
+1. Handling corrupted data files
+
+    1. With the app closed, create a backup of `data/findr.json`, then deliberately introduce a syntax error (e.g. delete the final closing brace) in the original file.
+
+    1. Launch the app.<br>
+       Expected: `findr` starts with an empty candidate list and recreates a valid `findr.json`. Restore from the backup to continue testing.
+
+1. Preferences recovery
+
+    1. Delete the `preferences.json` file in the same directory as the jar (if it exists) and relaunch the app.<br>
+       Expected: `findr` recreates the file with default window dimensions and position.
