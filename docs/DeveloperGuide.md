@@ -157,6 +157,46 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+---
+
+### Managing Candidates
+
+#### Implementation
+
+The `Person` class under the `model.person` package represents a **candidate** in Findr.  
+It contains the following fields:
+
+- `Name` – candidate’s full name.
+- `Phone` – candidate’s phone number.
+- `Email` – candidate’s email address.
+- `Address` – candidate’s address.
+- `Tags` – a set of tag references used to classify candidates (e.g. `backend`, `urgent`, `frontend`).
+- `Stage` – indicates which recruitment stage the candidate is currently in (e.g. `Candidates`, `Contacted`, `Interviewed`, `Hired`).
+- `Rating` – reflects the recruiter’s qualitative evaluation of the candidate (e.g. `Excellent`, `Good`, `Average`, etc.).
+- `DateAdded` – the date the candidate was added to Findr.
+
+Each `Person` is **immutable**, and all fields are validated upon creation.
+
+All `Person` objects are stored within a `UniquePersonList`, which ensures there are no duplicate candidates and provides efficient lookup and update operations. The list is managed by the `ModelManager`, which handles all modifications triggered by commands.
+
+---
+
+#### Design Considerations
+
+**Aspect: Representing recruitment stages and ratings**
+
+| Design Choice | Pros | Cons |
+|----------------|------|------|
+| Use Enum types (`Stage`, `Rating`) | Prevents invalid values and simplifies filtering | Requires explicit updates when adding new values |
+
+**Aspect: Default system fields for stage and rating**
+
+| Design Choice | Pros                                                                                                                                                                                                                               | Cons |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
+| Treat as optional fields (default to `CANDIDATES`, `UNRATED`) | Ensures all candidates have valid stage and rating.<br/>Ensures candidate follows proper workflow (starts as an `UNRATED` `CANDIDATE`) before being moved to the another stage (`MoveCommand`) and given a rating (`RateCommand`). | Users cannot set these at creation |
+
+---
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
