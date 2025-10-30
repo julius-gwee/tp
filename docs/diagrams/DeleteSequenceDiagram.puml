@@ -6,6 +6,7 @@ box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":FindrParser" as FindrParser LOGIC_COLOR
 participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
+participant ":ParserUtil" as ParserUtil LOGIC_COLOR
 participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
 end box
@@ -14,10 +15,10 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("delete 1")
+[-> LogicManager : execute("delete 1 from/Candidates")
 activate LogicManager
 
-LogicManager -> FindrParser : parseCommand("delete 1")
+LogicManager -> FindrParser : parseCommand("delete 1 from/Candidates")
 activate FindrParser
 
 create DeleteCommandParser
@@ -27,14 +28,23 @@ activate DeleteCommandParser
 DeleteCommandParser --> FindrParser
 deactivate DeleteCommandParser
 
-FindrParser -> DeleteCommandParser : parse("1")
+FindrParser -> DeleteCommandParser : parse("1 from/Candidates")
 activate DeleteCommandParser
 
-create DeleteCommand
-DeleteCommandParser -> DeleteCommand
-activate DeleteCommand
+DeleteCommandParser -> ParserUtil : parseIndex("1")
+activate ParserUtil
+ParserUtil --> DeleteCommandParser : Index
+deactivate ParserUtil
 
-DeleteCommand --> DeleteCommandParser :
+DeleteCommandParser -> ParserUtil : parseStage("Candidates")
+activate ParserUtil
+ParserUtil --> DeleteCommandParser : Stage
+deactivate ParserUtil
+
+create DeleteCommand
+DeleteCommandParser -> DeleteCommand : new DeleteCommand(Index, Stage)
+activate DeleteCommand
+DeleteCommand --> DeleteCommandParser : d
 deactivate DeleteCommand
 
 DeleteCommandParser --> FindrParser : d
@@ -49,16 +59,14 @@ deactivate FindrParser
 LogicManager -> DeleteCommand : execute(m)
 activate DeleteCommand
 
-DeleteCommand -> Model : deletePerson(1)
+DeleteCommand -> Model : deleteCandidate(person)
 activate Model
-
 Model --> DeleteCommand
 deactivate Model
 
 create CommandResult
 DeleteCommand -> CommandResult
 activate CommandResult
-
 CommandResult --> DeleteCommand
 deactivate CommandResult
 
