@@ -185,9 +185,9 @@ All `Person` objects are stored within a `UniquePersonList`, which ensures there
 
 **Aspect: Representing recruitment stages and ratings**
 
-| Design Choice | Pros | Cons |
-|----------------|------|------|
-| Use Enum types (`Stage`, `Rating`) | Prevents invalid values and simplifies filtering | Requires explicit updates when adding new values |
+| Design Choice                                            | Pros | Cons |
+|----------------------------------------------------------|------|------|
+| Use Enum types (`Stage`, `Rating`) as opposed to Strings | Prevents invalid values and simplifies filtering | Requires explicit updates when adding new values |
 
 **Aspect: Default system fields for stage and rating**
 
@@ -224,6 +224,50 @@ public enum Rating {
     2. Creates new `Person` instance with updated rating.
     3. The model replaces the old instance using setPerson().
     4. The updated data is persisted to storage and UI is refreshed.
+
+---
+#### Design Considerations
+
+**Aspect: Displaying ratings**
+
+| Design Choice                                                            | Pros | Cons |
+|--------------------------------------------------------------------------|--|------|
+| Show text labels (e.g. “Excellent”) as opposed to star icons or colours. | Clear meaning | Takes up more UI space |
+
+---
+### **Stage Management**
+
+- The recruitment process in Findr is visualized as a kanban board, with each column corresponding to a recruitment stage:
+`Candidates`, `Contacted`, `Interviewed`, and `Hired`.
+
+These stages are implemented as an enum class:
+```java
+public enum Stage {
+    CANDIDATES,
+    CONTACTED,
+    INTERVIEWED,
+    HIRED
+}
+```
+
+- Each candidate is assigned a Stage value that determines which column they appear under.
+
+- The MoveCommand allows recruiters to move candidates between these stages: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
+  - The command retrieves the candidate from the specified stage and index.
+  - Updates their Stage field, and replaces the old candidate with the updated one in the model. 
+  - This is done immutably via the Model#setPerson(Person target, Person editedPerson) method.
+
+The UI automatically reflects the change by re-filtering candidates based on their new stage.
+
+---
+#### Design Considerations
+
+**Aspect: Handling move operations**
+
+| Design Choice                                                                                      | Pros                                   | Cons |
+|----------------------------------------------------------------------------------------------------|----------------------------------------|------|
+| Create new `Person` instance with updated stage as opposed to modifying exiting `Person` directly. | Immutability ensures model consistency | Slight overhead in object creation |
+
 
 ---
 
