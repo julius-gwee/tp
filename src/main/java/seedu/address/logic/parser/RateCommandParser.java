@@ -32,19 +32,41 @@ public class RateCommandParser implements Parser<RateCommand> {
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_RATE, PREFIX_FROM);
 
+        // Fallback for completely malformed input (no recognizable prefixes)
+        if (!argMultimap.getValue(PREFIX_RATE).isPresent() && !argMultimap.getValue(PREFIX_FROM).isPresent()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+        }
+
         Index index;
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
             logger.fine("Parsed index: " + index);
         } catch (IllegalValueException ive) {
             logger.warning("Invalid index in RateCommand input: " + args);
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), ive);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    RateCommand.MESSAGE_INVALID_INDEX), ive);
+        }
+
+        // Stage must be provided via from/
+        String stageArg = argMultimap.getValue(PREFIX_FROM).orElse(null);
+        if (stageArg == null || stageArg.isEmpty()) {
+            logger.warning("Missing /from argument in RateCommand: " + args);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_STAGE));
+        }
+        Stage fromStage;
+        try {
+            fromStage = ParserUtil.parseStage(stageArg);
+            logger.fine("Parsed stage: " + fromStage);
+        } catch (ParseException pe) {
+            logger.warning("Invalid stage string: " + stageArg);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    RateCommand.MESSAGE_INVALID_STAGE), pe);
         }
 
         String rating = argMultimap.getValue(PREFIX_RATE).orElse(null);
         if (rating == null || rating.isEmpty()) {
             logger.warning("Missing /rate argument in RateCommand: " + args);
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_RATE));
         }
 
         Rating parsed;
@@ -53,22 +75,7 @@ public class RateCommandParser implements Parser<RateCommand> {
             logger.fine("Parsed rating: " + parsed);
         } catch (IllegalArgumentException e) {
             logger.warning("Invalid rating string: " + rating);
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
-        }
-
-        // Stage must be provided via from/
-        String stageArg = argMultimap.getValue(PREFIX_FROM).orElse(null);
-        if (stageArg == null || stageArg.isEmpty()) {
-            logger.warning("Missing /from argument in RateCommand: " + args);
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
-        }
-        Stage fromStage;
-        try {
-            fromStage = ParserUtil.parseStage(stageArg);
-            logger.fine("Parsed stage: " + fromStage);
-        } catch (ParseException pe) {
-            logger.warning("Invalid stage string: " + stageArg);
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), pe);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_RATE));
         }
 
         logger.fine(String.format("Successfully parsed RateCommand: index=%s, stage=%s, rating=%s",
