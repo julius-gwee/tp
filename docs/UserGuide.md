@@ -370,3 +370,23 @@ Action | Format, Examples
 **Tag Delete** | `tagdelete tn/TAG_NAME`<br> e.g. `tagdelete tn/veryurgent`
 **Tag List** | `taglist`
 **Help** | `help`
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+
+Term | Definition
+--------|------------------
+**Alphanumeric** | Characters that consist of letters (A-Z, a-z) and numbers (0-9) only, with no special characters or spaces.
+**CLI** | Command Line Interface - A text-based interface where you type commands to interact with the application, rather than clicking buttons.
+**Command** | A specific instruction you type into the application to perform an action (e.g., `add`, `delete`, `list`).
+**GUI** | Graphical User Interface - A visual interface with buttons, windows, and menus that you can interact with using a mouse.
+**Hard disk** | Your computer's main storage device where files and data are permanently saved, even when the computer is turned off.
+**Hexadecimal** | A color code format using 6 characters (0-9 and A-F) preceded by `#` (e.g., `#FF0000` for red). Used to specify custom tag colors.
+**Java** | A programming language and computing platform required to run `findr`. Must be version 17 or higher.
+**JDK** | Java Development Kit - The software package that includes everything needed to run Java applications on your computer.
+**JSON** | JavaScript Object Notation - A file format used to store `findr`'s data in a structured, readable way. The file extension is `.json`.
+**Kanban Board** | A visual workflow management tool that organizes candidates into columns representing different recruitment stages.
+**Oracle** | The technology company that develops and maintains Java. Their website provides official Java downloads.
+**Stage** | A specific phase in the recruitment process (Candidates, Contacted, Interviewed, or Hired), represented as columns in the kanban board.
+**Terminal** | A text-based application (also called Command Prompt on Windows or Terminal on Mac/Linux) where you enter commands to run programs like `findr`.
