@@ -203,8 +203,8 @@ Format: `rate INDEX from/STAGE r/RATING`
 * Valid ratings: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
 
 Examples:
-* `rate 1 f/Candidates r/Excellent` rates the 1st candidate in the Candidates column as Excellent.
-* `rate 2 f/Interviewed r/Good` rates the 2nd candidate in the Interviewed column as Good.
+* `rate 1 from/Candidates r/Excellent` rates the 1st candidate in the Candidates column as Excellent.
+* `rate 2 from/Interviewed r/Good` rates the 2nd candidate in the Interviewed column as Good.
 * `rate 3 from/Contacted r/Very Poor` rates the 3rd candidate in the Contacted column as Very Poor.
 
 ### Sorting candidates : `sort`
