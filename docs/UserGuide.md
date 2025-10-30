@@ -268,6 +268,9 @@ Format: `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`
 * Adds a new tag with the specified `TAG_NAME`, `[CATEGORY]`, `[COLOUR]`, and `[DESCRIPTION]`.
 * If not specified, new tag is created with `General` category, `#7A7A7A` color, and no description by default. 
 * Tag names must be alphanumeric and unique.
+* Tag names are case-sensitive and do not include spaces between.
+* Valid tag names: `backend`, `lowpriority`, `database`.
+* Invalid tag names: `back end`, `Low priority`.
 * Tag colour must be 6 digit hexadecimal beginning with `#`
 
 Examples:
