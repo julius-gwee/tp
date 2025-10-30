@@ -27,11 +27,15 @@ import seedu.address.model.tag.Tag;
  */
 public class SampleDataUtil {
     private static final List<Tag> SAMPLE_TAGS = List.of(
-            new Tag("friends", "Social", "#0B5FFF", "Close friends and confidants."),
-            new Tag("colleagues", "Work", "#8E44AD", "Professional contacts and teammates."),
-            new Tag("neighbours", "Community", "#16A085", "Neighbours living nearby."),
-            new Tag("family", "Family", "#C0392B", "Immediate family members."),
-            new Tag("classmates", "School", "#F39C12", "Schoolmates and course mates.")
+            new Tag("frontend", "Engineering Focus", "#0B5FFF",
+                    "Specialises in building responsive user interfaces."),
+            new Tag("backend", "Engineering Focus", "#8E44AD",
+                    "Experienced with server-side systems and APIs."),
+            new Tag("datascience", "Analytics", "#16A085",
+                    "Works with machine learning and data pipelines."),
+            new Tag("product", "Product Leadership", "#C0392B",
+                    "Coordinates product strategy and roadmaps."),
+            new Tag("ux", "Design", "#F39C12", "Designs intuitive user experiences.")
     );
 
     private static final Map<String, Tag> SAMPLE_TAG_LOOKUP = SAMPLE_TAGS.stream()
@@ -39,25 +43,30 @@ public class SampleDataUtil {
 
     public static Person[] getSamplePersons() {
         return new Person[] {
-            new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                new Address("Blk 30 Geylang Street 29, #06-40"),
-                    getTagSet("friends"), dateAddedOf(2024, 1, 12), Rating.GOOD, Stage.CANDIDATES),
-            new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
-                new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
-                    getTagSet("colleagues", "friends"), dateAddedOf(2023, 11, 3),
+            new Person(new Name("Amelia Chen"), new Phone("82345670"), new Email("amelia.chen@talentmail.com"),
+                    new Address("12 Marina View, #18-01"),
+                    getTagSet("frontend", "ux"), dateAddedOf(2024, 3, 15),
                     Rating.EXCELLENT, Stage.INTERVIEWED),
-            new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
-                    getTagSet("neighbours"), dateAddedOf(2023, 7, 22), Rating.AVERAGE, Stage.CONTACTED),
-            new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
-                    getTagSet("family"), dateAddedOf(2022, 9, 15), Rating.GOOD, Stage.HIRED),
-            new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                new Address("Blk 47 Tampines Street 20, #17-35"),
-                    getTagSet("classmates"), dateAddedOf(2024, 2, 2), Rating.POOR, Stage.CANDIDATES),
-            new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
-                new Address("Blk 45 Aljunied Street 85, #11-31"),
-                    getTagSet("colleagues"), dateAddedOf(2023, 5, 9), Rating.UNRATED, Stage.CANDIDATES)
+            new Person(new Name("Brian Lee"), new Phone("86451234"), new Email("brian.lee@candidatehub.io"),
+                    new Address("55 Pasir Ris Grove, #09-21"),
+                    getTagSet("backend"), dateAddedOf(2024, 1, 27),
+                    Rating.GOOD, Stage.CANDIDATES),
+            new Person(new Name("Carla Gomez"), new Phone("81235678"), new Email("carla.gomez@datafolk.ai"),
+                    new Address("88 Science Park Drive, #03-05"),
+                    getTagSet("datascience"), dateAddedOf(2023, 12, 2),
+                    Rating.EXCELLENT, Stage.CONTACTED),
+            new Person(new Name("Diego Patel"), new Phone("97886543"), new Email("diego.patel@productlane.com"),
+                    new Address("47 Holland Village Way, #04-12"),
+                    getTagSet("product"), dateAddedOf(2023, 9, 18),
+                    Rating.AVERAGE, Stage.INTERVIEWED),
+            new Person(new Name("Elena Rossi"), new Phone("93456781"), new Email("elena.rossi@uxcraft.co"),
+                    new Address("3 Tanjong Pagar Plaza, #15-07"),
+                    getTagSet("ux", "frontend"), dateAddedOf(2023, 6, 6),
+                    Rating.GOOD, Stage.HIRED),
+            new Person(new Name("Farah Khan"), new Phone("90123456"), new Email("farah.khan@cloudforge.dev"),
+                    new Address("102 Jalan Bukit Merah, #13-02"),
+                    getTagSet("backend", "datascience"), dateAddedOf(2024, 2, 8),
+                    Rating.UNRATED, Stage.CANDIDATES)
         };
     }
 

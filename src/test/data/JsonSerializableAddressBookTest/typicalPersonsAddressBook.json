@@ -3,9 +3,9 @@
   "tags": [
     {
       "tagName": "friends",
-      "category": "Social",
-      "colour": "#0B5FFF",
-      "description": "Close friends and confidants."
+      "category": "General",
+      "colour": "#7A7A7A",
+      "description": ""
     },
     {
       "tagName": "owesMoney",
@@ -23,9 +23,9 @@
       "tags": [
         {
           "tagName": "friends",
-          "category": "Social",
-          "colour": "#0B5FFF",
-          "description": "Close friends and confidants."
+          "category": "General",
+          "colour": "#7A7A7A",
+          "description": ""
         }
       ],
       "rating": "UNRATED",
@@ -39,9 +39,9 @@
       "tags": [
         {
           "tagName": "friends",
-          "category": "Social",
-          "colour": "#0B5FFF",
-          "description": "Close friends and confidants."
+          "category": "General",
+          "colour": "#7A7A7A",
+          "description": ""
         },
         {
           "tagName": "owesMoney",
@@ -70,9 +70,9 @@
       "tags": [
         {
           "tagName": "friends",
-          "category": "Social",
-          "colour": "#0B5FFF",
-          "description": "Close friends and confidants."
+          "category": "General",
+          "colour": "#7A7A7A",
+          "description": ""
         }
       ],
       "rating": "UNRATED",
