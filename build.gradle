@@ -66,7 +66,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveFileName = 'findr.jar'
+    archiveFileName = 'CS2103T-F14a-2-findr.jar'
 }
 
 run {
