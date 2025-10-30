@@ -245,9 +245,108 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
-### \[Proposed\] Data archiving
+### \[Proposed\] Advanced candidate search and filtering
 
-_{Explain here how the data archiving feature will be implemented}_
+#### Proposed Implementation
+
+The proposed advanced search mechanism is facilitated by `AdvancedSearchManager`. 
+It extends findr with advanced filtering capabilities, stored internally as a
+`searchPredicateStack` and `currentSearchPredicate`. Additionally, it implements
+the following operations:
+
+* `AdvancedSearchManager#compilePredicate()` - Compiles multiple search criteria into a single executable predicate.
+* `AdvancedSearchManager#saveFilter()` - Stores the current search filter for future reuse.
+* `AdvancedSearchManager#loadFilter()` - Retrieves a previously saved search filter.
+
+These operations are exposed in the Model interface as `Model#compileSearchPredicate()`,
+`Model#saveSearchFilter()` and `Model#loadSearchFilter()` respectively.
+
+Given below is an example usage scenario and how the advanced search mechanism behaves at each step.
+
+**Step 1**. The user launches the application and wants to find senior backend developers.
+The `AdvancedSearchManager` will be initialized with an empty search predicate stack.
+
+**Step 2**. The user executes `filter tn/Java tn/Spring r/Good-Excellent yoe/5-10` to find 
+candidates with Java and Spring tags, rated Good to Excellent, with 5-10 years
+experience. The filter command calls `Model#compileSearchPredicate()`, causing
+the search criteria to be compiled into a composite predicate, and the candidate 
+list is filtered to show only matching candidates.
+
+**Step 3**. The user realizes they also want to filter by location and 
+executes `filter loc/Singapore sal/80000-120000`. The filter command calls 
+`Model#compileSearchPredicate()` again, combining the new criteria with 
+the existing ones, and updates the filtered candidate list.
+
+**:information_source: Note:** If the search criteria are invalid (e.g., 
+malformed ranges), the command will not call `Model#compileSearchPredicate()`,
+so the filter state will not be updated.
+
+**Step 4**. The user now decides this is a useful filter combination and wants 
+to save it by executing `filter save/senior-backend-sg`. The save command calls
+`Model#saveSearchFilter()`, which stores the current predicate configuration as
+"senior-backend-sg" for future use.
+
+:information_source: Note: If a filter with the same name already exists, the save
+operation will overwrite it. The command uses `Model#isValidFilterName()` to check 
+if the name is valid. If not, it will return an error to the user.
+
+**Step 5**. The user clears the current filter with filter clear and works 
+with other candidates. Later, they want to reuse the saved filter and execute
+`filter use/senior-backend-sg`. The use command calls `Model#loadSearchFilter()`, 
+which retrieves the saved predicate and applies it to the current candidate 
+list.
+
+**Step 6**. The user executes `list` to view all candidates again. The list 
+command clears any active filters and displays the full candidate database.
+
+:information_source: Note: Non-filtering commands like `list` and `help` do not 
+affect the search predicate stack, allowing users to return to their filtered 
+view after performing other operations.
+
+**Step 7**. The user executes a new filter command with different criteria. 
+Since the search predicate stack maintains the current active filter, applying
+a new filter replaces the current one rather than accumulating criteria.
+
+:information_source: Note: This behavior follows the principle of least surprise, 
+where each filter command represents a complete new query rather than incremental 
+additions to the previous filter.
+
+#### Design Considerations
+
+**Aspect: How search predicates are combined:**
+
+* **Alternative 1 (current choice):** Each filter command represents a complete new query
+
+    * Pros: Predictable behavior, easy to understand and matches mental model of search queries
+    * Cons: Cannot incrementally add/remove criteria from current filter
+
+* **Alternative 2:** Filter commands modify current predicate incrementally
+
+    * Pros: More flexible for refining searches, preserves work in complex filtering
+    * Cons: Complex implementation, unpredictable behavior for users and harder to manage predicate state
+
+**Aspect: How complex boolean logic is handled:**
+
+* **Alternative 1 (current choice):** Implicit AND between criteria with explicit OR groups
+
+    * Pros: Intuitive for most users, covers 90% of use cases, simple syntax
+    * Cons: Limited expressiveness for complex boolean logic
+
+* **Alternative 2**: Full boolean expression parser
+
+    * Pros: Maximum flexibility for power users and can express any logical combination
+    * Cons: Complex syntax, steep learning curve and difficult to parse and validate
+
+**Aspect: Filter persistence strategy:**
+
+* **Alternative 1 (current choice):** Saved filters stored in separate configuration file
+
+    * Pros: Easy to back up and share filters which are separate from main data file
+    * Cons: Additional files to manage and potential sync issues
+
+* **Alternative 2:** Saved filters embedded in main data file 
+  * Pros: Single file management and automatic inclusion in backups
+  * Cons: Bloat main data file and also harder to export/import just filters
 
 
 --------------------------------------------------------------------------------------------------------------------
