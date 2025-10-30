@@ -249,7 +249,7 @@ _{more aspects and alternatives to be added}_
 
 #### Proposed Implementation
 
-The proposed advanced search mechanism is facilitated by `AdvancedSearchManager`. 
+The proposed advanced search mechanism is facilitated by `AdvancedSearchManager`.
 It extends findr with advanced filtering capabilities, stored internally as a
 `searchPredicateStack` and `currentSearchPredicate`. Additionally, it implements
 the following operations:
