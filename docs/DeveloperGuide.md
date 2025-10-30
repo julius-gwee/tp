@@ -265,12 +265,17 @@ Given below is an example usage scenario and how the advanced search mechanism b
 
 **Step 1**. The user launches the application and wants to find senior backend developers.
 The `AdvancedSearchManager` will be initialized with an empty search predicate stack.
+The class structure shows how AdvancedSearchManager integrates with the existing system components.
+
+![AdvancedSearchManager Class Diagram](images/AdvancedSearchManager.png)
 
 **Step 2**. The user executes `filter tn/Java tn/Spring r/Good-Excellent yoe/5-10` to find 
 candidates with Java and Spring tags, rated Good to Excellent, with 5-10 years
 experience. The filter command calls `Model#compileSearchPredicate()`, causing
 the search criteria to be compiled into a composite predicate, and the candidate 
-list is filtered to show only matching candidates.
+list is filtered to show only matching candidates. The sequence diagram illustrates the complete flow from user input to filtered results.
+
+![Filter Command Sequence Diagram](images/FilterCommandSequence.png)
 
 **Step 3**. The user realizes they also want to filter by location and 
 executes `filter loc/Singapore sal/80000-120000`. The filter command calls 
@@ -284,7 +289,10 @@ so the filter state will not be updated.
 **Step 4**. The user now decides this is a useful filter combination and wants 
 to save it by executing `filter save/senior-backend-sg`. The save command calls
 `Model#saveSearchFilter()`, which stores the current predicate configuration as
-"senior-backend-sg" for future use.
+"senior-backend-sg" for future use. The activity diagram shows the complete workflow
+for saving and reusing search filters.
+
+![Search Workflow Activity Diagram](images/SearchWorkflow.png)
 
 :information_source: Note: If a filter with the same name already exists, the save
 operation will overwrite it. The command uses `Model#isValidFilterName()` to check 
@@ -294,7 +302,10 @@ if the name is valid. If not, it will return an error to the user.
 with other candidates. Later, they want to reuse the saved filter and execute
 `filter use/senior-backend-sg`. The use command calls `Model#loadSearchFilter()`, 
 which retrieves the saved predicate and applies it to the current candidate 
-list.
+list. The component diagram illustrates how search components interact within 
+the overall system architecture.
+
+![Search Components Diagram](images/SearchComponents.png)
 
 **Step 6**. The user executes `list` to view all candidates again. The list 
 command clears any active filters and displays the full candidate database.
@@ -347,7 +358,6 @@ additions to the previous filter.
 * **Alternative 2:** Saved filters embedded in main data file 
   * Pros: Single file management and automatic inclusion in backups
   * Cons: Bloat main data file and also harder to export/import just filters
-
 
 --------------------------------------------------------------------------------------------------------------------
 
