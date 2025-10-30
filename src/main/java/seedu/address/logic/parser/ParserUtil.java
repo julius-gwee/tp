@@ -191,6 +191,7 @@ public class ParserUtil {
      */
     public static Comparator<Person> parseSortCriteria(String sortCriteria) throws ParseException {
         requireNonNull(sortCriteria);
+        sortCriteria = sortCriteria.trim().toLowerCase();
 
         switch (sortCriteria) {
 

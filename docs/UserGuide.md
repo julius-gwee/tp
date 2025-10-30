@@ -215,7 +215,7 @@ Format: `sort [SORT_CRITERIA]`
 
 * Sorts all candidates in all stages based on the specified `[SORT_CRITERIA]`.
 * If no `[SORT_CRITERIA]` provided, candidates are sorted alphabetically by candidate name by default. 
-* Valid sort criteria: `alphabetical`, `date`, `rating` (case-sensitive).
+* Valid sort criteria: `Alphabetical`, `Date`, `Rating` (case-insensitive).
 
 `alphabetical` - sorts alphabetically by candidate name
 
