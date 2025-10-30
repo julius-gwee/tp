@@ -61,8 +61,8 @@ public class MoveCommandTest {
 
     @Test
     public void execute_invalidIndexForStage_throwsCommandException() {
-        // Try to move from CONTACTED stage when there are no persons in that stage
-        MoveCommand moveCommand = new MoveCommand(INDEX_FIRST_CANDIDATE, Stage.CONTACTED, Stage.INTERVIEWED);
+        // Try to move from HIRED stage when there are no persons in that stage
+        MoveCommand moveCommand = new MoveCommand(INDEX_FIRST_CANDIDATE, Stage.HIRED, Stage.INTERVIEWED);
 
         assertCommandFailure(moveCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
     }
