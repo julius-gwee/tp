@@ -284,19 +284,26 @@ assess, and engage top-tier candidates. Go beyond the resume to find the perfect
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                          | I want to …​                                 | So that I can…​                                                        |
-|----------|----------------------------------|----------------------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new recruiter                    | see usage instructions                       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | recruiter                        | add a potential candidate                    | keep track of all possible candidates                                  |
-| `* * *`  | recruiter                        | delete candidates I am no longer considering | reduce clutter on my contacts list                                     |
-| `* * *`  | recruiter                        | find a candidate by name                     | locate details of persons without having to go through the entire list |
-| `* * *`  | recruiter                        | see all candidates in the list               | view all candidates conveniently                                       |
-| `* *`    | recruiter                        | autosave my changes                          | not lose my work accidentally                                          |
-| `* *`    | recruiter with many candidates   | sort candidates by name                      | locate a person easily                                                 |
-| `* *`    | recruiter with many candidates   | sort candidates by date added                | locate a person easily                                                 |
-| `* *`    | recruiter with many candidates   | sort candidates by rating                    | locate a person easily                                                 |
-
-*{More to be added}*
+| Priority | As a …​                         | I want to …​                                     | So that I can…​                                                  |
+|----------|---------------------------------|--------------------------------------------------|------------------------------------------------------------------|
+| `* * *`  | new recruiter                   | see usage instructions                           | refer to instructions when I forget how to use the App           |
+| `* * *`  | recruiter                       | add a potential candidate                        | keep track of all possible candidates                            |
+| `* * *`  | recruiter                       | edit details of my candidates                    | keep my information of candidates up to date                     |
+| `* * *`  | meticulous recruiter            | delete candidates I am no longer considering     | reduce clutter on my candidate list                              |
+| `* * *`  | recruiter                       | find a candidate by name                         | easily locate details of a specific candidates                   |
+| `* * *`  | recruiter                       | see all candidates in the list                   | view all candidates conveniently                                 |
+| `* *`    | recruiter                       | autosave my changes                              | not lose my work accidentally                                    |
+| `* *`    | recruiter with many candidates  | sort candidates by alphabetical order            | easily navigate the candidate list                               |
+| `* *`    | recruiter with many candidates  | sort candidates by date added                    | easily navigate the candidate list                               |
+| `* *`    | recruiter with many candidates  | sort candidates by rating                        | easily navigate the candidate list                               |
+| `* *`    | recruiter                       | assign candidates with ratings                   | evaluate their performance at a glance                           |
+| `* *`    | organized recruiter             | split my candidates into columns                 | easily identify candidates under different stages of recruitment |
+| `* *`    | recruiter                       | assign tags to my candidates                     | easily view their traits and skills                              |
+| `* *`    | recruiter                       | create new tags                                  | customize my tagging of candidates                               |
+| `* *`    | recruiter                       | view all tags                                    | keep track of my existing tags                                   |
+| `* *`    | recruiter                       | edit my existing tags                            | customize my tagging of candidates                               |
+| `* *`    | meticulous recruiter            | delete unused tags                               | reduce clutter on my tag list                                    |
+| `* *`    | impatient recruiter             | access my previously used commands with a button | reduce time taken to type the same command again                 |
 
 ### Use cases
 
