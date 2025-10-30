@@ -5,7 +5,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -29,49 +28,51 @@ public class RateCommandParser implements Parser<RateCommand> {
      */
     public RateCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        logger.log(Level.INFO, "Parsing arguments for RateCommand: {0}", args);
+        logger.info("Parsing RateCommand with arguments: " + args);
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_RATE, PREFIX_FROM);
 
         Index index;
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
-            logger.log(Level.FINE, "Parsed index: {0}", index);
+            logger.fine("Parsed index: " + index);
         } catch (IllegalValueException ive) {
-            logger.log(Level.WARNING, "Invalid index format: {0}", args);
+            logger.warning("Invalid index in RateCommand input: " + args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), ive);
         }
 
         String rating = argMultimap.getValue(PREFIX_RATE).orElse(null);
         if (rating == null || rating.isEmpty()) {
-            logger.log(Level.WARNING, "Missing rating value in command: {0}", args);
+            logger.warning("Missing /rate argument in RateCommand: " + args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
         }
 
         Rating parsed;
         try {
             parsed = Rating.fromString(rating);
-            logger.log(Level.FINE, "Parsed rating: {0}", parsed);
+            logger.fine("Parsed rating: " + parsed);
         } catch (IllegalArgumentException e) {
-            logger.log(Level.WARNING, "Invalid rating string: {0}", rating);
+            logger.warning("Invalid rating string: " + rating);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
         }
 
         // Stage must be provided via from/
         String stageArg = argMultimap.getValue(PREFIX_FROM).orElse(null);
         if (stageArg == null || stageArg.isEmpty()) {
-            logger.log(Level.WARNING, "Missing stage (from/) in command: {0}", args);
+            logger.warning("Missing /from argument in RateCommand: " + args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE));
         }
         Stage fromStage;
         try {
             fromStage = ParserUtil.parseStage(stageArg);
-            logger.log(Level.FINE, "Parsed stage: {0}", fromStage);
+            logger.fine("Parsed stage: " + fromStage);
         } catch (ParseException pe) {
-            logger.log(Level.WARNING, "Invalid stage string: {0}", stageArg);
+            logger.warning("Invalid stage string: " + stageArg);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_USAGE), pe);
         }
 
+        logger.fine(String.format("Successfully parsed RateCommand: index=%s, stage=%s, rating=%s",
+                index, fromStage, parsed));
         return new RateCommand(index, parsed, fromStage);
     }
 }

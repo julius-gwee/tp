@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_RATE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -54,22 +53,22 @@ public class RateCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        logger.log(Level.INFO, "Executing RateCommand for index {0}, from stage: {1}",
-                new Object[]{index, fromStage});
+        requireAllNonNull(model);
+        logger.info(String.format("Executing RateCommand: index=%s, stage=%s, rating=%s", index, fromStage, rating));
 
         List<Person> targetList = model.getObservableCandidateList().stream()
                 .filter(person -> person.getStage().equals(fromStage))
                 .collect(java.util.stream.Collectors.toList());
 
-        logger.log(Level.FINE, "Filtered candidates for stage {0}: {1}", new Object[]{fromStage, targetList.size()});
+        logger.fine(String.format("Filtered %d candidates for stage %s", targetList.size(), fromStage));
 
         if (index.getZeroBased() >= targetList.size()) {
-            logger.log(Level.WARNING, "Invalid index {0} for stage {1}", new Object[]{index, fromStage});
+            logger.warning(String.format("Invalid index %s for stage %s", index, fromStage));
             throw new CommandException(String.format(MESSAGE_INVALID_INDEX_FOR_STAGE, fromStage));
         }
 
         Person candidateToEdit = targetList.get(index.getZeroBased());
-        logger.log(Level.INFO, "Updating rating for {0} to {1}", new Object[]{candidateToEdit.getName(), rating});
+        logger.info(String.format("Updating rating for %s to %s", candidateToEdit.getName(), rating));
 
         Person editedPerson = new Person(
                 candidateToEdit.getName(),
@@ -84,6 +83,8 @@ public class RateCommand extends Command {
 
         model.setPerson(candidateToEdit, editedPerson);
         model.updateFilteredCandidateList(PREDICATE_SHOW_ALL_PERSONS);
+
+        logger.fine(String.format("Successfully updated rating for %s", candidateToEdit.getName()));
 
         return new CommandResult(String.format(MESSAGE_RATE_SUCCESS, candidateToEdit.getName(), rating));
     }
