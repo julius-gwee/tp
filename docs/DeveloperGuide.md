@@ -197,6 +197,36 @@ All `Person` objects are stored within a `UniquePersonList`, which ensures there
 
 ---
 
+### **Rating System**
+
+- Each `Person` has a `Rating` field that represents their evaluation score.
+
+- `Rating` is an enum representing qualitative evaluations.
+
+```java
+public enum Rating {
+    UNRATED("Unrated", 5),
+    VERY_POOR("Very Poor", 4),
+    POOR("Poor", 3),
+    AVERAGE("Average", 2),
+    GOOD("Good", 1),
+    EXCELLENT("Excellent", 0);
+} 
+```
+- The RateCommand allows recruiters to update this field:
+
+  `rate INDEX from/STAGE r/RATING`
+
+  - For example:
+`rate 2 from/Interviewed r/Excellent` updates the 2nd candidate in the Interviewed stage to have a GOOD rating.
+- `RateCommand` updates a candidate’s rating immutably:
+    1. Finds candidate by index and stage.
+    2. Creates new `Person` instance with updated rating.
+    3. The model replaces the old instance using setPerson().
+    4. The updated data is persisted to storage and UI is refreshed.
+
+---
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
