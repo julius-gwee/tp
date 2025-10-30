@@ -1,0 +1,58 @@
+@startuml SearchComponents
+title Advanced Search - Component Diagram
+
+skinparam componentStyle rectangle
+
+package UI {
+  [MainWindow]
+  [CommandBox]
+  [ResultDisplay]
+}
+
+package Logic {
+  [FindrParser]
+  [FilterCommandParser]
+  [FilterCommand]
+  [AdvancedSearchManager]
+}
+
+package Storage {
+  [StorageManager]
+  [Json*Storage]
+}
+
+package Predicates {
+  [NameContainsKeywordsPredicate]
+  [RatingRangePredicate]
+  [TagIncludesPredicate]
+}
+
+[CommandBox] --> [MainWindow] : executeCommand(text)
+[MainWindow] --> [FindrParser] : parseCommand(text)
+[FindrParser] --> [FilterCommandParser] : parse(args)
+[FilterCommandParser] --> [FilterCommand] : create
+[MainWindow] --> [FilterCommand] : execute(model)
+
+[FilterCommand] --> [Model] : compileSearchPredicate(criteria)
+[Model] --> [AdvancedSearchManager] : compilePredicate(criteria)
+[AdvancedSearchManager] ..> [NameContainsKeywordsPredicate]
+[AdvancedSearchManager] ..> [RatingRangePredicate]
+[AdvancedSearchManager] ..> [TagIncludesPredicate]
+[Model] --> [Model] : updateFilteredCandidateList(predicate)
+[MainWindow] --> [ResultDisplay] : setFeedbackToUser(result)
+
+component "Filter Persistence" as FP
+[AdvancedSearchManager] --> FP : saveFilter(name, predicate)
+FP --> [StorageManager] : saveSearchFilter(name, dto)
+[StorageManager] --> [Json*Storage] : write/read
+[AdvancedSearchManager] <-- FP : loadFilter(name)
+
+note right of [AdvancedSearchManager]
+Error paths:
+- Invalid criteria -> error to Model/Command
+- Storage I/O -> surfaced to UI via ResultDisplay
+end note
+
+@enduml
+
+

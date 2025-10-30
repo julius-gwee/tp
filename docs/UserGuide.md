@@ -246,7 +246,6 @@ Examples:
 * `clear Interviewed` deletes all candidates from Interviewed stage. 
 
 ### Navigating search history : `↑` or `↓`
-
 Use the UP arrow key to view previous commands and the DOWN arrow key to navigate back to more recent commands.
 
 Format: `↑` or `↓`

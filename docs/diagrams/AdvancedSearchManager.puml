@@ -1,0 +1,59 @@
+@startuml AdvancedSearchManager
+title Advanced Candidate Search - Class Diagram (Simplified)
+
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+hide empty members
+hide methods
+hide attributes
+hide circle
+
+package "logic" {
+  class "Model <<interface>>" as Model
+
+  class AdvancedSearchManager
+}
+
+package "logic.commands" {
+  class "Command <<abstract>>" as Command
+  class FilterCommand
+}
+
+package "logic.parser" {
+  class "Parser <<interface>>" as Parser
+  class FilterCommandParser
+}
+
+package "model.person (predicates)" {
+  class "SearchCriteria <<interface>>" as SearchCriteria
+  class NameContainsKeywordsPredicate
+  class RatingRangePredicate
+  class TagIncludesPredicate
+}
+
+package storage {
+  class "Storage <<interface>>" as Storage
+  class StorageManager
+}
+
+Command <|-- FilterCommand
+Parser <|.. FilterCommandParser
+AdvancedSearchManager --> Storage
+FilterCommand --> Model : uses
+Model --> AdvancedSearchManager : delegates
+AdvancedSearchManager ..> NameContainsKeywordsPredicate : «compiles»
+AdvancedSearchManager ..> RatingRangePredicate : «compiles»
+AdvancedSearchManager ..> TagIncludesPredicate : «compiles»
+
+note right of AdvancedSearchManager
+Key operations (omitted in class body for brevity):
+- compilePredicate(criteria)
+- saveFilter(name, predicate)
+- loadFilter(name)
+Error handling:
+- invalid criteria -> error to caller
+- storage I/O -> surfaced to UI
+end note
+
+@enduml
