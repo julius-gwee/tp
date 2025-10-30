@@ -198,7 +198,7 @@ All `Person` objects are stored within a `UniquePersonList`, which ensures there
 ---
 
 ### **Rating System**
-
+#### Implementation
 - Each `Person` has a `Rating` field that represents their evaluation score.
 
 - `Rating` is an enum representing qualitative evaluations.
@@ -236,6 +236,7 @@ public enum Rating {
 
 ---
 ### **Stage Management**
+#### Implementation
 
 - The recruitment process in Findr is visualized as a kanban board, with each column corresponding to a recruitment stage:
 `Candidates`, `Contacted`, `Interviewed`, and `Hired`.
@@ -268,6 +269,73 @@ The UI automatically reflects the change by re-filtering candidates based on the
 |----------------------------------------------------------------------------------------------------|----------------------------------------|------|
 | Create new `Person` instance with updated stage as opposed to modifying exiting `Person` directly. | Immutability ensures model consistency | Slight overhead in object creation |
 
+---
+### **Tag Catalogue Management**
+#### Implementation
+
+Findr introduces a **Tag Catalogue**, allowing recruiters to define reusable tags with extra metadata such as color, category, and description.
+
+Tags are represented by the `Tag` class in the `model.tag` package with the following fields:
+- tagName 
+- category 
+- color (hexadecimal)
+- description
+
+Each candidate’s tag set refers to existing tag definitions in this global catalogue.
+
+Tag management is handled by the following commands:
+- tagadd – Creates a new tag definition. 
+- tagedit – Edits an existing tag’s properties. 
+- tagdelete – Deletes a tag and removes it from all candidates. 
+- taglist – Displays all defined tags.
+
+This catalogue is stored in the same JSON file as findr, under the tags field in JsonSerializableFindr.
+
+---
+#### Design Considerations
+
+**Aspect: Tag storage**
+
+| Design Choice                                                                                       | Pros                                   | Cons |
+|-----------------------------------------------------------------------------------------------------|----------------------------------------|------|
+| Store tags globally and reference them by name as opposed to storing directly under each candidate. | Centralized control; ensures consistency | Requires validation when deleting tags |
+
+---
+### **Sorting candidates**
+#### Implementation
+
+Sorting functionality is handled by the SortCommand, which sorts all candidates by:
+- Name (alphabetical)
+- Date added (date)
+- Rating (rating)
+
+The command defines comparators for each criteria:
+
+```java
+public static final Comparator<Person> SORT_BY_ALPHABET = Comparator.comparing(
+        o -> o.getName().toString());
+public static final Comparator<Person> SORT_BY_DATEADDED = Comparator.comparing(
+        o -> o.getDateAdded().toDate());
+public static final Comparator<Person> SORT_BY_RATING = Comparator.comparing(
+        o -> o.getRating().getInteger());
+```
+
+The comparator is passed to the model:
+``` 
+model.updateSortedCandidateList(comparator);
+```
+After sorting, the updated list is displayed in the UI immediately.
+
+`SortedList` wraps the `FilteredList`, so sorting happens automatically when the comparator changes
+
+---
+**Design Considerations**
+
+| Aspect                     | Design Choice                              | Pros                                 | Cons                                     |
+|----------------------------|-------------------------------------------|--------------------------------------|-----------------------------------------|
+| When to sort               | Sort on demand using comparator           | Efficient memory usage; flexible     | Must re-sort for every query            |
+| Maintaining sorted list    | Keep a constantly sorted list             | Fast access to sorted list           | Harder to maintain during edits         |
+| Comparator implementation  | Use Java `Comparator` for each criteria   | Clear, reusable, easy to extend      | Slight boilerplate code                 |
 
 ---
 
