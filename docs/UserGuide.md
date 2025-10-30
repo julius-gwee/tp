@@ -99,7 +99,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
-
+![add](images/addCommand.png)
 <div markdown="span" class="alert alert-primary">
 
 :bulb: **Tip:**
@@ -131,6 +131,8 @@ Format: `edit INDEX from/STAGE [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]�
 * You can remove all the candidate’s tags by typing `t/` without specifying any tags after it.
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive)
 
+![edit](images/editCommand.png)
+
 Examples:
 *  `edit 1 from/Candidates p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st candidate in the Candidate stage to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 from/Interviewed n/Betsy Crower t/` Edits the name of the 2nd candidate in the Interviewed stage to be `Betsy Crower` and clears all existing tags.
@@ -151,7 +153,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+  ![result for 'find'](images/findCommand.png)
 
 ### Deleting a candidate : `delete`
 
@@ -274,6 +276,8 @@ Format: `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`
 Examples:
 * `tagadd tn/backend tc/Engineering tcol/#1F75FE td/Backend specialist` adds new tag called backend with specified fields
 * `tagadd tn/urgent` adds new tag called urgent with default fields
+
+![tag](images/tagCommand.png)
 
 #### Editing a tag definition : `tagedit`
 
