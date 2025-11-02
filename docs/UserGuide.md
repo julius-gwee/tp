@@ -96,6 +96,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 * `[TAG]` has to be created using [tag commands](#commands-for-managing-tags--) before adding to candidates. 
 * Candidate is created with date added as current date and rating as `UNRATED`.
 * Names with special characters like `-` and `@` as well as special patterns like `s/o` and `d/o` are supported.
+* Adding of duplicate candidates (candidates with the same name, phone number, email and address) are not allowed.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
