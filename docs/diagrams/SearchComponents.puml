@@ -4,27 +4,27 @@ title Advanced Search - Component Diagram
 skinparam componentStyle rectangle
 
 package UI {
-  [MainWindow]
-  [CommandBox]
-  [ResultDisplay]
+[MainWindow]
+[CommandBox]
+[ResultDisplay]
 }
 
 package Logic {
-  [FindrParser]
-  [FilterCommandParser]
-  [FilterCommand]
-  [AdvancedSearchManager]
+[FindrParser]
+[FilterCommandParser]
+[FilterCommand]
+[AdvancedSearchManager]
 }
 
 package Storage {
-  [StorageManager]
-  [Json*Storage]
+[StorageManager]
+[Json*Storage]
 }
 
 package Predicates {
-  [NameContainsKeywordsPredicate]
-  [RatingRangePredicate]
-  [TagIncludesPredicate]
+[NameContainsKeywordsPredicate]
+[RatingRangePredicate]
+[TagIncludesPredicate]
 }
 
 [CommandBox] --> [MainWindow] : executeCommand(text)
@@ -45,14 +45,14 @@ component "Filter Persistence" as FP
 [AdvancedSearchManager] --> FP : saveFilter(name, predicate)
 FP --> [StorageManager] : saveSearchFilter(name, dto)
 [StorageManager] --> [Json*Storage] : write/read
-[AdvancedSearchManager] <-- FP : loadFilter(name)
+[AdvancedSearchManager] <-- FP : loadFilter(name)\nreturns predicate
 
 note right of [AdvancedSearchManager]
 Error paths:
-- Invalid criteria -> error to Model/Command
-- Storage I/O -> surfaced to UI via ResultDisplay
+
+Invalid criteria -> error to Model/Command
+
+Storage I/O -> surfaced to UI via ResultDisplay
 end note
 
 @enduml
-
-
