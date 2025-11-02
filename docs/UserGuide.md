@@ -378,7 +378,9 @@ Action | Format, Examples
 **Tag Edit** | `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagedit tn/urgent nn/veryurgent`
 **Tag Delete** | `tagdelete tn/TAG_NAME`<br> e.g. `tagdelete tn/veryurgent`
 **Tag List** | `taglist`
+**Navigate search history** | `↑` or `↓`
 **Help** | `help`
+**Exit** | `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
