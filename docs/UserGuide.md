@@ -247,6 +247,12 @@ Examples:
 * `clear` also deletes all candidates from all stages. 
 * `clear Interviewed` deletes all candidates from Interviewed stage. 
 
+<div markdown="span" class="alert alert-primary">
+
+**Warning:**
+The `clear` command permanently deletes all candidate data and **cannot be undone**.
+</div>
+
 ### Navigating search history : `↑` or `↓`
 Use the UP arrow key to view previous commands and the DOWN arrow key to navigate back to more recent commands.
 
