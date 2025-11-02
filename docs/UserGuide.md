@@ -77,7 +77,9 @@ title: User Guide
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Shows a message explaining how to access the help page. 
+
+When findr is in full screen, the help window will be opened in a seperate full screen window.
 
 ![help message](images/helpMessage.png)
 
