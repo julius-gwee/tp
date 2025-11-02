@@ -46,6 +46,8 @@ public class RateCommand extends Command {
     public static final String MESSAGE_MISSING_STAGE =
             "Missing stage value. Use from/ followed by a valid stage.\n" + MESSAGE_STAGES;
     public static final String MESSAGE_INVALID_STAGE = "Invalid stage. " + MESSAGE_STAGES;
+    public static final String MESSAGE_DUPLICATE_RATE = "Multiple ratings detected. Provide only one r/ prefix.";
+    public static final String MESSAGE_DUPLICATE_STAGE = "Multiple stages detected. Provide only one from/ prefix.";
 
 
     private static final Logger logger = LogsCenter.getLogger(RateCommand.class);

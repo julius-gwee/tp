@@ -58,6 +58,18 @@ public class RateCommandParser implements Parser<RateCommand> {
     }
 
     private void validateRequiredArguments(ArgumentMultimap argMultimap) throws ParseException {
+
+        if (argMultimap.getAllValues(PREFIX_RATE).size() > 1) {
+            logger.warning("Multiple r/ prefixes detected in RateCommand");
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_DUPLICATE_RATE));
+        }
+
+        if (argMultimap.getAllValues(PREFIX_FROM).size() > 1) {
+            logger.warning("Multiple from/ prefixes detected in RateCommand");
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    RateCommand.MESSAGE_DUPLICATE_STAGE));
+        }
+
         // Stage must be provided via from/
         String stageArg = argMultimap.getValue(PREFIX_FROM).orElse(null);
         if (stageArg == null || stageArg.isEmpty()) {
