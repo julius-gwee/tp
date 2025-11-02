@@ -19,7 +19,7 @@ title: User Guide
    - If not, download and install java 17 from [Oracle](https://www.oracle.com/java/technologies/downloads/#java17).
    - **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `findr.jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
+2. Download the latest `[CS2103T-F14a-2][findr].jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your `findr` app.
 
@@ -27,7 +27,7 @@ title: User Guide
    - For example, if you put the jar file in C:\Users\Recruiter\findr\, use the following command in the terminal:
 > cd C:\Users\Recruiter\findr\
 
-5. Use the `java -jar findr.jar` command to run the application.<br>
+5. Use the `java -jar [CS2103T-F14a-2][findr].jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Start-Ui.png)
 
