@@ -179,7 +179,7 @@ Moves a candidate from one recruitment stage to another in the kanban board.
 Format: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
 
 * Moves the candidate at the specified `INDEX` from `CURRENT_STAGE` to `NEW_STAGE`.
-* The index refers to the index number shown **within the specified stage column** (not the global list).
+* The index refers to the index number shown **within the specified stage column**.
 * The index **must be a positive integer** 1, 2, 3, …​
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * You cannot move a candidate to the same stage they are currently in.
