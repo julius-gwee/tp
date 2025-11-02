@@ -19,7 +19,7 @@ title: User Guide
    - If not, download and install java 17 from [Oracle](https://www.oracle.com/java/technologies/downloads/#java17).
    - **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `findr.jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
+2. Download the latest `[CS2103T-F14a-2][findr].jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your `findr` app.
 
@@ -27,7 +27,7 @@ title: User Guide
    - For example, if you put the jar file in C:\Users\Recruiter\findr\, use the following command in the terminal:
 > cd C:\Users\Recruiter\findr\
 
-5. Use the `java -jar findr.jar` command to run the application.<br>
+5. Use the `java -jar [CS2103T-F14a-2][findr].jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Start-Ui.png)
 
@@ -77,7 +77,9 @@ title: User Guide
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Shows a message explaining how to access the help page. 
+
+When findr is in full screen, the help window will be opened in a seperate full screen window.
 
 ![help message](images/helpMessage.png)
 
@@ -95,6 +97,8 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 * If no `[TAG]` specified, candidate is created with no tags by default. 
 * `[TAG]` has to be created using [tag commands](#commands-for-managing-tags--) before adding to candidates. 
 * Candidate is created with date added as current date and rating as `UNRATED`.
+* Names with special characters like `-` and `@` as well as special patterns like `s/o` and `d/o` are supported.
+* Adding of duplicate candidates (candidates with the same name, phone number, email and address) are not allowed.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
@@ -177,7 +181,7 @@ Moves a candidate from one recruitment stage to another in the kanban board.
 Format: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
 
 * Moves the candidate at the specified `INDEX` from `CURRENT_STAGE` to `NEW_STAGE`.
-* The index refers to the index number shown **within the specified stage column** (not the global list).
+* The index refers to the index number shown **within the specified stage column**.
 * The index **must be a positive integer** 1, 2, 3, …​
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * You cannot move a candidate to the same stage they are currently in.
@@ -244,6 +248,12 @@ Examples:
 * `clear all` deletes all candidates from all stages. 
 * `clear` also deletes all candidates from all stages. 
 * `clear Interviewed` deletes all candidates from Interviewed stage. 
+
+<div markdown="span" class="alert alert-primary">
+
+**Warning:**
+The `clear` command permanently deletes all candidate data and **cannot be undone**.
+</div>
 
 ### Navigating search history : `↑` or `↓`
 Use the UP arrow key to view previous commands and the DOWN arrow key to navigate back to more recent commands.
@@ -376,7 +386,9 @@ Action | Format, Examples
 **Tag Edit** | `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`<br> e.g. `tagedit tn/urgent nn/veryurgent`
 **Tag Delete** | `tagdelete tn/TAG_NAME`<br> e.g. `tagdelete tn/veryurgent`
 **Tag List** | `taglist`
+**Navigate search history** | `↑` or `↓`
 **Help** | `help`
+**Exit** | `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
