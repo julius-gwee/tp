@@ -165,7 +165,7 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Implementation
 
-The `Person` class under the `model.person` package represents a **candidate** in Findr.  
+The `Person` class under the `model.person` package represents a **candidate** in Findr.
 It contains the following fields:
 
 - `Name` – candidate’s full name.
@@ -215,7 +215,7 @@ public enum Rating {
     AVERAGE("Average", 2),
     GOOD("Good", 1),
     EXCELLENT("Excellent", 0);
-} 
+}
 ```
 - The RateCommand allows recruiters to update this field:
 
