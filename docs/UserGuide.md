@@ -102,7 +102,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Jo-hn 2 doé s/o @ betsy t/friend e/betsy@example.com a/Newgate Prison p/1234567 t/criminal`
 ![add](images/addCommand.png)
 <div markdown="span" class="alert alert-primary">
 
