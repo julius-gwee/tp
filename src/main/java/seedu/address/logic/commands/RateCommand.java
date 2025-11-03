@@ -30,7 +30,9 @@ public class RateCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the rating of the candidate. "
             + "You can scope the index to a specific stage column using " + PREFIX_FROM + ".\n"
-            + "Parameters: INDEX (positive integer) " + PREFIX_FROM + "STAGE " + PREFIX_RATE + "RATING\n"
+            + "Parameters: INDEX (must be a positive integer less than 2^31) "
+            + PREFIX_FROM + "STAGE "
+            + PREFIX_RATE + "RATING\n"
             + MESSAGE_STAGES + ".\n"
             + MESSAGE_RATINGS + ".\n"
             + MESSAGE_EXAMPLE;

@@ -179,7 +179,7 @@ It contains the following fields:
 
 Each `Person` is **immutable**, and all fields are validated upon creation.
 
-A `Person` is detected as a **duplicate** if it has the same `Email` or `Phone` field as another `Person`.
+A `Person` is detected as a **duplicate** if it has the same `Name`, `Email`, and `Phone` field as another `Person`. Different candidates can have either same name, same email, or same number, but not all 3.
 
 All `Person` objects are stored within a `UniquePersonList`, which ensures there are no duplicate candidates and provides efficient lookup and update operations. The list is managed by the `ModelManager`, which handles all modifications triggered by commands.
 
@@ -654,7 +654,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   Use case resumes at step 2.
 
-* 2b. The candidate duplicates an existing record (e.g. same email or number).
+* 2b. The candidate duplicates an existing record (e.g. same name, email and number).
 
   2b1. System warns about the duplicate and aborts creation.
 
