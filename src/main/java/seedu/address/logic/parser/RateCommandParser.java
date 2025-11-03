@@ -53,7 +53,7 @@ public class RateCommandParser implements Parser<RateCommand> {
         // Check for missing index specifically (empty preamble when prefixes exist)
         if (argMultimap.getPreamble().trim().isEmpty()) {
             logger.warning("Missing index in RateCommand input");
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_INDEX));
         }
     }
 
