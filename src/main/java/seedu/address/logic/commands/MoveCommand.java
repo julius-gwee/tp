@@ -74,7 +74,7 @@ public class MoveCommand extends Command {
 
         // Check if index is valid for this stage
         if (targetIndex.getZeroBased() >= personsInFromStage.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
+            throw new CommandException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 
         // Get the person at the specified index within the fromStage column
