@@ -97,7 +97,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 * If no `[TAG]` specified, candidate is created with no tags by default. 
 * `[TAG]` has to be created using [tag commands](#commands-for-managing-tags--) before adding to candidates. 
 * Candidate is created with date added as current date and rating as `UNRATED`.
-* Names should only contain letters (including accented characters), numbers, spaces, apostrophes, '@', hyphens, may include 's/o' or 'd/o', and it should not be blank
+* Names should only contain letters (including accented characters), numbers, spaces, apostrophes, '@', hyphens, may include 's/o' or 'd/o', and it should not be blank.
 * Adding of duplicate candidates (candidates with the same phone number or email) are not allowed.
 
 Examples:
@@ -406,6 +406,7 @@ Term | Definition
 **Command Terminal** | A text-based application (also called Command Prompt on Windows or Terminal on Mac/Linux) where you enter commands to run programs like `findr`.
 **GUI** | Graphical User Interface - A visual interface with buttons, windows, and menus that you can interact with using a mouse.
 **Stage** | A specific phase in the recruitment process (Candidates, Contacted, Interviewed, or Hired), represented as columns in the kanban board.
+**Stage Column** | Refers to one of the vertical sections in the Kanban board UI (e.g., Candidates, Contacted, Interviewed, Hired). Each stage column contains the candidates currently in that stage.
 **Kanban Board** | A visual workflow management tool that organizes candidates into columns representing different recruitment stages.
 **Case Sensitivity** | The distinction between uppercase and lowercase letters. Case-insensitive means `Candidates`, `candidates`, and `CANDIDATES` are treated the same. 
 **Hard disk** | Your computer's main storage device where files and data are permanently saved, even when the computer is turned off.
