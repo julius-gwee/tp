@@ -43,7 +43,9 @@ public class Name {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidName(String test) {
-        return test.matches(VALIDATION_REGEX);
+        requireNonNull(test);
+        String collapsedWhitespace = collapseWhitespace(test);
+        return !collapsedWhitespace.isEmpty() && collapsedWhitespace.matches(VALIDATION_REGEX);
     }
 
 
