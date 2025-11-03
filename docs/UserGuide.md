@@ -93,12 +93,12 @@ Adds a candidate to the candidate list.
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 * Adds a new candidate to the candidate list in the `Candidates` stage. 
-* New candidate created with the specified `NAME`, `PHONE_NUMBER`, `EMAIL_ADDRESS`, and `[TAG]`. 
+* New candidate created with the specified `NAME`, `PHONE_NUMBER`, `EMAIL_ADDRESS`,`ADRESS` and `[TAG]`. 
 * If no `[TAG]` specified, candidate is created with no tags by default. 
 * `[TAG]` has to be created using [tag commands](#commands-for-managing-tags--) before adding to candidates. 
 * Candidate is created with date added as current date and rating as `UNRATED`.
-* Names with special characters like `-` and `@` as well as special patterns like `s/o` and `d/o` are supported.
-* Adding of duplicate candidates (candidates with the same name, phone number, email and address) are not allowed.
+* Names should only contain letters (including accented characters), numbers, spaces, apostrophes, '@', hyphens, may include 's/o' or 'd/o', and it should not be blank
+* Adding of duplicate candidates (candidates with the same phone number or email) are not allowed.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
@@ -151,8 +151,9 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Candidates matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Order of results are determined by the last sort command (e.g. if sorted alphabetically, John Coe appears before John Doe). 
 
 Examples:
 * `find John` returns `john` and `John Doe`
@@ -350,6 +351,13 @@ Furthermore, certain edits can cause the `findr` to behave in unexpected ways (e
 ### New Features `[coming in v2.0]`
 #### Head Hunting Platform Integration
 * Integration with applications and platforms such as LinkedIn etc.
+#### Stricter email rules
+* Only contactable email adresses can be saved.
+#### New add command parameters
+* Users will be able to specify a particular stage and rating when adding new candidates to findr.
+#### Enhanced find command
+* Results will be sorted based on closeness to the keyword provided.
+
 
 _Details coming soon ..._
 
@@ -365,8 +373,6 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
