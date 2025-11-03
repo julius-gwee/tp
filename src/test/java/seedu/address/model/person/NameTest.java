@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -38,6 +39,7 @@ public class NameTest {
         assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd")); // long names
         assertTrue(Name.isValidName("peter-@")); // contains '-' and '@'
         assertTrue(Name.isValidName("peter s/o maria")); // contains s/o
+        assertTrue(Name.isValidName("Aurélie")); // contains accented characters
     }
 
     @Test
@@ -58,5 +60,27 @@ public class NameTest {
 
         // different values -> returns false
         assertFalse(name.equals(new Name("Other Valid Name")));
+
+        // differs in case and spacing -> returns true
+        assertTrue(new Name("Valid    Name").equals(new Name("valid name")));
+    }
+
+    @Test
+    public void displayFormatting_collapsesWhitespaceAndCapitalizesWords() {
+        Name name = new Name("  bRIAN   lee   ");
+        assertEquals("Brian Lee", name.fullName);
+        assertEquals("Brian Lee", name.toString());
+
+        Name accentedName = new Name("  aURÉLIE   d'éon ");
+        assertEquals("Aurélie D'Éon", accentedName.fullName);
+        assertEquals("Aurélie D'Éon", accentedName.toString());
+
+        Name relationshipName = new Name("  brian   s/o   tan ");
+        assertEquals("Brian S/O Tan", relationshipName.fullName);
+        assertEquals("Brian S/O Tan", relationshipName.toString());
+
+        Name hyphenatedName = new Name("  anne-marie  smith  ");
+        assertEquals("Anne-Marie Smith", hyphenatedName.fullName);
+        assertEquals("Anne-Marie Smith", hyphenatedName.toString());
     }
 }

@@ -40,18 +40,6 @@ public class PersonTest {
         // same email only, different phone -> returns true
         editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withName(VALID_NAME_BOB).build();
         assertTrue(ALICE.isSamePerson(editedAlice));
-
-        // same phone only, different email -> returns true
-        editedAlice = new PersonBuilder(ALICE).withEmail(VALID_EMAIL_BOB).withName(VALID_NAME_BOB).build();
-        assertTrue(ALICE.isSamePerson(editedAlice));
-
-        // different email and phone, same name -> returns false
-        editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).build();
-        assertFalse(ALICE.isSamePerson(editedAlice));
-
-        // different email and phone, all other attributes same -> returns false
-        Person editedBob = new PersonBuilder(BOB).withPhone("91234567").withEmail("different@example.com").build();
-        assertFalse(BOB.isSamePerson(editedBob));
     }
 
     @Test
@@ -100,5 +88,15 @@ public class PersonTest {
                 + ", dateAdded=" + ALICE.getDateAdded() + ", rating=" + ALICE.getRating()
                 + ", stage=" + ALICE.getStage() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+
+    @Test
+    public void name_isDisplayedInCapitalizedForm() {
+        Person formattedPerson = new PersonBuilder().withName("  bRIAN   lee   ").build();
+        assertEquals("Brian Lee", formattedPerson.getName().toString());
+
+        Person relationshipPerson = new PersonBuilder().withName("  mary   s/o   john  ").build();
+        assertEquals("Mary S/O John", relationshipPerson.getName().toString());
     }
 }

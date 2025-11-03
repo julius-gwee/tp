@@ -30,6 +30,7 @@ public class ParserUtilTest {
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
+    private static final String VALID_NAME_WITH_ACCENTS = "Aurélie";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
@@ -79,6 +80,24 @@ public class ParserUtilTest {
         String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
+    }
+
+    @Test
+    public void parseName_validValueWithAccentedCharacters_returnsName() throws Exception {
+        Name expectedName = new Name(VALID_NAME_WITH_ACCENTS);
+        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME_WITH_ACCENTS));
+    }
+
+    @Test
+    public void parseName_messySpacingAndCase_formatsDisplay() throws Exception {
+        Name parsedName = ParserUtil.parseName("  bRIAN   lee   ");
+        assertEquals("Brian Lee", parsedName.toString());
+
+        Name relationshipName = ParserUtil.parseName(" mary   s/o   john  ");
+        assertEquals("Mary S/O John", relationshipName.toString());
+
+        Name hyphenatedName = ParserUtil.parseName("  anne-marie   smith  ");
+        assertEquals("Anne-Marie Smith", hyphenatedName.toString());
     }
 
     @Test
