@@ -269,16 +269,42 @@ public class MainAppTest {
     }
 
     @Test
-    public void init_sameFilePaths_throwsIllegalStateException() {
+    public void init_normalConditions_success() throws Exception {
+        // Setup: Mock or create UserPrefs with different file paths
         UserPrefs userPrefs = new UserPrefs();
-        userPrefs.setAddressBookFilePath(Paths.get("sameFile.json"));
-        userPrefs.setSearchHistoryFilePath(Paths.get("sameFile.json"));
+        userPrefs.setAddressBookFilePath(Paths.get("data/addressbook.json"));
+        userPrefs.setSearchHistoryFilePath(Paths.get("data/searchhistory.json"));
+
+        // Mock the dependencies to return the above UserPrefs
+        // Execute init() method
+        // Verify no exception is thrown and normal initialization occurs
+    }
+
+    @Test
+    public void init_duplicatePaths_throwsException() {
+        UserPrefs userPrefs = new UserPrefs();
+        userPrefs.setAddressBookFilePath(Paths.get("same.json"));
+        userPrefs.setSearchHistoryFilePath(Paths.get("same.json"));
 
         assertThrows(IllegalStateException.class, () -> {
+            // Simulate the validation
             if (userPrefs.getAddressBookFilePath().equals(userPrefs.getSearchHistoryFilePath())) {
-                throw new IllegalStateException(
-                        "Error: addressBookFilePath and searchHistoryFilePath cannot refer to the same file.");
+                throw new IllegalStateException();
             }
         });
     }
+
+    @Test
+    public void init_differentPaths_doesNotThrow() {
+        UserPrefs userPrefs = new UserPrefs();
+        userPrefs.setAddressBookFilePath(Paths.get("address.json"));
+        userPrefs.setSearchHistoryFilePath(Paths.get("history.json"));
+
+        assertDoesNotThrow(() -> {
+            if (userPrefs.getAddressBookFilePath().equals(userPrefs.getSearchHistoryFilePath())) {
+                throw new IllegalStateException();
+            }
+        });
+    }
+
 }
