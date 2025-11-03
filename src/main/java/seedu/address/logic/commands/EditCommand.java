@@ -42,7 +42,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
             + "by the index number in the specified stage. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX " + PREFIX_FROM + "STAGE "
+            + "Parameters: INDEX (must be a positive integer less than 2^31) " + PREFIX_FROM + "STAGE "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
