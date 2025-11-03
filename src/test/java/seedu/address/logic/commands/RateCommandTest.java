@@ -217,12 +217,16 @@ public class RateCommandTest {
 
         // Add candidates to different stages
         Person candidateInCandidates = new PersonBuilder().withName("Alice")
+                .withEmail("alice@example.com").withPhone("91111111")
                 .withStage(Stage.CANDIDATES).build();
         Person candidateInContacted = new PersonBuilder().withName("Bob")
+                .withEmail("bob@example.com").withPhone("92222222")
                 .withStage(Stage.CONTACTED).build();
         Person candidateInInterviewed = new PersonBuilder().withName("Charlie")
+                .withEmail("charlie@example.com").withPhone("93333333")
                 .withStage(Stage.INTERVIEWED).build();
         Person candidateInHired = new PersonBuilder().withName("Diana")
+                .withEmail("diana@example.com").withPhone("94444444")
                 .withStage(Stage.HIRED).build();
 
         testModel.addCandidate(candidateInCandidates);
