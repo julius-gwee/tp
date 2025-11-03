@@ -37,14 +37,13 @@ public class RateCommand extends Command {
 
     public static final String MESSAGE_RATE_SUCCESS = "Rating for %1$s: %2$s";
 
+    public static final String MESSAGE_MISSING_INDEX = "Index missing. Please provide a positive integer.";
     public static final String MESSAGE_INVALID_INDEX =
             "The index provided is invalid. Please provide a positive integer.";
     public static final String MESSAGE_INVALID_INDEX_FOR_STAGE = "Invalid index for stage %s";
-    public static final String MESSAGE_MISSING_RATE =
-            "Missing rating value. Use r/ followed by a valid rating.\n" + MESSAGE_RATINGS;
+    public static final String MESSAGE_MISSING_RATE = "Use r/ followed by a valid rating.\n" + MESSAGE_RATINGS;
     public static final String MESSAGE_INVALID_RATE = "Invalid rating. " + MESSAGE_RATINGS;
-    public static final String MESSAGE_MISSING_STAGE =
-            "Missing stage value. Use from/ followed by a valid stage.\n" + MESSAGE_STAGES;
+    public static final String MESSAGE_MISSING_STAGE = "Use from/ followed by a valid stage.\n" + MESSAGE_STAGES;
     public static final String MESSAGE_INVALID_STAGE = "Invalid stage. " + MESSAGE_STAGES;
     public static final String MESSAGE_DUPLICATE_RATE = "Multiple ratings detected. Provide only one r/ prefix.";
     public static final String MESSAGE_DUPLICATE_STAGE = "Multiple stages detected. Provide only one from/ prefix.";
