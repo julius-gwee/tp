@@ -107,12 +107,25 @@ public class TagTest {
     public void isSameTag() {
         Tag friend = new Tag("friend");
         Tag friendDuplicate = new Tag("friend", "Personal", Tag.DEFAULT_COLOUR, "Close pal");
+        Tag friendUpperCase = new Tag("FRIEND");
         Tag colleague = new Tag("colleague");
 
         assertTrue(friend.isSameTag(friend));
         assertTrue(friend.isSameTag(friendDuplicate));
+        assertTrue(friend.isSameTag(friendUpperCase));
         assertFalse(friend.isSameTag(colleague));
         assertFalse(friend.isSameTag(null));
+    }
+
+    @Test
+    public void equals_nameComparisonIsCaseInsensitive() {
+        Tag backend = new Tag("backend", "Engineering", "#123456", "Handles servers");
+        Tag backendDifferentCase = new Tag("BackEnd", "Engineering", "#123456", "Handles servers");
+        Tag backendDifferentDetails = new Tag("backend", "Operations", "#123456", "Handles servers");
+
+        assertTrue(backend.equals(backendDifferentCase));
+        assertEquals(backend.hashCode(), backendDifferentCase.hashCode());
+        assertFalse(backend.equals(backendDifferentDetails));
     }
 
 }
