@@ -23,7 +23,7 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the candidate identified by the index number in the specified stage.\n"
-            + "Parameters: INDEX (must be a positive integer) " + PREFIX_FROM + "STAGE\n"
+            + "Parameters: INDEX (must be a positive integer less than 2^31) " + PREFIX_FROM + "STAGE\n"
             + "The index refers to the position within that stage column.\n"
             + "Stages: Candidates, Contacted, Interviewed, Hired (case-insensitive)\n"
             + "Examples:\n"

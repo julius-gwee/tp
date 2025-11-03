@@ -1,0 +1,44 @@
+@startuml SearchWorkflow
+title Advanced Search Workflow - Activity Diagram
+
+start
+:User enters filter command or action;
+
+if () then ([Compile])
+:Parse criteria (FilterCommandParser);
+if () then ([Criteria valid])
+:Model.compileSearchPredicate(criteria);
+:AdvancedSearchManager.compilePredicate(criteria);
+:Combine predicates (NameContainsKeywordsPredicate, RatingRangePredicate, TagIncludesPredicate...);
+:Model.updateFilteredCandidateList(predicate);
+:UI shows filtered results;
+else ([not valid])
+:Return ParseException / error message;
+:UI shows error;
+endif
+elseif () then ([Save])
+:Get current compiled predicate;
+:Model.saveSearchFilter(name, predicate);
+:AdvancedSearchManager.saveFilter(name, predicate);
+:Storage.saveSearchFilter(name, predicateDto);
+if () then ([Successfully saved])
+:UI shows "Filter saved";
+else ([Failed to save])
+:UI shows "Failed to save filter";
+endif
+elseif () then ([Load])
+:Model.loadSearchFilter(name);
+:AdvancedSearchManager.loadFilter(name);
+:Storage.readSearchFilter(name);
+if () then ([Found])
+:Deserialize predicate;
+:Model.updateFilteredCandidateList(predicate);
+:UI shows filtered results;
+else ([Not found])
+:UI shows "Filter not found";
+endif
+else ([List])
+:Fallback to list command or no-op;
+endif
+stop
+@enduml

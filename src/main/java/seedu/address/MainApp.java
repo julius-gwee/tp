@@ -59,6 +59,15 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
+
+        if (userPrefs.getAddressBookFilePath().equals(userPrefs.getSearchHistoryFilePath())) {
+            logger.severe("Configuration error: addressBookFilePath and searchHistoryFilePath point to the same file: "
+                    + userPrefs.getAddressBookFilePath());
+            throw new IllegalStateException(
+                    "Error: addressBookFilePath and searchHistoryFilePath cannot refer to the same file.\n"
+                            + "Please update your preferences.json file to use different file paths.");
+        }
+
         FindrStorage findrStorage = new JsonFindrStorage(userPrefs.getAddressBookFilePath());
         SearchHistoryStorage searchHistoryStorage = new JsonSearchHistoryStorage(userPrefs.getSearchHistoryFilePath());
         storage = new StorageManager(findrStorage, userPrefsStorage, searchHistoryStorage);

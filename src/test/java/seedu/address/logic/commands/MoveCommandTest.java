@@ -49,7 +49,8 @@ public class MoveCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getObservableCandidateList().size() + 1);
         MoveCommand moveCommand = new MoveCommand(outOfBoundIndex, Stage.CANDIDATES, Stage.CONTACTED);
 
-        assertCommandFailure(moveCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
+        assertCommandFailure(moveCommand, model,
+                String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, MoveCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -64,7 +65,8 @@ public class MoveCommandTest {
         // Try to move from HIRED stage when there are no persons in that stage
         MoveCommand moveCommand = new MoveCommand(INDEX_FIRST_CANDIDATE, Stage.HIRED, Stage.INTERVIEWED);
 
-        assertCommandFailure(moveCommand, model, Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
+        assertCommandFailure(moveCommand, model,
+                String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, MoveCommand.MESSAGE_USAGE));
     }
 
     @Test

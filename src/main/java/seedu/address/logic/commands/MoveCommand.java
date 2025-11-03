@@ -25,7 +25,7 @@ public class MoveCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Moves the candidate identified by the index number (relative to the stage) "
             + "from one stage to another.\n"
-            + "INDEX "
+            + "Parameters: INDEX (must be a positive integer less than 2^31)"
             + PREFIX_FROM + "CURRENT_STAGE "
             + PREFIX_TO + "NEW_STAGE\n"
             + "Stages: Candidates, Contacted, Interviewed, Hired (case-insensitive)\n"
@@ -74,7 +74,7 @@ public class MoveCommand extends Command {
 
         // Check if index is valid for this stage
         if (targetIndex.getZeroBased() >= personsInFromStage.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_CANDIDATE_DISPLAYED_INDEX);
+            throw new CommandException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 
         // Get the person at the specified index within the fromStage column

@@ -1,0 +1,211 @@
+@startuml FilterCommandSequence
+title Filter Command - Sequence Diagram
+
+actor User
+participant "UI: MainWindow" as UI
+participant "UI: CommandBox" as CommandBox
+participant "Logic: FindrParser" as Parser
+participant "Logic: FilterCommandParser" as FilterParser
+participant "Logic: FilterCommand" as FilterCmd
+participant "Model" as Model
+participant "Logic: AdvancedSearchManager" as AdvMgr
+participant "StorageManager" as Storage
+participant "UI: ResultDisplay" as Result
+
+== User enters filter command ==
+User -> CommandBox : type "filter n/Alice r/4-5 t/backend"
+activate CommandBox
+CommandBox -> UI : executeCommand(commandText)
+activate UI
+UI -> Parser : parseCommand(commandText)
+activate Parser
+Parser -> FilterParser : new + parse(arguments)
+activate FilterParser
+FilterParser --> Parser : FilterCommand
+deactivate FilterParser
+Parser --> UI : FilterCommand
+deactivate Parser
+deactivate UI
+deactivate CommandBox
+
+== Execute ==
+User -> CommandBox : type "filter n/Alice r/4-5 t/backend"
+activate CommandBox
+CommandBox -> UI : executeCommand(commandText)
+activate UI
+UI -> FilterCmd : execute(Model)
+activate FilterCmd
+FilterCmd -> Model : compileSearchPredicate(criteria)
+activate Model
+Model -> AdvMgr : compilePredicate(criteria)
+activate AdvMgr
+AdvMgr -> AdvMgr : build NameContainsKeywordsPredicate
+activate AdvMgr
+deactivate AdvMgr
+AdvMgr -> AdvMgr : build RatingRangePredicate
+activate AdvMgr
+deactivate AdvMgr
+AdvMgr -> AdvMgr : build TagIncludesPredicate
+activate AdvMgr
+deactivate AdvMgr
+AdvMgr --> Model : combined java.util.function.Predicate
+deactivate AdvMgr
+
+Model -> Model : updateFilteredCandidateList(predicate)
+activate Model
+deactivate Model
+Model --> FilterCmd : CommandResult(msg)
+deactivate Model
+FilterCmd --> UI : CommandResult(msg)
+deactivate FilterCmd
+UI -> Result : setFeedbackToUser(msg)
+activate Result
+Result --> User : updated list rendered
+deactivate Result
+deactivate UI
+deactivate CommandBox
+
+== Optional: Save filter ==
+User -> CommandBox : type "filter save n/Alice r/4-5"
+activate CommandBox
+CommandBox -> UI : executeCommand()
+activate UI
+UI -> Parser : parseCommand()
+activate Parser
+Parser -> FilterParser : parse()
+activate FilterParser
+FilterParser --> Parser : FilterCommand(save=true)
+deactivate FilterParser
+Parser --> UI : FilterCommand(save=true)
+deactivate Parser
+UI -> FilterCmd : execute(Model)
+activate FilterCmd
+FilterCmd -> Model : saveSearchFilter(name, predicate)
+activate Model
+Model -> AdvMgr : saveFilter(name, predicate)
+activate AdvMgr
+AdvMgr -> Storage : saveSearchFilter(name, predicateDto)
+activate Storage
+Storage --> AdvMgr : ok / IOException
+deactivate Storage
+AdvMgr --> Model : ok / error
+deactivate AdvMgr
+Model --> FilterCmd : saved/failed
+deactivate Model
+FilterCmd --> UI : CommandResult(saved/failed)
+deactivate FilterCmd
+UI -> Result : setFeedbackToUser(saved/failed)
+activate Result
+deactivate Result
+deactivate UI
+deactivate CommandBox
+
+== Optional: Load filter ==
+User -> CommandBox : type "filter use/lastSenior"
+activate CommandBox
+CommandBox -> UI : executeCommand()
+activate UI
+UI -> Parser : parseCommand()
+activate Parser
+Parser -> FilterParser : parse()
+activate FilterParser
+FilterParser --> Parser : FilterCommand(use)
+deactivate FilterParser
+Parser --> UI : FilterCommand(use)
+deactivate Parser
+UI -> FilterCmd : execute(Model)
+activate FilterCmd
+FilterCmd -> Model : loadSearchFilter(name)
+activate Model
+Model -> AdvMgr : loadFilter(name)
+activate AdvMgr
+AdvMgr -> Storage : readSearchFilter(name)
+activate Storage
+Storage --> AdvMgr : predicateDto / empty
+deactivate Storage
+AdvMgr --> Model : predicate / error
+deactivate AdvMgr
+Model -> Model : updateFilteredCandidateList(predicate)
+activate Model
+deactivate Model
+Model --> FilterCmd : CommandResult(msg)
+deactivate Model
+FilterCmd --> UI : CommandResult(msg)
+deactivate FilterCmd
+UI -> Result : setFeedbackToUser(msg)
+activate Result
+deactivate Result
+deactivate UI
+deactivate CommandBox
+
+== Error paths ==
+group Parse error
+  User -> CommandBox : type "invalid command"
+  activate CommandBox
+  CommandBox -> UI : executeCommand()
+  activate UI
+  UI -> Parser : parseCommand()
+  activate Parser
+  Parser --> UI : throws ParseException
+  deactivate Parser
+  activate UI
+  UI -> Result : setFeedbackToUser(error)
+  activate Result
+  deactivate Result
+  deactivate UI
+  deactivate CommandBox
+end
+
+group Invalid criteria
+  User -> CommandBox : type "filter r/invalid-range"
+  activate CommandBox
+  CommandBox -> UI : executeCommand()
+  activate UI
+  UI -> FilterCmd : execute(Model)
+  activate FilterCmd
+  FilterCmd -> Model : compileSearchPredicate(criteria)
+  activate Model
+  Model -> AdvMgr : compilePredicate(criteria)
+  activate AdvMgr
+  AdvMgr --> Model : error info
+  deactivate AdvMgr
+  Model --> FilterCmd : error result
+  deactivate Model
+  FilterCmd --> UI : error result
+  deactivate FilterCmd
+  UI -> Result : setFeedbackToUser(error)
+  activate Result
+  deactivate Result
+  deactivate UI
+  deactivate CommandBox
+end
+
+group Storage failure
+  User -> CommandBox : type "filter save/myFilter"
+  activate CommandBox
+  CommandBox -> UI : executeCommand()
+  activate UI
+  UI -> FilterCmd : execute(Model)
+  activate FilterCmd
+  FilterCmd -> Model : saveSearchFilter(name, predicate)
+  activate Model
+  Model -> AdvMgr : saveFilter(name, predicate)
+  activate AdvMgr
+  AdvMgr -> Storage : saveSearchFilter(name, predicateDto)
+  activate Storage
+  Storage --> AdvMgr : IOException
+  deactivate Storage
+  AdvMgr --> Model : error
+  deactivate AdvMgr
+  Model --> FilterCmd : error
+  deactivate Model
+  FilterCmd --> UI : error
+  deactivate FilterCmd
+  UI -> Result : setFeedbackToUser("Failed to save/load filter")
+  activate Result
+  deactivate Result
+  deactivate UI
+  deactivate CommandBox
+end
+
+@enduml

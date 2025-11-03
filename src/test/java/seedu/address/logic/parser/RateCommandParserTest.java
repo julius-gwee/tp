@@ -18,9 +18,9 @@ public class RateCommandParserTest {
 
     @Test
     public void parse_missingIndex_throwsParseException() {
-        String userInput = PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
+        String userInput = " " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_INDEX));
     }
 
     @Test
@@ -83,7 +83,8 @@ public class RateCommandParserTest {
 
     @Test
     public void parse_invalidStage_throwsParseException() {
-        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "NotAStage ";
+        String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM
+                + "NotAStage " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_STAGE));
     }
@@ -177,19 +178,17 @@ public class RateCommandParserTest {
 
     @Test
     public void parse_duplicateRatingPrefix_success() {
-        // ArgumentMultimap typically takes the last occurrence
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "Candidates "
                 + PREFIX_RATE + "Poor " + PREFIX_RATE + "Excellent";
-        RateCommand expected = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.EXCELLENT, Stage.CANDIDATES);
-        assertParseSuccess(parser, userInput, expected);
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_DUPLICATE_RATE));
     }
 
     @Test
     public void parse_duplicateStagePrefix_success() {
-        // ArgumentMultimap typically takes the last occurrence
         String userInput = INDEX_FIRST_CANDIDATE.getOneBased() + " " + PREFIX_FROM + "Interviewed "
                 + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
-        RateCommand expected = new RateCommand(INDEX_FIRST_CANDIDATE, Rating.GOOD, Stage.CANDIDATES);
-        assertParseSuccess(parser, userInput, expected);
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_DUPLICATE_STAGE));
     }
 }
