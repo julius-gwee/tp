@@ -9,6 +9,8 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org/).
+* The UI is inspired by the Kanban Board template created by [Trello](https://trello.com/templates/engineering/kanban-template-LGHXvZNL).
 * Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -51,7 +53,7 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1 from/candidates`.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -91,7 +93,7 @@ Here's a (partial) class diagram of the `Logic` component:
 
 <img src="images/LogicClassDiagram.png" width="550"/>
 
-The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
+The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1 from/Candidates")` API call as an example.
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
@@ -163,7 +165,7 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Implementation
 
-The `Person` class under the `model.person` package represents a **candidate** in Findr.  
+The `Person` class under the `model.person` package represents a **candidate** in Findr.
 It contains the following fields:
 
 - `Name` – candidate’s full name.
@@ -176,6 +178,8 @@ It contains the following fields:
 - `DateAdded` – the date the candidate was added to Findr.
 
 Each `Person` is **immutable**, and all fields are validated upon creation.
+
+A `Person` is detected as a **duplicate** if it has the same `Email` or `Phone` field as another `Person`.
 
 All `Person` objects are stored within a `UniquePersonList`, which ensures there are no duplicate candidates and provides efficient lookup and update operations. The list is managed by the `ModelManager`, which handles all modifications triggered by commands.
 
@@ -211,14 +215,14 @@ public enum Rating {
     AVERAGE("Average", 2),
     GOOD("Good", 1),
     EXCELLENT("Excellent", 0);
-} 
+}
 ```
 - The RateCommand allows recruiters to update this field:
 
   `rate INDEX from/STAGE r/RATING`
 
   - For example:
-`rate 2 from/Interviewed r/Excellent` updates the 2nd candidate in the Interviewed stage to have a GOOD rating.
+`rate 2 from/Interviewed r/Excellent` updates the 2nd candidate in the Interviewed stage to have a `EXCELLENT` rating.
 - `RateCommand` updates a candidate’s rating immutably:
     1. Finds candidate by index and stage.
     2. Creates new `Person` instance with updated rating.
@@ -425,8 +429,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
 ### \[Proposed\] Advanced candidate search and filtering
 
 #### Proposed Implementation
@@ -464,9 +466,12 @@ executes `filter loc/Singapore sal/80000-120000`. The filter command calls
 `Model#compileSearchPredicate()` again, combining the new criteria with 
 the existing ones, and updates the filtered candidate list.
 
+<div markdown="span" class="alert alert-info">
+
 **:information_source: Note:** If the search criteria are invalid (e.g., 
 malformed ranges), the command will not call `Model#compileSearchPredicate()`,
 so the filter state will not be updated.
+</div>
 
 **Step 4**. The user now decides this is a useful filter combination and wants 
 to save it by executing `filter save/senior-backend-sg`. The save command calls
@@ -476,9 +481,12 @@ for saving and reusing search filters.
 
 ![Search Workflow Activity Diagram](images/SearchWorkflow.png)
 
+<div markdown="span" class="alert alert-info">
+
 :information_source: Note: If a filter with the same name already exists, the save
 operation will overwrite it. The command uses `Model#isValidFilterName()` to check 
 if the name is valid. If not, it will return an error to the user.
+</div>
 
 **Step 5**. The user clears the current filter with filter clear and works 
 with other candidates. Later, they want to reuse the saved filter and execute
@@ -492,17 +500,23 @@ the overall system architecture.
 **Step 6**. The user executes `list` to view all candidates again. The list 
 command clears any active filters and displays the full candidate database.
 
+<div markdown="span" class="alert alert-info">
+
 :information_source: Note: Non-filtering commands like `list` and `help` do not 
 affect the search predicate stack, allowing users to return to their filtered 
 view after performing other operations.
+</div>
 
 **Step 7**. The user executes a new filter command with different criteria. 
 Since the search predicate stack maintains the current active filter, applying
 a new filter replaces the current one rather than accumulating criteria.
 
+<div markdown="span" class="alert alert-info">
+
 :information_source: Note: This behavior follows the principle of least surprise, 
 where each filter command represents a complete new query rather than incremental 
 additions to the previous filter.
+</div>
 
 #### Design Considerations
 
@@ -640,7 +654,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   Use case resumes at step 2.
 
-* 2b. The candidate duplicates an existing record (e.g. same email).
+* 2b. The candidate duplicates an existing record (e.g. same email or number).
 
   2b1. System warns about the duplicate and aborts creation.
 
@@ -649,6 +663,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ---
 
 **Use case: UC03 - Edit a candidate**
+
+**Preconditions:** The Kanban Board is not empty. 
 
 **MSS**
 1. Actor identifies a candidate by its stage and index.
@@ -698,6 +714,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Use case: UC05 - Delete a candidate**
 
+**Preconditions:** The Kanban Board is not empty.
+
 **MSS**
 1. Actor identifies the candidate's index within a stage.
 2. Actor submits a delete command with the index and stage.
@@ -722,6 +740,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ---
 
 **Use case: UC06 - Move a candidate between stages**
+
+**Preconditions:** The Kanban Board is not empty.
 
 **MSS**
 1. Actor identifies a candidate by stage and index, and chooses a destination stage.
@@ -753,6 +773,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ---
 
 **Use case: UC07 - Rate a candidate**
+
+**Preconditions:** The Kanban Board is not empty.
 
 **MSS**
 1. Actor identifies a candidate by stage and index.
@@ -907,7 +929,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case: Auto-save changes**
+**Use case: UC14 - Auto-save changes**
 
 **MSS**
 1. Actor performs a change (e.g. add, delete, edit).
@@ -923,7 +945,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   2a2. If retry succeeds, System shows "Saved" and logs the event.
 
-  2a3. If retry fails after N attempts, System prompts the recruiter to "Retry now" or "Save As…".
+  2a3. If retry fails after multiple attempts, System prompts the recruiter to "Retry now" or "Save As…".
 
   Use case ends.
 
@@ -949,6 +971,7 @@ Term | Definition
 **Actor** | A role (e.g. recruiter) interacting with the system in a use case.
 **System** | Refers to the `findr` application in use cases.
 **Kanban Board** | A visual workflow management tool that organizes candidates into columns representing different recruitment stages.
+**Stage** | A specific phase in the recruitment process (Candidates, Contacted, Interviewed, or Hired), represented as columns in the kanban board.
 **Auto-save** | A system feature that automatically persists changes without explicit user action.
 **Candidate** | A person added to the system by a recruiter as a potential hire.
 **Mainstream OS** | Windows, Linux, Unix, MacOS (as stated in non-functional requirements).
@@ -1079,3 +1102,17 @@ These tests ensure the global tag catalogue stays in sync with candidate cards.
 
     1. Delete the `preferences.json` file in the same directory as the jar (if it exists) and relaunch the app.<br>
        Expected: `findr` recreates the file with default window dimensions and position.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+Team size: 5
+
+1. **Enforce stricter rules of `email` field**: The current `email` field allows for uncontactable email addresses to be saved, which could reduce data accuracy over time. (e.g. `johnd@gmail` without top-level domains is allowed currently but will be rejected in the future)
+
+
+2. **Enhance `add` feature to allow adding candidates with specified `rating` to specified `stage`**: The current `add` command automatically adds candidates to the `Candidates` stage, which would not be as useful for recruiters who are in the middle of their recruitment process. They would have to use an additional command to `move` their candidates to another stage. This future enhancement will include an additional parameter, `s/STAGE`, in the `add` command to allow direct addition of candidates into any stage. Same for `RATING`. 
+
+
+3. **Enhance `find` feature to rank results by closest match**: The current `find` command returns all candidates matching at least one keyword, ordering them based on the last `sort` command, which may be inconvenient for some recruiters. (e.g. `sort` and `find John Doe` will place `John Coe` above `John Doe` in the returned list) This future enhancement will reorder the list based on closest matches to the `find` keywords.
