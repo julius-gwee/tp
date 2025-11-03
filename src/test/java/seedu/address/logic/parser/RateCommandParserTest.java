@@ -20,7 +20,7 @@ public class RateCommandParserTest {
     public void parse_missingIndex_throwsParseException() {
         String userInput = " " + PREFIX_FROM + "Candidates " + PREFIX_RATE + "Good";
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_INDEX));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
     }
 
     @Test
