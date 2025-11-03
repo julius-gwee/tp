@@ -69,7 +69,7 @@ title: User Guide
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list` and `exit`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -242,7 +242,6 @@ Clears candidates from the candidate list.
 Format: `clear [STAGE]`
 
 * Deletes all candidates from the specified `STAGE`. 
-* If no `STAGE` specified, clears from all stages by default.
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired`, `All` (case-insensitive).
 
 Examples:
