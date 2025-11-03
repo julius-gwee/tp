@@ -13,7 +13,7 @@ public class Name {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain letters (including accented characters), numbers, spaces, apostrophes, '@',"
-                    + " or hyphens, and it should not be blank";
+                    + " or hyphens, may include 's/o' or 'd/o', and it should not be blank";
 
     /*
      * The first character of the address must not be a whitespace,
