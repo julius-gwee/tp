@@ -3,11 +3,13 @@ package seedu.address;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.testutil.Assert.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javafx.application.Application;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -265,5 +267,19 @@ public class MainAppTest {
         // This should complete without throwing an exception
         Config config = mainApp.initConfig(configPath);
         assertNotNull(config);
+    }
+
+    @Test
+    public void init_sameFilePaths_throwsIllegalStateException() {
+        UserPrefs userPrefs = new UserPrefs();
+        userPrefs.setAddressBookFilePath(Paths.get("sameFile.json"));
+        userPrefs.setSearchHistoryFilePath(Paths.get("sameFile.json"));
+
+        assertThrows(IllegalStateException.class, () -> {
+            if (userPrefs.getAddressBookFilePath().equals(userPrefs.getSearchHistoryFilePath())) {
+                throw new IllegalStateException(
+                        "Error: addressBookFilePath and searchHistoryFilePath cannot refer to the same file.");
+            }
+        });
     }
 }
