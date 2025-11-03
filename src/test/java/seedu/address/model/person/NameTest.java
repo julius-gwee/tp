@@ -72,6 +72,15 @@ public class NameTest {
         assertEquals("Brian Lee", name.toString());
 
         Name accentedName = new Name("  aURÉLIE   d'éon ");
-        assertEquals("Aurélie D'éon", accentedName.fullName);
+        assertEquals("Aurélie D'Éon", accentedName.fullName);
+        assertEquals("Aurélie D'Éon", accentedName.toString());
+
+        Name relationshipName = new Name("  brian   s/o   tan ");
+        assertEquals("Brian S/O Tan", relationshipName.fullName);
+        assertEquals("Brian S/O Tan", relationshipName.toString());
+
+        Name hyphenatedName = new Name("  anne-marie  smith  ");
+        assertEquals("Anne-Marie Smith", hyphenatedName.fullName);
+        assertEquals("Anne-Marie Smith", hyphenatedName.toString());
     }
 }

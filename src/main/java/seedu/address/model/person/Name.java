@@ -93,6 +93,12 @@ public class Name {
                 continue;
             }
 
+            if (current == '\'' || current == '-' || current == '/') {
+                builder.append(current);
+                capitalizeNext = true;
+                continue;
+            }
+
             if (capitalizeNext) {
                 builder.append(Character.toTitleCase(current));
                 capitalizeNext = false;
@@ -103,5 +109,4 @@ public class Name {
 
         return builder.toString();
     }
-
 }

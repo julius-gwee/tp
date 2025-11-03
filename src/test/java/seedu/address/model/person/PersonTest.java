@@ -109,5 +109,8 @@ public class PersonTest {
     public void name_isDisplayedInCapitalizedForm() {
         Person formattedPerson = new PersonBuilder().withName("  bRIAN   lee   ").build();
         assertEquals("Brian Lee", formattedPerson.getName().toString());
+
+        Person relationshipPerson = new PersonBuilder().withName("  mary   s/o   john  ").build();
+        assertEquals("Mary S/O John", relationshipPerson.getName().toString());
     }
 }

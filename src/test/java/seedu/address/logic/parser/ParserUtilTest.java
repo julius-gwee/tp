@@ -92,6 +92,12 @@ public class ParserUtilTest {
     public void parseName_messySpacingAndCase_formatsDisplay() throws Exception {
         Name parsedName = ParserUtil.parseName("  bRIAN   lee   ");
         assertEquals("Brian Lee", parsedName.toString());
+
+        Name relationshipName = ParserUtil.parseName(" mary   s/o   john  ");
+        assertEquals("Mary S/O John", relationshipName.toString());
+
+        Name hyphenatedName = ParserUtil.parseName("  anne-marie   smith  ");
+        assertEquals("Anne-Marie Smith", hyphenatedName.toString());
     }
 
     @Test
