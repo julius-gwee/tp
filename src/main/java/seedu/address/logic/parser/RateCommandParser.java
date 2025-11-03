@@ -53,7 +53,7 @@ public class RateCommandParser implements Parser<RateCommand> {
         // Check for missing index specifically (empty preamble when prefixes exist)
         if (argMultimap.getPreamble().trim().isEmpty()) {
             logger.warning("Missing index in RateCommand input");
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_INDEX));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_INVALID_INDEX));
         }
     }
 
@@ -73,13 +73,13 @@ public class RateCommandParser implements Parser<RateCommand> {
         // Stage must be provided via from/
         String stageArg = argMultimap.getValue(PREFIX_FROM).orElse(null);
         if (stageArg == null || stageArg.isEmpty()) {
-            logger.warning("Missing from/ argument in RateCommand");
+            logger.warning("Missing /from argument in RateCommand");
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_STAGE));
         }
 
         String rating = argMultimap.getValue(PREFIX_RATE).orElse(null);
         if (rating == null || rating.isEmpty()) {
-            logger.warning("Missing rate/ argument in RateCommand");
+            logger.warning("Missing /rate argument in RateCommand");
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RateCommand.MESSAGE_MISSING_RATE));
         }
     }
