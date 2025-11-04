@@ -19,7 +19,7 @@ title: User Guide
    - If not, download and install java 17 from [Oracle](https://www.oracle.com/java/technologies/downloads/#java17).
    - **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `[CS2103T-F14a-2][findr].jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
+2. Download the latest `findr.jar` file from [here](https://github.com/AY2526S1-CS2103T-F14a-2/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your `findr` app.
 
@@ -27,7 +27,7 @@ title: User Guide
    - For example, if you put the jar file in C:\Users\Recruiter\findr\, use the following command in the terminal:
 > cd C:\Users\Recruiter\findr\
 
-5. Use the `java -jar [CS2103T-F14a-2][findr].jar` command to run the application.<br>
+5. Use the `java -jar findr.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Start-Ui.png)
 
@@ -98,11 +98,12 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 * `[TAG]` has to be created using [tag commands](#commands-for-managing-tags--) before adding to candidates. 
 * Candidate is created with date added as current date and rating as `UNRATED`.
 * Names should only contain letters (including accented characters), numbers, spaces, apostrophes, '@', hyphens, may include 's/o' or 'd/o', and it should not be blank.
+* First character of the name provided must be a letter, mark, or number.
 * Adding of duplicate candidates (candidates with the same name AND phone number AND email) is not allowed.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Jo-hn 2 doé s/o @ betsy t/friend e/betsy@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Jo-hn 2 doé s/o @ betsy e/betsy@example.com a/Newgate Street p/1234567 t/backend`
 ![add](images/addCommand.png)
 <div markdown="span" class="alert alert-primary">
 
@@ -128,7 +129,7 @@ Edits an existing candidate in the candidate list.
 
 Format: `edit INDEX from/STAGE [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list in the specified `STAGE`. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list in the specified `STAGE`. The index **must be a positive integer** less than 2^31: 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the candidate will be removed i.e adding of tags is not cumulative.
@@ -167,7 +168,7 @@ Deletes the specified candidate from the candidate list or from a specific kanba
 Format: `delete INDEX from/STAGE`
 
 * Deletes the candidate at the specified `INDEX` and `STAGE`, the index refers to the position within that specific stage column in the kanban board.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a positive integer** less than 2^31: 1, 2, 3, …​
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive)
 
 Examples:
@@ -183,7 +184,7 @@ Format: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
 
 * Moves the candidate at the specified `INDEX` from `CURRENT_STAGE` to `NEW_STAGE`.
 * The index refers to the index number shown **within the specified stage column**.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a positive integer** less than 2^31: 1, 2, 3, …​
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * You cannot move a candidate to the same stage they are currently in.
 
@@ -206,7 +207,7 @@ Format: `rate INDEX from/STAGE r/RATING`
 
 * Rates the candidate at the specified `INDEX`.
 * The `from/STAGE` is required and scopes the index to that stage column.
-* The index **must be a positive integer** 1, 2, 3, …
+* The index **must be a positive integer** less than 2^31: 1, 2, 3, …
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * Valid ratings: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
 
@@ -353,7 +354,7 @@ Furthermore, certain edits can cause the `findr` to behave in unexpected ways (e
 #### Head Hunting Platform Integration
 * Integration with applications and platforms such as LinkedIn etc.
 #### Stricter email rules
-* Only contactable email adresses can be saved.
+* Only contactable email addresses can be saved.
 #### New add command parameters
 * Users will be able to specify a particular stage and rating when adding new candidates to findr.
 #### Enhanced find command
