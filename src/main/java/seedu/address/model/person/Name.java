@@ -12,8 +12,9 @@ import java.util.Locale;
 public class Name {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Names should only contain letters (including accented characters), numbers, spaces, apostrophes, '@',"
-                    + " or hyphens, may include 's/o' or 'd/o', and it should not be blank";
+            "Names should start with a letter (including accented characters) or number, and may only contain"
+                    + " letters (including accented characters), numbers, spaces, apostrophes, '@', or hyphens,"
+                    + " may include 's/o' or 'd/o', and it should not be blank.";
 
     /*
      * The first character of the address must not be a whitespace,
