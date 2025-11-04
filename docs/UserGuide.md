@@ -280,7 +280,7 @@ Format: `tagadd tn/TAG_NAME [tc/CATEGORY] [tcol/COLOUR] [td/DESCRIPTION]`
 * Adds a new tag with the specified `TAG_NAME`, `[CATEGORY]`, `[COLOUR]`, and `[DESCRIPTION]`.
 * If not specified, new tag is created with `General` category, `#7A7A7A` color, and no description by default. 
 * Tag names must be alphanumeric and unique.
-* Tag names are case-sensitive and do not include spaces between.
+* Tag names are case-insensitive and do not include spaces between.
 * Valid tag names: `backend`, `lowpriority`, `database`.
 * Invalid tag names: `back end`, `Low priority`.
 * Tag colour must be 6 digit hexadecimal beginning with `#`
@@ -300,6 +300,7 @@ Format: `tagedit tn/CURRENT_NAME [nn/NEW_NAME] [tc/CATEGORY] [tcol/COLOUR] [td/D
 * Edits the tag with the specified `CURRENT_NAME`
 * At least one optional field must be provided.
 * The new values replace the existing tag details. Updating the tag name updates candidates that use the tag.
+* Tag names are case-insensitive. (e.g. Unable to change tag name from `backend` to `Backend`)
 
 Examples:
 * `tagedit tn/backend tc/Product` edits backend tag to have a new category
@@ -312,6 +313,7 @@ Removes a tag from the catalogue.
 Format: `tagdelete tn/TAG_NAME`
 
 * Deleting a tag removes it from all candidates that were using it.
+* Tag names are case-insensitive and do not include spaces between.
 
 Example:
 * `tagdelete tn/backend` removes backend tag from catalogue and all candidates
