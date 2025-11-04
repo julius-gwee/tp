@@ -98,7 +98,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 * `[TAG]` has to be created using [tag commands](#commands-for-managing-tags--) before adding to candidates. 
 * Candidate is created with date added as current date and rating as `UNRATED`.
 * Names should only contain letters (including accented characters), numbers, spaces, apostrophes, '@', hyphens, may include 's/o' or 'd/o', and it should not be blank.
-* First character of the name provided must be a letter, mark, or number.
+* First character of the name provided must be a letter or number.
 * Adding of duplicate candidates (candidates with the same name AND phone number AND email) is not allowed.
 
 Examples:
@@ -207,7 +207,7 @@ Format: `rate INDEX from/STAGE r/RATING`
 
 * Rates the candidate at the specified `INDEX`.
 * The `from/STAGE` is required and scopes the index to that stage column.
-* The index **must be a positive integer** less than 2^31: 1, 2, 3, …
+* The index **must be a positive integer** less than 2^31: 1, 2, 3, …​
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * Valid ratings: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
 
