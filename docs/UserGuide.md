@@ -128,7 +128,7 @@ Edits an existing candidate in the candidate list.
 
 Format: `edit INDEX from/STAGE [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list in the specified `STAGE`. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list in the specified `STAGE`. The index **must be a positive integer** less than 2^31: 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the candidate will be removed i.e adding of tags is not cumulative.
@@ -167,7 +167,7 @@ Deletes the specified candidate from the candidate list or from a specific kanba
 Format: `delete INDEX from/STAGE`
 
 * Deletes the candidate at the specified `INDEX` and `STAGE`, the index refers to the position within that specific stage column in the kanban board.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a positive integer** less than 2^31: 1, 2, 3, …​
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive)
 
 Examples:
@@ -183,7 +183,7 @@ Format: `move INDEX from/CURRENT_STAGE to/NEW_STAGE`
 
 * Moves the candidate at the specified `INDEX` from `CURRENT_STAGE` to `NEW_STAGE`.
 * The index refers to the index number shown **within the specified stage column**.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a positive integer** less than 2^31: 1, 2, 3, …​
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * You cannot move a candidate to the same stage they are currently in.
 
@@ -206,7 +206,7 @@ Format: `rate INDEX from/STAGE r/RATING`
 
 * Rates the candidate at the specified `INDEX`.
 * The `from/STAGE` is required and scopes the index to that stage column.
-* The index **must be a positive integer** 1, 2, 3, …
+* The index **must be a positive integer** less than 2^31: 1, 2, 3, …
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired` (case-insensitive).
 * Valid ratings: `Unrated`, `Very Poor`, `Poor`, `Average`, `Good`, `Excellent` (case-insensitive).
 
@@ -351,7 +351,7 @@ Furthermore, certain edits can cause the `findr` to behave in unexpected ways (e
 #### Head Hunting Platform Integration
 * Integration with applications and platforms such as LinkedIn etc.
 #### Stricter email rules
-* Only contactable email adresses can be saved.
+* Only contactable email addresses can be saved.
 #### New add command parameters
 * Users will be able to specify a particular stage and rating when adding new candidates to findr.
 #### Enhanced find command
