@@ -11,7 +11,7 @@ import java.util.Date;
 public record DateAdded(Date date) {
 
 
-    public static final String MESSAGE_CONSTRAINTS = "Date added should be a valid date";
+    public static final String MESSAGE_CONSTRAINTS = "Date added should be a valid date.";
 
     /**
      * Constructs a {@code Date}.

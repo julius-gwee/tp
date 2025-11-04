@@ -11,12 +11,21 @@ import java.util.Objects;
  */
 public class Tag {
 
-    public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric";
-    public static final String MESSAGE_COLOUR_CONSTRAINTS = "Tag colours should be valid hex codes (e.g. #A1B2C3)";
+    public static final String MESSAGE_CONSTRAINTS = "Tag names must contain only letters and digits, "
+            + "without spaces or special characters. Tag names are case-insensitive.";
+    public static final String MESSAGE_NAME_EMPTY = "Tag name cannot be empty. "
+            + "Provide at least one letter or number.";
+    public static final String MESSAGE_CATEGORY_EMPTY = "Tag category cannot be empty. "
+            + "Remove the prefix if you do not want to set it.";
+    public static final String MESSAGE_COLOUR_EMPTY = "Tag colour cannot be empty. "
+            + "Remove the prefix or provide a hex colour code such as #A1B2C3.";
+    public static final String MESSAGE_DESCRIPTION_EMPTY = "Tag description cannot be empty. "
+            + "Remove the prefix if you do not want to set it.";
+    public static final String MESSAGE_COLOUR_CONSTRAINTS = "Tag colours should be valid hex codes (e.g. #A1B2C3).";
     public static final String MESSAGE_CATEGORY_CONSTRAINTS =
-            "Tag categories should start with an alphanumeric character and may contain spaces";
+            "Tag categories should start with an alphanumeric character and may contain spaces.";
     public static final String MESSAGE_DESCRIPTION_CONSTRAINTS =
-            "Tag descriptions should be 200 characters or fewer";
+            "Tag descriptions should be 200 characters or fewer.";
 
     public static final String VALIDATION_REGEX = "\\p{Alnum}+";
     public static final String COLOUR_VALIDATION_REGEX = "^#(?:[0-9a-fA-F]{6})$";
@@ -102,7 +111,7 @@ public class Tag {
             return true;
         }
 
-        return otherTag != null && tagName.equals(otherTag.tagName);
+        return otherTag != null && tagName.equalsIgnoreCase(otherTag.tagName);
     }
 
     @Override
@@ -117,7 +126,7 @@ public class Tag {
         }
 
         Tag otherTag = (Tag) other;
-        return tagName.equals(otherTag.tagName)
+        return tagName.equalsIgnoreCase(otherTag.tagName)
                 && category.equals(otherTag.category)
                 && colour.equals(otherTag.colour)
                 && description.equals(otherTag.description);
@@ -125,7 +134,7 @@ public class Tag {
 
     @Override
     public int hashCode() {
-        return Objects.hash(tagName, category, colour, description);
+        return Objects.hash(tagName.toLowerCase(), category, colour, description);
     }
 
     /**

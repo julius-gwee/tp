@@ -110,6 +110,9 @@ public class ParserUtil {
     public static Tag parseTag(String tag) throws ParseException {
         requireNonNull(tag);
         String trimmedTag = tag.trim();
+        if (trimmedTag.isEmpty()) {
+            throw new ParseException(Tag.MESSAGE_NAME_EMPTY);
+        }
         if (!Tag.isValidTagName(trimmedTag)) {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
@@ -124,6 +127,9 @@ public class ParserUtil {
     public static String parseTagName(String tagName) throws ParseException {
         requireNonNull(tagName);
         String trimmedTagName = tagName.trim();
+        if (trimmedTagName.isEmpty()) {
+            throw new ParseException(Tag.MESSAGE_NAME_EMPTY);
+        }
         if (!Tag.isValidTagName(trimmedTagName)) {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
@@ -138,6 +144,9 @@ public class ParserUtil {
     public static String parseTagCategory(String category) throws ParseException {
         requireNonNull(category);
         String trimmedCategory = category.trim();
+        if (trimmedCategory.isEmpty()) {
+            throw new ParseException(Tag.MESSAGE_CATEGORY_EMPTY);
+        }
         if (!Tag.isValidCategory(trimmedCategory)) {
             throw new ParseException(Tag.MESSAGE_CATEGORY_CONSTRAINTS);
         }
@@ -152,6 +161,9 @@ public class ParserUtil {
     public static String parseTagColour(String colour) throws ParseException {
         requireNonNull(colour);
         String trimmedColour = colour.trim();
+        if (trimmedColour.isEmpty()) {
+            throw new ParseException(Tag.MESSAGE_COLOUR_EMPTY);
+        }
         if (!Tag.isValidColour(trimmedColour)) {
             throw new ParseException(Tag.MESSAGE_COLOUR_CONSTRAINTS);
         }
@@ -166,6 +178,9 @@ public class ParserUtil {
     public static String parseTagDescription(String description) throws ParseException {
         requireNonNull(description);
         String trimmedDescription = description.trim();
+        if (trimmedDescription.isEmpty()) {
+            throw new ParseException(Tag.MESSAGE_DESCRIPTION_EMPTY);
+        }
         if (!Tag.isValidDescription(trimmedDescription)) {
             throw new ParseException(Tag.MESSAGE_DESCRIPTION_CONSTRAINTS);
         }

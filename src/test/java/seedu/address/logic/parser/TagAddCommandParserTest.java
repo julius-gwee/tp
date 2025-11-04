@@ -56,11 +56,15 @@ class TagAddCommandParserTest {
 
     @Test
     void parse_invalidValues_failure() {
+        assertParseFailure(parser, " " + PREFIX_TAG_NAME, Tag.MESSAGE_NAME_EMPTY);
         assertParseFailure(parser, " " + PREFIX_TAG_NAME + "invalid name", Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, NAME_DESC + " " + PREFIX_TAG_CATEGORY, Tag.MESSAGE_CATEGORY_EMPTY);
         assertParseFailure(parser, NAME_DESC + " " + PREFIX_TAG_CATEGORY + "!invalid",
                 Tag.MESSAGE_CATEGORY_CONSTRAINTS);
+        assertParseFailure(parser, NAME_DESC + " " + PREFIX_TAG_COLOUR, Tag.MESSAGE_COLOUR_EMPTY);
         assertParseFailure(parser, NAME_DESC + " " + PREFIX_TAG_COLOUR + "123456",
                 Tag.MESSAGE_COLOUR_CONSTRAINTS);
+        assertParseFailure(parser, NAME_DESC + " " + PREFIX_TAG_DESCRIPTION, Tag.MESSAGE_DESCRIPTION_EMPTY);
         assertParseFailure(parser, NAME_DESC + " " + PREFIX_TAG_DESCRIPTION
                 + "a".repeat(Tag.DESCRIPTION_MAX_LENGTH + 1), Tag.MESSAGE_DESCRIPTION_CONSTRAINTS);
     }

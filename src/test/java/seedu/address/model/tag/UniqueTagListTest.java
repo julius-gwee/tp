@@ -44,6 +44,12 @@ class UniqueTagListTest {
     }
 
     @Test
+    void contains_tagInListDifferentCase_returnsTrue() {
+        uniqueTagList.add(backend);
+        assertTrue(uniqueTagList.contains(new Tag("Backend")));
+    }
+
+    @Test
     void get_tagInList_returnsStoredInstance() {
         uniqueTagList.add(backend);
         assertEquals(backend, uniqueTagList.get(new Tag("backend")));
@@ -58,6 +64,12 @@ class UniqueTagListTest {
     void add_duplicateTag_throwsDuplicateTagException() {
         uniqueTagList.add(backend);
         assertThrows(DuplicateTagException.class, () -> uniqueTagList.add(new Tag("backend")));
+    }
+
+    @Test
+    void add_duplicateTagDifferentCase_throwsDuplicateTagException() {
+        uniqueTagList.add(backend);
+        assertThrows(DuplicateTagException.class, () -> uniqueTagList.add(new Tag("Backend")));
     }
 
     @Test
@@ -87,6 +99,14 @@ class UniqueTagListTest {
         uniqueTagList.add(frontend);
 
         assertThrows(DuplicateTagException.class, () -> uniqueTagList.setTag(frontend, new Tag("backend")));
+    }
+
+    @Test
+    void setTag_duplicateIdentityDifferentCase_throwsDuplicateTagException() {
+        uniqueTagList.add(backend);
+        uniqueTagList.add(frontend);
+
+        assertThrows(DuplicateTagException.class, () -> uniqueTagList.setTag(frontend, new Tag("Backend")));
     }
 
     @Test

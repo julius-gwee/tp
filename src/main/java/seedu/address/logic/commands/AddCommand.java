@@ -40,7 +40,7 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "backend ";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_CANDIDATE = "This candidate already exists in the candidate list";
+    public static final String MESSAGE_DUPLICATE_CANDIDATE = "This candidate already exists in the candidate list.";
 
     private final Person toAdd;
 

@@ -25,7 +25,7 @@ public class SortCommand extends Command {
             + "Example: " + COMMAND_WORD + " date" + "\n"
             + "Example: " + COMMAND_WORD + " rating";
 
-    public static final String MESSAGE_SUCCESS = "Sorted all candidates";
+    public static final String MESSAGE_SUCCESS = "Sorted all candidates.";
 
     public static final Comparator<Person> SORT_BY_ALPHABET = Comparator.comparing(
             o -> o.getName().toString());
