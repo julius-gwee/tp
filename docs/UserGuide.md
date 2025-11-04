@@ -240,14 +240,13 @@ Examples:
 
 Clears candidates from the candidate list.
 
-Format: `clear [STAGE]`
+Format: `clear STAGE`
 
 * Deletes all candidates from the specified `STAGE`. 
 * Valid stages: `Candidates`, `Contacted`, `Interviewed`, `Hired`, `All` (case-insensitive).
 
 Examples:
-* `clear all` deletes all candidates from all stages. 
-* `clear` also deletes all candidates from all stages. 
+* `clear all` deletes all candidates from all stages.
 * `clear Interviewed` deletes all candidates from Interviewed stage. 
 
 <div markdown="span" class="alert alert-primary">
